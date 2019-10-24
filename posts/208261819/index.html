@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+<link rel="stylesheet" href="https://fonts.font.im/css?family=Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="微信小程序开发-布局flex">
+<meta name="keywords" content="wechat-dev">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序开发-布局flex">
+<meta property="og:url" content="https://xwnb.github.io/posts/208261819/index.html">
+<meta property="og:site_name" content="Sun of Beach">
+<meta property="og:description" content="微信小程序开发-布局flex">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-04T09:01:07.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序开发-布局flex">
+<meta name="twitter:description" content="微信小程序开发-布局flex">
+  <link rel="canonical" href="https://xwnb.github.io/posts/208261819/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>微信小程序开发-布局flex | Sun of Beach</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun of Beach</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Stay Angry, Stay Foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://xwnb.github.io/posts/208261819/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="村口 小Xu">
+      <meta itemprop="description" content="个人站，学习记录、实践教程、资料收集等，哈哈哈。">
+      <meta itemprop="image" content="/images/profile-picture.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun of Beach">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">微信小程序开发-布局flex
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-04 15:38:54 / 修改时间：17:01:07" itemprop="dateCreated datePublished" datetime="2019-10-04T15:38:54+08:00">2019-10-04</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/微信小程序开发/" itemprop="url" rel="index"><span itemprop="name">微信小程序开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>1.3k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>2 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>微信小程序开发-布局flex</p>
+<a id="more"></a>
+
+<h2 id="flex布局"><a href="#flex布局" class="headerlink" title="flex布局"></a><strong><code>flex</code>布局</strong></h2><p>微信小程序 <code>View</code> 支持两种布局方式：<code>Block</code> 和 <code>Flex</code><br>所有 <code>View</code> 默认都是 <code>block</code>。要使用 flex 布局的话需要显式的声明。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"main"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"item item1"</span>&gt;</span>1<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"item item2"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"item item3"</span>&gt;</span>3<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>1) 未设置 <code>flex</code>，竖向布局</strong></p>
+<pre><code>1
+2
+3</code></pre><p><strong>2) <code>flex</code> 布局，在样式中加入 <code>display: flex;</code></strong></p>
+<pre><code>123</code></pre><h2 id="flex-direction"><a href="#flex-direction" class="headerlink" title="flex-direction"></a><strong><code>flex-direction</code></strong></h2><h3 id="横向布局"><a href="#横向布局" class="headerlink" title="横向布局"></a>横向布局</h3><ul>
+<li><p><code>flex-direction: row</code>：从左到右的水平方向为主轴  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>flex-direction: row-reverse</code>：从右到左的水平方向为主轴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">321</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="justify-content"><a href="#justify-content" class="headerlink" title="justify-content"></a><strong><code>justify-content</code></strong></h2><p>横向的布局属性</p>
+<ul>
+<li><p><code>lex-start</code>：主轴起点对齐(默认值)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>flex-end</code>：主轴结束点对齐</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>center</code>：在主轴中居中对齐</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">123</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>space-between</code>：两端对齐，除了两端的子元素分别靠向两端的容器之外，其他子元素之间的间隔都相等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1        2        3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>space-around</code>：每个子元素之间的距离相等，两端的子元素距离容器的距离也和其它子元素之间的距离相同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1      2      3</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="纵向布局"><a href="#纵向布局" class="headerlink" title="纵向布局"></a>纵向布局</h3><ul>
+<li><code>flex-direction: column</code>：从上到下的垂直方向为主轴  </li>
+<li><code>flex-direction: column-reverse</code>：从下到上的垂直方向为主轴</li>
+</ul>
+<h2 id="align-items"><a href="#align-items" class="headerlink" title="align-items"></a><strong><code>align-items</code></strong></h2><p>纵向布局属性：</p>
+<ul>
+<li><code>stretch</code> 填充整个容器(默认值)</li>
+<li><code>flex-start</code> 侧轴的起点对齐 （这里我们手动设置下子 view 的高度，来看的明显一些）</li>
+<li><code>flex-end</code> 侧轴的终点对齐</li>
+<li><code>center</code> 在侧轴中居中对齐</li>
+<li><code>baseline</code> 以子元素的第一行文字对齐</li>
+</ul>
+<h2 id="align-self"><a href="#align-self" class="headerlink" title="align-self"></a><strong><code>align-self</code></strong></h2><p>子 <code>View</code> 的属性 <code>align-self</code>，可以覆盖父元素的 <code>align-items</code> 属性，它有6个值可选：<code>auto | flex-start | flex-end | center | baseline | stretch</code> （ <code>auto</code> 为继承父元素 <code>align-items</code> 属性，其他和 <code>align-items</code> 一致）</p>
+<h2 id="flex-wrap"><a href="#flex-wrap" class="headerlink" title="flex-wrap"></a><strong><code>flex-wrap</code></strong></h2><p>用于控制子 <code>View</code> 是否换行</p>
+<ul>
+<li><code>nowrap</code> ：不换行（默认）</li>
+<li><code>wrap</code> ：换行</li>
+<li><code>wrap-reverse</code> ：换行，第一行在最下面</li>
+</ul>
+<h2 id="order"><a href="#order" class="headerlink" title="order"></a><strong><code>order</code></strong></h2><p>控制子元素的排列顺序，默认为<code>0</code>。<br>把 <code>item3</code> 设置 <code>order:-1;</code> 可以把 <code>item3</code> 排在前面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">312</span><br></pre></td></tr></table></figure>
+
+<h2 id="flex-grow"><a href="#flex-grow" class="headerlink" title="flex-grow"></a><strong><code>flex-grow</code></strong></h2><p><code>.wxss</code>中修改代码如下：在 <code>item1</code> 中增加： <code>flex-grow: 1</code>，在 <code>item3</code> 中增加： <code>flex-grow: 2``，表示在一行中如果有剩余空间的话，item3</code> 之外的子 <code>view</code> 占1份空间，而 <code>item3</code> 子 <code>view</code> 占2份空间(可以理解为剩余空间 <code>item3</code> 最多可以占2份空间)。</p>
+<h2 id="flex-shrink"><a href="#flex-shrink" class="headerlink" title="flex-shrink"></a><strong><code>flex-shrink</code></strong></h2><p><code>.wxss</code>中再增加4个子 <code>view</code> 并修改代码如下：<code>i3</code> 的<code>flex-shrink: 0</code>，其余子 <code>view</code> 为 <code>flex-shrink: 1</code>，这表示当空间不足时所有子 <code>view</code> 都等比缩小，但是 <code>i3</code> 的 <code>view</code> 保持大小不变.</p>
+<h2 id="flex-basis"><a href="#flex-basis" class="headerlink" title="flex-basis"></a><strong><code>flex-basis</code></strong></h2><h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a><strong>注意</strong></h2><p><code>flex</code> 是 <code>grow</code> ，<code>shrink</code> ，<code>basis</code> 几个属性的合并</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attribute">flex</span>: grow shrink basis</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>flex-flow</code> 是 <code>flex-direction</code> 和 <code>flex-wrap</code> 两个属性的组合</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attribute">flex-flow</span>: wrap row</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>村口 小Xu</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xwnb.github.io/posts/208261819/" title="微信小程序开发-布局flex">https://xwnb.github.io/posts/208261819/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/wechat-dev/" rel="tag"><i class="fa fa-tag"></i> wechat-dev</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/posts/4176222009/" rel="next" title="Markdown语法学习笔记">
+                  <i class="fa fa-chevron-left"></i> Markdown语法学习笔记
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/posts/1318413979/" rel="prev" title="微信小程序开发-input正则">
+                  微信小程序开发-input正则 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#flex布局"><span class="nav-number">1.</span> <span class="nav-text">flex布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex-direction"><span class="nav-number">2.</span> <span class="nav-text">flex-direction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#横向布局"><span class="nav-number">2.1.</span> <span class="nav-text">横向布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#justify-content"><span class="nav-number">3.</span> <span class="nav-text">justify-content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#纵向布局"><span class="nav-number">3.1.</span> <span class="nav-text">纵向布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#align-items"><span class="nav-number">4.</span> <span class="nav-text">align-items</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#align-self"><span class="nav-number">5.</span> <span class="nav-text">align-self</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex-wrap"><span class="nav-number">6.</span> <span class="nav-text">flex-wrap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#order"><span class="nav-number">7.</span> <span class="nav-text">order</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex-grow"><span class="nav-number">8.</span> <span class="nav-text">flex-grow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex-shrink"><span class="nav-number">9.</span> <span class="nav-text">flex-shrink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flex-basis"><span class="nav-number">10.</span> <span class="nav-text">flex-basis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意"><span class="nav-number">11.</span> <span class="nav-text">注意</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/profile-picture.jpg"
+      alt="村口 小Xu">
+  <p class="site-author-name" itemprop="name">村口 小Xu</p>
+  <div class="site-description" itemprop="description">个人站，学习记录、实践教程、资料收集等，哈哈哈。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/xwnb" title="GitHub &rarr; https://github.com/xwnb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Weibo &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Google &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i>Google</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Instagram &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=52 src="//music.163.com/outchain/player?type=2&id=26609110&auto=1&height=32"></iframe>
+        
+<div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">村口 小Xu</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">14k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">26 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+                
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='51,133,255' opacity='0.6' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"},"display":{"position":"right","hOffset":20,"vOffset":60,"width":150,"height":300},"mobile":{"show":true,"scale":0.8},"react":{"opacity":0.8},"log":false});</script></body>
+</html>

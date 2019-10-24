@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+<link rel="stylesheet" href="https://fonts.font.im/css?family=Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于官方教程.">
+<meta name="keywords" content="ROS,xacro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS学习-xacro">
+<meta property="og:url" content="https://xwnb.github.io/posts/2389657244/index.html">
+<meta property="og:site_name" content="Sun of Beach">
+<meta property="og:description" content="Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于官方教程.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-24T15:20:32.752Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ROS学习-xacro">
+<meta name="twitter:description" content="Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于官方教程.">
+  <link rel="canonical" href="https://xwnb.github.io/posts/2389657244/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>ROS学习-xacro | Sun of Beach</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sun of Beach</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Stay Angry, Stay Foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-commonweal">
+      
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://xwnb.github.io/posts/2389657244/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="村口 小Xu">
+      <meta itemprop="description" content="个人站，学习记录、实践教程、资料收集等，哈哈哈。">
+      <meta itemprop="image" content="/images/profile-picture.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sun of Beach">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">ROS学习-xacro
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-24 21:16:49 / 修改时间：23:20:32" itemprop="dateCreated datePublished" datetime="2019-10-24T21:16:49+08:00">2019-10-24</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ROS学习/" itemprop="url" rel="index"><span itemprop="name">ROS学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">本文字数：</span>
+              
+              <span>3.6k</span>
+            </span>
+          
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              
+              <span>6 分钟</span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于<a href="http://wiki.ros.org/xacro" target="_blank" rel="noopener">官方教程</a>. </p>
+<a id="more"></a>
+
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><p><a href="#1-%e6%a1%88%e4%be%8b">1. 案例</a><br><a href="#2-%e5%b1%9e%e6%80%a7%e5%92%8c%e5%b1%9e%e6%80%a7%e5%9d%97">2. 属性和属性块</a><br><a href="#3-%e6%95%b0%e5%ad%a6%e8%a1%a8%e8%be%be%e5%bc%8f">3. 数学表达式</a><br><a href="#4-%e6%9d%a1%e4%bb%b6%e5%9d%97">4. 条件块</a><br><a href="#4-%e6%9d%a1%e4%bb%b6%e5%9d%97">5. <code>Rospack</code>命令</a><br><a href="#5-rospack%e5%91%bd%e4%bb%a4">6. 宏命令</a><br><a href="#61-%e9%bb%98%e8%ae%a4%e5%8f%82%e6%95%b0">6.1 默认参数</a><br><a href="#62-%e5%b1%80%e9%83%a8%e5%b1%9e%e6%80%a7">6.2 局部属性</a><br><a href="#7-%e5%8c%85%e5%90%ab%e5%85%b6%e4%bb%96xacro%e6%96%87%e4%bb%b6">7. 包含其他<code>xacro</code>文件</a><br><a href="#8-yaml%e8%af%ad%e8%a8%80%e6%94%af">8. <code>YAML</code>语言支持</a><br><a href="#9-%e7%94%a8cmakeliststxt%e8%bf%9b%e8%a1%8c%e6%9e%84%e5%bb%ba">9. 用<code>CMakeLists.txt</code>进行构建</a><br><a href="#10-%e5%85%83%e7%b4%a0%e4%b8%8e%e5%b1%9e%e6%80%a7">10. 元素和属性</a><br><a href="#11-%e5%a4%84%e7%90%86%e9%a1%ba%e5%ba%8f">11. 处理顺序</a><br><a href="#12-%e5%b7%b2%e5%bc%83%e7%94%a8%e7%9a%84%e8%af%ad%e6%b3%95">12. 已弃用的语法</a></p>
+<h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>参考以下的<code>Xacro XML</code>片段: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"pr2_arm"</span> <span class="attr">params</span>=<span class="string">"suffix parent reflect"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pr2_upperarm</span> <span class="attr">suffix</span>=<span class="string">"$&#123;suffix&#125;"</span> <span class="attr">reflect</span>=<span class="string">"$&#123;reflect&#125;"</span> <span class="attr">parent</span>=<span class="string">"$&#123;parent&#125;"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pr2_forearm</span> <span class="attr">suffix</span>=<span class="string">"$&#123;suffix&#125;"</span> <span class="attr">reflect</span>=<span class="string">"$&#123;reflect&#125;"</span> <span class="attr">parent</span>=<span class="string">"elbow_flex_$&#123;suffix&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:pr2_arm</span> <span class="attr">suffix</span>=<span class="string">"left"</span> <span class="attr">reflect</span>=<span class="string">"1"</span> <span class="attr">parent</span>=<span class="string">"torso"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:pr2_arm</span> <span class="attr">suffix</span>=<span class="string">"right"</span> <span class="attr">reflect</span>=<span class="string">"-1"</span> <span class="attr">parent</span>=<span class="string">"torso"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的片段扩展成为下面的样子: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">pr2_upperarm</span> <span class="attr">suffix</span>=<span class="string">"left"</span> <span class="attr">reflect</span>=<span class="string">"1"</span> <span class="attr">parent</span>=<span class="string">"torso"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pr2_forearm</span> <span class="attr">suffix</span>=<span class="string">"left"</span> <span class="attr">reflect</span>=<span class="string">"1"</span> <span class="attr">parent</span>=<span class="string">"elbow_flex_left"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pr2_upperarm</span> <span class="attr">suffix</span>=<span class="string">"right"</span> <span class="attr">reflect</span>=<span class="string">"-1"</span> <span class="attr">parent</span>=<span class="string">"torso"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">pr2_forearm</span> <span class="attr">suffix</span>=<span class="string">"right"</span> <span class="attr">reflect</span>=<span class="string">"-1"</span> <span class="attr">parent</span>=<span class="string">"elbow_flex_right"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们还定义了<code>pr2_upperarm</code>和<code>pr2_forearm</code>的宏, 那么这个片段可以扩展以描述整个机器人臂. </p>
+<p>本文的其余部分描述了<code>xacro</code>的功能. </p>
+<h1 id="属性和属性块"><a href="#属性和属性块" class="headerlink" title="属性和属性块"></a>属性和属性块</h1><p>属性是可以插入到<code>XML</code>文档中的任何位置的值. 属性块是<code>XML</code>的名称片段, 可以插入允许<code>XML</code>的任何位置. 两者都使用属性标签来定义值. 属性标签不能在<code>xacro:macro</code>中声明. 以下示例将显示如何声明和使用属性: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"the_radius"</span> <span class="attr">value</span>=<span class="string">"2.1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"the_length"</span> <span class="attr">value</span>=<span class="string">"4.5"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">geometry</span> <span class="attr">type</span>=<span class="string">"cylinder"</span> <span class="attr">radius</span>=<span class="string">"$&#123;the_radius&#125;"</span> <span class="attr">length</span>=<span class="string">"$&#123;the_length&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过将名称放在<code>dollared-braces</code> (<strong><code>${}</code></strong>)中, 你可以将两个属性值插入到几何表达式中. 如果你想要一个文本<code>&quot;{&quot;</code>, 你应该将其转义为<code>&quot;$${&quot;</code>.<br>下面是使用属性块的示例: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"front_left_origin"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">"0.3 0 0"</span> <span class="attr">rpy</span>=<span class="string">"0 0 0"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">pr2_wheel</span> <span class="attr">name</span>=<span class="string">"front_left_wheel"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"front_left_origin"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">pr2_wheel</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="数学表达式"><a href="#数学表达式" class="headerlink" title="数学表达式"></a>数学表达式</h1><p>在<code>dollared-braces</code> (<strong><code>${}</code></strong>)中, 您还可以编写简单的数学表达式. 目前, 该结构支持基本算术和变量替换. 下面是一个例子: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"pi"</span> <span class="attr">value</span>=<span class="string">"3.1415926535897931"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">circle</span> <span class="attr">circumference</span>=<span class="string">"$&#123;2.5 * pi&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在<code>Jade</code>版本的<code>ROS</code>中更新的地方:<br>自<code>ROS Jade</code>以来, <code>Xacro</code>使用<code>python</code>来评估包含在<code>dollared-braces</code> (<strong><code>${}</code></strong>)中的表达式. 这允许用户使用更复杂的算术表达式. 此外, 一些基本常数, 例如<code>pi</code>, 已经被预定义过了: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"R"</span> <span class="attr">value</span>=<span class="string">"2"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"alpha"</span> <span class="attr">value</span>=<span class="string">"$&#123;30/180*pi&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">circle</span> <span class="attr">circumference</span>=<span class="string">"$&#123;2 * pi * R&#125;"</span> <span class="attr">pos</span>=<span class="string">"$&#123;sin(alpha)&#125; $&#123;cos(alpha)&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="条件块"><a href="#条件块" class="headerlink" title="条件块"></a>条件块</h1><p>在<code>Hydro</code>版本的<code>ROS</code>中更新的地方:<br>自从<code>ROS Hydro</code>以来, <code>Xacro</code>有类似于<code>roslaunch</code>的条件块. 这对于可配置的机器人或加载不同的<code>Gazebo</code>插件等事情很有用. 它遵循以下语法: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:if</span> <span class="attr">value</span>=<span class="string">"&lt;expression&gt;"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- &lt;... some xml code here ...&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:unless</span> <span class="attr">value</span>=<span class="string">"&lt;expression&gt;"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- &lt;... some xml code here ...&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:unless</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>表达式需要计算结果为<code>&quot;0&quot;</code>, <code>&quot;1&quot;</code>, <code>&quot;true&quot;</code>或<code>&quot;false&quot;</code>, 否则将抛出错误. </p>
+<p>在<code>Jade</code>版本的<code>ROS</code>中更新的地方:<br><code>ROS Jade</code>中更强大的评估功能允许使用更复杂的表达式. 几乎任何<code>python</code>表达式的计算结果都是可行的: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"var"</span> <span class="attr">value</span>=<span class="string">"useit"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:if</span> <span class="attr">value</span>=<span class="string">"$&#123;var == 'useit'&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:if</span> <span class="attr">value</span>=<span class="string">"$&#123;var.startswith('use') and var.endswith('it')&#125;"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"allowed"</span> <span class="attr">value</span>=<span class="string">"[1,2,3]"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:if</span> <span class="attr">value</span>=<span class="string">"$&#123;1 in allowed&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Rospack命令"><a href="#Rospack命令" class="headerlink" title="Rospack命令"></a><code>Rospack</code>命令</h1><p><code>Xacro</code>允许你使用某些<code>rospack</code>命令和<code>dollared-braces</code> (<strong><code>${}</code></strong>). </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">foo</span> <span class="attr">value</span>=<span class="string">"$(find xacro)"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">foo</span> <span class="attr">value</span>=<span class="string">"$(arg myvar)"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Xacro</code>目前支持使用<code>substitution args</code>的<code>roslaunch</code>支持的所有<code>rospack</code>命令. 参数需要在命令行中使用<code>myvar := true</code>语法指定. </p>
+<p>在<code>Indigo</code>版本的<code>ROS</code>中更新的地方:<br>自从<code>ROS Indigo</code>, 它也可以像如下定义默认值: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:arg</span> <span class="attr">name</span>=<span class="string">"myvar"</span> <span class="attr">default</span>=<span class="string">"false"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过这种方式, 你可以像下面这样运行<code>xacro</code>: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"robot_description"</span> <span class="attr">command</span>=<span class="string">"$(find xacro)/xacro.py $(arg model) myvar:=true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="宏命令"><a href="#宏命令" class="headerlink" title="宏命令"></a>宏命令</h1><p><code>xacro</code>的主要特性是它对宏的支持. 使用宏标签定义宏, 并指定宏名称和参数列表. 参数列表应以空格分隔. 它们变成<code>macro-local</code>属性. </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"pr2_caster"</span> <span class="attr">params</span>=<span class="string">"suffix *origin **content **anothercontent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">"caster_$&#123;suffix&#125;_joint"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">"0 0 1"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"caster_$&#123;suffix&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"origin"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"content"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"anothercontent"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:pr2_caster</span> <span class="attr">suffix</span>=<span class="string">"front_left"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pose</span> <span class="attr">xyz</span>=<span class="string">"0 1 0"</span> <span class="attr">rpy</span>=<span class="string">"0 0 0"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">container</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"yellow"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">container</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">another</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">"0 0 0.5"</span> <span class="attr">rpy</span>=<span class="string">"0 0 0"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">"100"</span>  <span class="attr">ixy</span>=<span class="string">"0"</span>  <span class="attr">ixz</span>=<span class="string">"0"</span> <span class="attr">iyy</span>=<span class="string">"100"</span> <span class="attr">iyz</span>=<span class="string">"0"</span> <span class="attr">izz</span>=<span class="string">"100"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">another</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:pr2_caster</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>该示例声明了一个宏<code>&quot;pr2_caster&quot;</code>, 它有两个参数: <code>suffix</code>和<code>origin</code>.  <strong><em>请注意, “origin”已加星标. 这表明origin是一个块参数, 而不是一个简单的文本参数</em></strong>. 看下<code>pr2_caster</code>的使用. <code>suffix</code>属性(<code>property</code>)在<code>pr2_caster</code>标签中定义为属性(<code>attribute</code>), 但没有定义<code>origin</code>属性. 相反, <code>origin</code>指的是第一个元素(<code>&quot;pose&quot;</code>块). <strong><em>双星号版本(<code>&quot;content&quot;</code>, <code>&quot;anothercontent&quot;</code>)允许插入在随后可用的元素(在上面的示例中分别是<code>&quot;container&quot;</code>, <code>&quot;another&quot;</code>)中传递的任意数量的元素</em></strong>. 此示例扩展为以下内容: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">joint</span> <span class="attr">name</span>=<span class="string">"caster_front_left_joint"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">axis</span> <span class="attr">xyz</span>=<span class="string">"0 0 1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">joint</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">name</span>=<span class="string">"caster_front_left"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">pose</span> <span class="attr">xyz</span>=<span class="string">"0 1 0"</span> <span class="attr">rpy</span>=<span class="string">"0 0 0"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"yellow"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mass</span>&gt;</span>0.1<span class="tag">&lt;/<span class="name">mass</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">inertial</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">origin</span> <span class="attr">xyz</span>=<span class="string">"0 0 0.5"</span> <span class="attr">rpy</span>=<span class="string">"0 0 0"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mass</span> <span class="attr">value</span>=<span class="string">"1"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">inertia</span> <span class="attr">ixx</span>=<span class="string">"100"</span>  <span class="attr">ixy</span>=<span class="string">"0"</span>  <span class="attr">ixz</span>=<span class="string">"0"</span> <span class="attr">iyy</span>=<span class="string">"100"</span> <span class="attr">iyz</span>=<span class="string">"0"</span> <span class="attr">izz</span>=<span class="string">"100"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">inertial</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>多个块参数将按指定的顺序处理: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"reorder"</span> <span class="attr">params</span>=<span class="string">"*first *second"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"second"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:insert_block</span> <span class="attr">name</span>=<span class="string">"first"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">reorder</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">first</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">second</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">reorder</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>宏可能包含其他宏. 外部宏将首先展开, 然后内部宏将展开. 例如: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"foo"</span> <span class="attr">params</span>=<span class="string">"x"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">in_foo</span> <span class="attr">the_x</span>=<span class="string">"$&#123;x&#125;"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"bar"</span> <span class="attr">params</span>=<span class="string">"y"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">in_bar</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xacro:foo</span> <span class="attr">x</span>=<span class="string">"$&#123;y&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">in_bar</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">xacro:macro</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">xacro:bar</span> <span class="attr">y</span>=<span class="string">"12"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>变成: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">in_bar</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">in_foo</span> <span class="attr">the_x</span>=<span class="string">"12.0"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">in_bar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h3><p><code>Indigo</code>中更新<br>宏参数可以有默认值: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"foo"</span> <span class="attr">params</span>=<span class="string">"x:=$&#123;x&#125; y:=$&#123;2*y&#125; z:=0"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果默认值包含评估表达式, 则将在实例化时评估它们. </p>
+<p><code>Jade</code>中更新<br>通常, 您需要将外部变量传递到本地宏参数(如上面的<code>x</code>). 要简化此任务, 可以使用<code>^</code>语法: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:macro</span> <span class="attr">name</span>=<span class="string">"foo"</span> <span class="attr">params</span>=<span class="string">"p1 p2:=expr_a p3:=^ p4:=^|expr_b"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>插入符号<code>^</code>表示使用外部<code>scope</code>属性(具有相同名称). 管道<code>|</code>表示如果属性未在外部范围中定义, 则使用给定的回退. </p>
+<h2 id="局部属性"><a href="#局部属性" class="headerlink" title="局部属性"></a>局部属性</h2><p><code>Jade</code>中更新<br>在宏中定义的属性和宏对于该宏来说是局部的, 即在外部不可见. 使用可选属性<code>scope =&quot;parent | global&quot;</code>, 属性定义可以导出到宏的父作用域(或全局作用域). </p>
+<h1 id="包含其他xacro文件"><a href="#包含其他xacro文件" class="headerlink" title="包含其他xacro文件"></a>包含其他<code>xacro</code>文件</h1><p>您可以使用<code>xacro: include</code>标签来包含其他<code>xacro</code>文件: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">"$(find package)/other_file.xacro"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">"other_file.xacro"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">"$(cwd)/other_file.xacro"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>文件<code>&quot;other_file.xacro&quot;</code>将被<code>xacro</code>包含和扩展. <code>Jade</code>中的新功能: 相对文件名相对于当前处理的文件进行解释. <strong>注意: 当在宏中包含文件时, 包含处理不是宏定义, 而是宏调用文件</strong>!  <code>$(cwd)</code>显式的允许访问当前工作目录中的文件.<br>为了避免各种包含文件的属性和宏之间的名称冲突, 可以为包含的文件指定命名空间 - 提供属性<code>ns</code>: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:include</span> <span class="attr">filename</span>=<span class="string">"other_file.xacro"</span> <span class="attr">ns</span>=<span class="string">"namespace"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问命名空间宏和属性是通过预先命名空间来实现的, 用点分隔: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;namespace.property&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="YAML语言支"><a href="#YAML语言支" class="headerlink" title="YAML语言支"></a><code>YAML</code>语言支</h1><p><code>Jade</code>中的新功能<br>属性可以是用<code>python</code>语法声明的字典或列表, 如下所示: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"props"</span> <span class="attr">value</span>=<span class="string">"$&#123;dict(a=1, b=2, c=3)&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"numbers"</span> <span class="attr">value</span>=<span class="string">"$&#123;[1,2,3,4]&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者从<code>YAML</code>文件中加载, 如下: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:property</span> <span class="attr">name</span>=<span class="string">"props"</span> <span class="attr">value</span>=<span class="string">"$&#123;load_yaml('props.yaml')&#125;"</span>/</span></span><br></pre></td></tr></table></figure>
+
+<p>注意, 通过<code>evaluation brackets ${}</code>区分评价和纯文本定义. 校准数据是从YAML加载的理想候选. </p>
+<h1 id="用CMakeLists-txt进行构建"><a href="#用CMakeLists-txt进行构建" class="headerlink" title="用CMakeLists.txt进行构建"></a>用<code>CMakeLists.txt</code>进行构建</h1><p>以下代码段显示如何在程序包的申明期间使用<code>xacro</code>: </p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Generate .world files from .world.xacro files</span></span><br><span class="line"><span class="keyword">find_package</span>(xacro REQUIRED)</span><br><span class="line"><span class="comment"># You can also add xacro to the list of catkin packages:</span></span><br><span class="line"><span class="comment">#   find_package(catkin REQUIRED COMPONENTS ... xacro)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Xacro files</span></span><br><span class="line"><span class="keyword">file</span>(GLOB xacro_files <span class="variable">$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;</span>/worlds/*.world.xacro)</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(it <span class="variable">$&#123;xacro_files&#125;</span>)</span><br><span class="line">  <span class="comment"># remove .xacro extension</span></span><br><span class="line">  <span class="keyword">string</span>(REGEX MATCH <span class="string">"(.*)[.]xacro$"</span> unused <span class="variable">$&#123;it&#125;</span>)</span><br><span class="line">  <span class="keyword">set</span>(output_filename <span class="variable">$&#123;CMAKE_MATCH_1&#125;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># create a rule to generate $&#123;output_filename&#125; from &#123;it&#125;</span></span><br><span class="line">  xacro_add_xacro_file(<span class="variable">$&#123;it&#125;</span> <span class="variable">$&#123;output_filename&#125;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">list</span>(APPEND world_files <span class="variable">$&#123;output_filename&#125;</span>)</span><br><span class="line"><span class="keyword">endforeach</span>(it)</span><br><span class="line"></span><br><span class="line"><span class="comment"># add an abstract target to actually trigger the builds</span></span><br><span class="line"><span class="keyword">add_custom_target</span>(media_files ALL DEPENDS <span class="variable">$&#123;world_files&#125;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>Jade</code>中的新功能:<br>虽然这个<code>cmake</code>代码提供了对目标名称和构建顺序的完全控制, 但还有一个更简便的宏:   </p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">file</span>(GLOB xacro_files worlds/*.world.xacro)</span><br><span class="line">xacro_add_files(<span class="variable">$&#123;xacro_files&#125;</span> <span class="keyword">TARGET</span> media_files)</span><br></pre></td></tr></table></figure>
+
+<h1 id="元素与属性"><a href="#元素与属性" class="headerlink" title="元素与属性"></a>元素与属性</h1><p><code>Jade</code>中的新功能:<br>要使用动态定义的名称添加元素或属性, 可以使用特殊的<code>xacro</code>标签</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xacro:element</span> <span class="attr">xacro:name</span>=<span class="string">"$&#123;element_name&#125;"</span> [<span class="attr">other</span> <span class="attr">attributes</span>]&gt;</span></span><br><span class="line"> [content]</span><br><span class="line"><span class="tag">&lt;/<span class="name">xacro:element</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">xacro:attribute</span> <span class="attr">name</span>=<span class="string">"$&#123;attribute_name&#125;"</span> <span class="attr">value</span>=<span class="string">"$&#123;attribute_value&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="处理顺序"><a href="#处理顺序" class="headerlink" title="处理顺序"></a>处理顺序</h1><p><code>Classicly Xacro</code>首先加载所有包含项, 然后处理所有属性和宏定义, 最后实例化宏并计算表达式. 因此, <strong>后期定义的属性或宏定义将覆盖先前的定义</strong>. 此外, 条件标签, <code>&lt;if&gt;</code>和<code>&lt;unless&gt;</code>, 对宏或属性定义以及包含的其他文件没有影响. </p>
+<p><code>Jade</code>中的新功能:<br>自<code>ROS Jade</code>以来, <code>Xacro</code>提供了命令行选项<code>–-inorder</code>, 允许以读取的顺序来处理整个文档. 因此, 将使用属性或宏的最新定义. 这是一个更直观的评估过程, 提供了一些不错的新功能: </p>
+<ul>
+<li>如果<code>&lt;include&gt;</code>标签分别放置在宏内或条件标签中, 则可以推迟或完全禁止包含文件. </li>
+<li>包含文件名可以通过属性或宏参数指定. </li>
+<li>通过更改全局范围的属性, 如果在宏中使用这些属性, 则宏的实例化可以产生不同的结果. </li>
+<li>属性定义可以是有条件的. </li>
+<li>宏可以在局部范围内定义属性, 而不会影响外部. </li>
+</ul>
+<p>因为<code>–-inorder</code>处理更强大, 在未来<code>Jade</code>以后的版本, 新的处理风格将成为默认风格, 所以你应该检查你的<code>xacro</code>文件的兼容性. 通常, 两种加工方式应该给出相同的结果. 你可以很容易地像下面这样检查: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rosrun xacro xacro file.xacro &gt; /tmp/old.xml</span><br><span class="line">rosrun xacro xacro --inorder file.xacro &gt; /tmp/new.xml</span><br><span class="line">diff /tmp/old.xml /tmp/new.xml</span><br></pre></td></tr></table></figure>
+
+<p>如果结果显示出任何差异, 你应检查并调整您的xacro文件. 常见的原因是校准数据后期加载了(作为属性). 在这种情况下, 只需将加载行为向前移动, 即在使用之前进行校准数据的加载. 为了方便搜索错误放置的属性定义, 可以使用选项<code>-–check--order</code>运行<code>xacro</code>. 如果任何有问题的属性, 它们将在<code>stderr</code>上列出: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Document is incompatible to --inorder processing.</span><br><span class="line">The following properties were redefined after usage:</span><br><span class="line">foo redefined <span class="keyword">in</span> issues.xacro</span><br></pre></td></tr></table></figure>
+
+<p>使用命令行选项<code>-vv</code>或<code>-vvv</code>, 可以增加详细程度级别以记录属性的所有定义. </p>
+<h1 id="已弃用的语法"><a href="#已弃用的语法" class="headerlink" title="已弃用的语法"></a>已弃用的语法</h1><p><code>Jade</code>中的新功能:<br>虽然在以前的版本中, 没有命名空间前缀的<code>xacro</code>标签能够被接受并使用, 但是这种草率的语法是我们应当强烈反对的, 因为它阻止在最终的<code>XML</code>中使用这些标签. 从<code>Jade</code>开始, 这种语法已被弃用, 你应该相应地更新你的文件. 以下脚本将为您更新文件: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -iname <span class="string">"*.xacro"</span> | xargs sed -i <span class="string">'s#&lt;\([/]\?\)\(if\|unless\|include\|arg\|property\|macro\|insert_block\)#&lt;\1xacro:\2#g'</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>参考链接: </p>
+<ul>
+<li><a href="http://wiki.ros.org/xacro" target="_blank" rel="noopener">http://wiki.ros.org/xacro</a></li>
+<li><a href="https://blog.csdn.net/chishuideyu/article/details/53695392" target="_blank" rel="noopener">https://blog.csdn.net/chishuideyu/article/details/53695392</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>村口 小Xu</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xwnb.github.io/posts/2389657244/" title="ROS学习-xacro">https://xwnb.github.io/posts/2389657244/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/ROS/" rel="tag"><i class="fa fa-tag"></i> ROS</a>
+            
+              <a href="/tags/xacro/" rel="tag"><i class="fa fa-tag"></i> xacro</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/posts/73359715/" rel="next" title="ROS学习-roslaunch_xml">
+                  <i class="fa fa-chevron-left"></i> ROS学习-roslaunch_xml
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#案例"><span class="nav-number">2.</span> <span class="nav-text">案例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性和属性块"><span class="nav-number">3.</span> <span class="nav-text">属性和属性块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数学表达式"><span class="nav-number">4.</span> <span class="nav-text">数学表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#条件块"><span class="nav-number">5.</span> <span class="nav-text">条件块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rospack命令"><span class="nav-number">6.</span> <span class="nav-text">Rospack命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#宏命令"><span class="nav-number">7.</span> <span class="nav-text">宏命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认参数"><span class="nav-number">7.0.1.</span> <span class="nav-text">默认参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部属性"><span class="nav-number">7.1.</span> <span class="nav-text">局部属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包含其他xacro文件"><span class="nav-number">8.</span> <span class="nav-text">包含其他xacro文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#YAML语言支"><span class="nav-number">9.</span> <span class="nav-text">YAML语言支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用CMakeLists-txt进行构建"><span class="nav-number">10.</span> <span class="nav-text">用CMakeLists.txt进行构建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#元素与属性"><span class="nav-number">11.</span> <span class="nav-text">元素与属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#处理顺序"><span class="nav-number">12.</span> <span class="nav-text">处理顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#已弃用的语法"><span class="nav-number">13.</span> <span class="nav-text">已弃用的语法</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/profile-picture.jpg"
+      alt="村口 小Xu">
+  <p class="site-author-name" itemprop="name">村口 小Xu</p>
+  <div class="site-description" itemprop="description">个人站，学习记录、实践教程、资料收集等，哈哈哈。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/xwnb" title="GitHub &rarr; https://github.com/xwnb" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Weibo &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Google &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-google"></i>Google</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="about:blank" title="Instagram &rarr; about:blank" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=52 src="//music.163.com/outchain/player?type=2&id=26609110&auto=1&height=32"></iframe>
+        
+<div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">村口 小Xu</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    
+    <span title="站点总字数">14k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    
+    <span title="站点阅读时长">26 分钟</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+                
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='51,133,255' opacity='0.6' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1/canvas-nest-nomobile.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"},"display":{"position":"right","hOffset":20,"vOffset":60,"width":150,"height":300},"mobile":{"show":true,"scale":0.8},"react":{"opacity":0.8},"log":false});</script></body>
+</html>
