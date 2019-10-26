@@ -49,11 +49,11 @@
             
             <tag> ROS </tag>
             
-            <tag> ur5 </tag>
-            
             <tag> gazebo </tag>
             
             <tag> controller-manager </tag>
+            
+            <tag> ur5 </tag>
             
         </tags>
       
