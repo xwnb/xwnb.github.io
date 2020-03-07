@@ -65,7 +65,7 @@
 <meta property="og:site_name" content="Sun of Beach">
 <meta property="og:description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 qinit 和 qgoal 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-07T05:48:14.061Z">
+<meta property="og:updated_time" content="2020-03-07T06:11:11.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="路径规划-RRT">
 <meta name="twitter:description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 qinit 和 qgoal 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概">
@@ -299,7 +299,7 @@
                 
               
 
-              <time title="创建时间：2020-03-07 12:30:47 / 修改时间：13:48:14" itemprop="dateCreated datePublished" datetime="2020-03-07T12:30:47+08:00">2020-03-07</time>
+              <time title="创建时间：2020-03-07 12:30:47 / 修改时间：14:11:11" itemprop="dateCreated datePublished" datetime="2020-03-07T12:30:47+08:00">2020-03-07</time>
             </span>
           
             
@@ -329,7 +329,7 @@
               
                 <span class="post-meta-item-text">本文字数：</span>
               
-              <span>2k</span>
+              <span>1.8k</span>
             </span>
           
             <span class="post-meta-item" title="阅读时长">
@@ -339,7 +339,7 @@
               
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
               
-              <span>4 分钟</span>
+              <span>3 分钟</span>
             </span>
           
 
@@ -353,7 +353,6 @@
 
       
         <h1 id="路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树"><a href="#路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树" class="headerlink" title="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)"></a>路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)</h1><p>RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q<sub>init</sub> 和 q<sub>goal</sub> 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概率完备的。</p>
-<p>\begin{eqnarray}<br>\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \\<br>\nabla\cdot\vec{B} &amp;=&amp; 0 \\<br>\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \\<br>\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>\end{eqnarray}</p>
 <a id="more"></a>
 <p><img alt="rrt.gif" data-src="rrt.gif"></p>
 <h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>$T$表示一颗树。$T_{init}$和 $T_{goal}$根节分别为$q_{init}$和$q_{goal}$的树。每棵树$T$都是增量扩展的。在每次迭代中，在$Q_{free}$中随机均匀采样一点$q_{rand}$。在$T$中找到距离$q_{rand}$最近的节点$q_{near}$，并尝试从$q_{near}$向$q_{rand}$方向移动一段距离$step_size$，生成一个新节点$q_{new}$。若该节点是无碰撞的(collision-free)，则添加节点$q_{new}$到$T$的顶点集合(vertices)中，添加$(q_{near}, q_{new})$到$T$的边集合(edges)中。下图展示了 RRT 在二维欧式空间扩展一个点的过程。</p>
@@ -719,7 +718,7 @@
   NexT.utils.getScript('[object Object]', () => {
     MathJax.Hub.Typeset();
   }, window.MathJax);
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
     
   
@@ -728,5 +727,5 @@
 
   
 
-<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"},"display":{"position":"right","hOffset":20,"vOffset":60,"width":150,"height":300},"mobile":{"show":true,"scale":0.8},"react":{"opacity":0.8},"log":false});</script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body>
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"},"display":{"position":"right","hOffset":20,"vOffset":60,"width":150,"height":300},"mobile":{"show":true,"scale":0.8},"react":{"opacity":0.8},"log":false});</script></body>
 </html>
