@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sun of Beach</title>
+  <icon>https://xwnb.github.io/icon.png</icon>
+  <subtitle>Stay Angry, Stay Foolish</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://xwnb.github.io/"/>
+  <updated>2020-06-21T07:03:02.967Z</updated>
+  <id>https://xwnb.github.io/</id>
+  
+  <author>
+    <name>村口最靓的 小Xu</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>路径规划-RRT_Star</title>
+    <link href="https://xwnb.github.io/posts/3092301982/"/>
+    <id>https://xwnb.github.io/posts/3092301982/</id>
+    <published>2020-06-20T06:59:22.000Z</published>
+    <updated>2020-06-21T07:03:02.967Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-RRT-Star&quot;&gt;&lt;a href=&quot;#路径规划之-RRT-Star&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 RRT_Star&quot;&gt;&lt;/a&gt;路径规划之 RRT_Star&lt;/h1&gt;&lt;p&gt;RRT_Connect 相对于 RRT 虽然增加了启发式策略和贪婪思想，但他们的路径都不是最优的。搜索路径都是基于随机采样，缺少评价函数。RRT_Star 算法在 RRT 的基础上，基于代价函数来重新选择新父节点，重新布线新子节点，保证算法渐进最优解。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="RRT*" scheme="https://xwnb.github.io/tags/RRT/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路径规划-RRT_Connect</title>
+    <link href="https://xwnb.github.io/posts/2708526344/"/>
+    <id>https://xwnb.github.io/posts/2708526344/</id>
+    <published>2020-06-20T06:57:57.000Z</published>
+    <updated>2020-06-21T06:47:23.729Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-RRT-Connect-平衡双向快速扩展随机树&quot;&gt;&lt;a href=&quot;#路径规划之-RRT-Connect-平衡双向快速扩展随机树&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 RRT_Connect (平衡双向快速扩展随机树)&quot;&gt;&lt;/a&gt;路径规划之 RRT_Connect (平衡双向快速扩展随机树)&lt;/h1&gt;&lt;p&gt;单颗 RRT 树每次搜索只从初始节点开始在状态空间中快速随机扩展节点，带有一定的盲目性。RRT_Connect 算法是一种基于双向扩展平衡的连结型双树(Balanced Bidirectional RRT)：两颗 RRTs 分别基于 $q_{init}$ 和 $q_{goal}$ 扩展；贪心启发式的连接方法使每棵树扩展时一次移动更长的距离。&lt;a href=&quot;https://ieeexplore.ieee.org/document/844730&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;作者&lt;/a&gt;原文中举例了平面地图以及 6-DOF 的机械臂来验证 RRT_Connect.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="RRT_Connect" scheme="https://xwnb.github.io/tags/RRT-Connect/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路径规划-LPA_Star</title>
+    <link href="https://xwnb.github.io/posts/367356294/"/>
+    <id>https://xwnb.github.io/posts/367356294/</id>
+    <published>2020-06-20T06:56:21.000Z</published>
+    <updated>2020-06-21T07:40:33.076Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-LPA-Star-LPA&quot;&gt;&lt;a href=&quot;#路径规划之-LPA-Star-LPA&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 LPA_Star (LPA*)&quot;&gt;&lt;/a&gt;路径规划之 LPA_Star (LPA*)&lt;/h1&gt;&lt;p&gt;LPA*是 A*的增量版本. 相比于 A*算法, 首次规划时, 两者过程类似. 假如地图发生变化, A*算法需要重新规划路径. 而 LPA*算法可以通过在当前搜索期间内更新前一次搜索的 g 值（距起始距离）来适应地图变化而无需重新计算整个地图。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="LPA*" scheme="https://xwnb.github.io/tags/LPA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路径规划-A_Star</title>
+    <link href="https://xwnb.github.io/posts/1627378678/"/>
+    <id>https://xwnb.github.io/posts/1627378678/</id>
+    <published>2020-06-20T06:00:16.000Z</published>
+    <updated>2020-06-21T06:49:14.229Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-A-Star-A&quot;&gt;&lt;a href=&quot;#路径规划之-A-Star-A&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 A_Star (A*)&quot;&gt;&lt;/a&gt;路径规划之 A_Star (A*)&lt;/h1&gt;&lt;p&gt;A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="A*" scheme="https://xwnb.github.io/tags/A/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>路径规划-RRT</title>
+    <link href="https://xwnb.github.io/posts/2955947163/"/>
+    <id>https://xwnb.github.io/posts/2955947163/</id>
+    <published>2020-03-07T04:30:47.000Z</published>
+    <updated>2020-06-21T06:54:54.635Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树&quot;&gt;&lt;a href=&quot;#路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)&quot;&gt;&lt;/a&gt;路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)&lt;/h1&gt;&lt;p&gt;RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q~init~ 和 q~goal~ 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概率完备的。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="RRT" scheme="https://xwnb.github.io/tags/RRT/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS学习-controller_manager</title>
+    <link href="https://xwnb.github.io/posts/1366633795/"/>
+    <id>https://xwnb.github.io/posts/1366633795/</id>
+    <published>2019-10-26T06:58:05.000Z</published>
+    <updated>2020-03-07T04:21:19.484Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;controller_manager&lt;/code&gt;提供硬实时兼容的环来控制的机械手,由一个&lt;code&gt;hardware_interface::RobotHW&lt;/code&gt;实例代表(参见&lt;code&gt;hardware_interface&lt;/code&gt;包).该&lt;code&gt;controller_manager&lt;/code&gt;提供了加载,卸载,启动和停止控制器的基本结构.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="ROS学习" scheme="https://xwnb.github.io/categories/ROS%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="ROS" scheme="https://xwnb.github.io/tags/ROS/"/>
+    
+      <category term="controller_manager" scheme="https://xwnb.github.io/tags/controller-manager/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS学习-ur5机器人的gazebo仿真以及controller的使用</title>
+    <link href="https://xwnb.github.io/posts/1500545740/"/>
+    <id>https://xwnb.github.io/posts/1500545740/</id>
+    <published>2019-10-26T04:55:28.000Z</published>
+    <updated>2020-03-07T04:21:22.570Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章主要介绍了如何在&lt;code&gt;gazebo&lt;/code&gt;中对&lt;code&gt;ur5&lt;/code&gt;进行仿真和&lt;code&gt;controller&lt;/code&gt;的使用，包括&lt;code&gt;controller_manager&lt;/code&gt;的使用和控制器&lt;code&gt;command&lt;/code&gt;的主题数据发布。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="ROS学习" scheme="https://xwnb.github.io/categories/ROS%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="ROS" scheme="https://xwnb.github.io/tags/ROS/"/>
+    
+      <category term="gazebo" scheme="https://xwnb.github.io/tags/gazebo/"/>
+    
+      <category term="controller-manager" scheme="https://xwnb.github.io/tags/controller-manager/"/>
+    
+      <category term="ur5" scheme="https://xwnb.github.io/tags/ur5/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS学习-xacro</title>
+    <link href="https://xwnb.github.io/posts/2389657244/"/>
+    <id>https://xwnb.github.io/posts/2389657244/</id>
+    <published>2019-10-24T13:16:49.000Z</published>
+    <updated>2020-03-07T04:21:17.295Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于&lt;a href=&quot;http://wiki.ros.org/xacro&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方教程&lt;/a&gt;. &lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="ROS学习" scheme="https://xwnb.github.io/categories/ROS%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="ROS" scheme="https://xwnb.github.io/tags/ROS/"/>
+    
+      <category term="xacro" scheme="https://xwnb.github.io/tags/xacro/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ROS学习-roslaunch_xml</title>
+    <link href="https://xwnb.github.io/posts/73359715/"/>
+    <id>https://xwnb.github.io/posts/73359715/</id>
+    <published>2019-10-22T14:25:52.000Z</published>
+    <updated>2020-03-07T04:21:08.363Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这个页面描述了用于&lt;code&gt;roslaunch&lt;/code&gt;的&lt;code&gt;.launch&lt;/code&gt;文件的&lt;code&gt;XML&lt;/code&gt;格式. 有关&lt;code&gt;roslaunch&lt;/code&gt;的背景、功能和相关工具, 请先访问&lt;code&gt;roslaunch&lt;/code&gt;页面. &lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="ROS学习" scheme="https://xwnb.github.io/categories/ROS%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="ROS" scheme="https://xwnb.github.io/tags/ROS/"/>
+    
+      <category term="roslaunch" scheme="https://xwnb.github.io/tags/roslaunch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微信小程序开发-input正则</title>
+    <link href="https://xwnb.github.io/posts/1318413979/"/>
+    <id>https://xwnb.github.io/posts/1318413979/</id>
+    <published>2019-10-04T09:01:43.000Z</published>
+    <updated>2019-10-22T13:58:26.024Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;检查 &lt;code&gt;input&lt;/code&gt;输入框是否输入限制字符。如果是，则丢弃；否则，正常输入。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="微信小程序开发" scheme="https://xwnb.github.io/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="wechat-dev" scheme="https://xwnb.github.io/tags/wechat-dev/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微信小程序开发-布局flex</title>
+    <link href="https://xwnb.github.io/posts/208261819/"/>
+    <id>https://xwnb.github.io/posts/208261819/</id>
+    <published>2019-10-04T07:38:54.000Z</published>
+    <updated>2019-10-04T09:01:07.860Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;微信小程序开发-布局flex&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="微信小程序开发" scheme="https://xwnb.github.io/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="wechat-dev" scheme="https://xwnb.github.io/tags/wechat-dev/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown语法学习笔记</title>
+    <link href="https://xwnb.github.io/posts/4176222009/"/>
+    <id>https://xwnb.github.io/posts/4176222009/</id>
+    <published>2019-10-01T11:07:10.000Z</published>
+    <updated>2019-10-26T07:12:03.775Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;Markdown&lt;/strong&gt;是一种轻量级标记语言，创始人为约翰·格鲁伯（英语：John Gruber）。它允许人们“使用易读易写的纯文本格式编写文档，然后转换成有效的XHTML（或者HTML）文档”。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Tutorial" scheme="https://xwnb.github.io/categories/Tutorial/"/>
+    
+    
+      <category term="Tutorial" scheme="https://xwnb.github.io/tags/Tutorial/"/>
+    
+      <category term="Markdown" scheme="https://xwnb.github.io/tags/Markdown/"/>
+    
+  </entry>
+  
+</feed>
