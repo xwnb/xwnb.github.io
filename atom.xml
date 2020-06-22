@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xwnb.github.io/"/>
-  <updated>2020-06-21T06:47:23.729Z</updated>
+  <updated>2020-06-22T14:56:15.109Z</updated>
   <id>https://xwnb.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>路径规划-RRT_Star</title>
+    <link href="https://xwnb.github.io/posts/3092301982/"/>
+    <id>https://xwnb.github.io/posts/3092301982/</id>
+    <published>2020-06-20T06:59:22.000Z</published>
+    <updated>2020-06-22T14:56:15.109Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;路径规划之-RRT-Star&quot;&gt;&lt;a href=&quot;#路径规划之-RRT-Star&quot; class=&quot;headerlink&quot; title=&quot;路径规划之 RRT_Star&quot;&gt;&lt;/a&gt;路径规划之 RRT_Star&lt;/h1&gt;&lt;p&gt;RRT_Connect 相对于 RRT 虽然增加了启发式策略和贪婪思想，但他们的路径都不是最优的。搜索路径都是基于随机采样，缺少评价函数。RRT_Star 算法在 RRT 的基础上，基于代价函数来重新选择新父节点，重新布线新子节点，保证算法渐进最优解。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+    
+      <category term="路径规划" scheme="https://xwnb.github.io/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/"/>
+    
+      <category term="motion planning" scheme="https://xwnb.github.io/tags/motion-planning/"/>
+    
+      <category term="RRT*" scheme="https://xwnb.github.io/tags/RRT/"/>
+    
+  </entry>
   
   <entry>
     <title>路径规划-RRT_Connect</title>
