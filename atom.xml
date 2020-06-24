@@ -44,12 +44,11 @@
     <link href="https://xwnb.github.io/posts/954477841/"/>
     <id>https://xwnb.github.io/posts/954477841/</id>
     <published>2020-06-22T15:45:55.000Z</published>
-    <updated>2020-06-22T15:51:33.103Z</updated>
+    <updated>2020-06-24T19:48:26.610Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;针对载具和汽车，AirSim 支持雷达。&lt;/p&gt;
-&lt;p&gt;可用及其他雷达设定可以通过 AirSimSettings json 配置.&lt;br&gt;请查看 &lt;a href=&quot;sensors.md&quot;&gt;general sensors&lt;/a&gt; 获取通用/共享的传感器设置.&lt;/p&gt;
     
     </summary>
     
@@ -68,22 +67,11 @@
     <link href="https://xwnb.github.io/posts/3783722863/"/>
     <id>https://xwnb.github.io/posts/3783722863/</id>
     <published>2020-06-22T15:45:43.000Z</published>
-    <updated>2020-06-22T15:51:33.103Z</updated>
+    <updated>2020-06-24T19:48:15.752Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;AirSim 目前支持一下传感器.&lt;/p&gt;
-&lt;p&gt;每类传感器都与之关联一个整型枚举值来表示传感器类型.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Camera&lt;/li&gt;
-&lt;li&gt;Barometer = 1&lt;/li&gt;
-&lt;li&gt;Imu = 2&lt;/li&gt;
-&lt;li&gt;Gps = 3&lt;/li&gt;
-&lt;li&gt;Magnetometer = 4&lt;/li&gt;
-&lt;li&gt;Distance Sensor = 5&lt;/li&gt;
-&lt;li&gt;Lidar = 6&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt; : 相机配置与其他传感器不一样,所以没有关联枚举值. 相机配置和 API 查看 &lt;a href=&quot;settings.md&quot;&gt;general settings&lt;/a&gt; 和 &lt;a href=&quot;image_apis.md&quot;&gt;image API&lt;/a&gt; .&lt;/p&gt;
     
     </summary>
     
@@ -125,11 +113,11 @@
     <link href="https://xwnb.github.io/posts/1270863220/"/>
     <id>https://xwnb.github.io/posts/1270863220/</id>
     <published>2020-06-22T15:45:09.000Z</published>
-    <updated>2020-06-22T15:51:33.101Z</updated>
+    <updated>2020-06-24T19:47:59.114Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;接下去主要介绍一下 &lt;code&gt;AirSim&lt;/code&gt; 的配置参数, 主要翻译了 &lt;a href=&quot;https://microsoft.github.io/AirSim/settings&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方&lt;/a&gt; 文档.&lt;/p&gt;
+      &lt;p&gt;接下去主要介绍一下 &lt;code&gt;AirSim&lt;/code&gt; 的配置参数, 翻译了 &lt;a href=&quot;https://microsoft.github.io/AirSim/settings&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方&lt;/a&gt; 文档.&lt;/p&gt;
     
     </summary>
     
@@ -148,11 +136,11 @@
     <link href="https://xwnb.github.io/posts/3314168402/"/>
     <id>https://xwnb.github.io/posts/3314168402/</id>
     <published>2020-06-22T15:44:54.000Z</published>
-    <updated>2020-06-22T15:52:58.191Z</updated>
+    <updated>2020-06-24T19:47:54.840Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;接下去主要介绍一下 &lt;code&gt;AirSim&lt;/code&gt; 的 &lt;code&gt;APIs&lt;/code&gt; 的使用, 主要参考 &lt;a href=&quot;https://microsoft.github.io/AirSim/image_apis/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方&lt;/a&gt; 文档, 并结合结合 OpenCV 来用 C++ 实现部分 官方 Python 的例程.&lt;/p&gt;
+      &lt;p&gt;接下去主要介绍一下 &lt;code&gt;AirSim&lt;/code&gt; 的 &lt;code&gt;APIs&lt;/code&gt; 的使用, 参考 &lt;a href=&quot;https://microsoft.github.io/AirSim/image_apis/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方&lt;/a&gt; 文档, 并结合结合 OpenCV 来用 C++ 实现部分 官方 Python 的例程.&lt;/p&gt;
     
     </summary>
     
@@ -195,13 +183,11 @@
     <link href="https://xwnb.github.io/posts/531482360/"/>
     <id>https://xwnb.github.io/posts/531482360/</id>
     <published>2020-06-22T15:43:57.000Z</published>
-    <updated>2020-06-22T15:52:19.665Z</updated>
+    <updated>2020-06-24T19:47:18.904Z</updated>
     
     <summary type="html">
     
       &lt;p&gt;接下来的文章主要开始记录 AirSim 提供的 APIs 的学习。但是在自己新建一个工程的时候发现，配置有很多问题，这里先解决一下。&lt;/p&gt;
-&lt;p&gt;在第一篇文章【AirSim 仿真 (1) - Windows 10 下安装仿真平台 AirSim - v1.3.1】，跑了一下示例工程 &lt;code&gt;Hello Car&lt;/code&gt; . 因为工程配置的关系，发现吧这个工程拷贝出来后，在打开编译不了。但是自己码工程的时候，目录不一定非得限制到 AirSim 的工程目录下吧，总归自己有个文件夹的。&lt;/p&gt;
-&lt;p&gt;其实看一下 &lt;code&gt;Hello Car&lt;/code&gt; 的工程属性配置可以看到其实编译不了的原因，无非是包含目录、依赖库的关系。因此，这里主要解决一下这些配置问题。&lt;/p&gt;
     
     </summary>
     
@@ -391,7 +377,7 @@
     <link href="https://xwnb.github.io/posts/1366633795/"/>
     <id>https://xwnb.github.io/posts/1366633795/</id>
     <published>2019-10-26T06:58:05.000Z</published>
-    <updated>2020-03-07T04:21:19.484Z</updated>
+    <updated>2020-06-24T19:37:17.864Z</updated>
     
     <summary type="html">
     
@@ -414,7 +400,7 @@
     <link href="https://xwnb.github.io/posts/1500545740/"/>
     <id>https://xwnb.github.io/posts/1500545740/</id>
     <published>2019-10-26T04:55:28.000Z</published>
-    <updated>2020-03-07T04:21:22.570Z</updated>
+    <updated>2020-06-24T19:40:45.608Z</updated>
     
     <summary type="html">
     
@@ -441,11 +427,11 @@
     <link href="https://xwnb.github.io/posts/2389657244/"/>
     <id>https://xwnb.github.io/posts/2389657244/</id>
     <published>2019-10-24T13:16:49.000Z</published>
-    <updated>2020-03-07T04:21:17.295Z</updated>
+    <updated>2020-06-24T19:34:45.704Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;Xacro(XML Macros)Xacro是一种XML宏语言. 使用xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的XML文件, 这种宏命令可以扩展达到更大的XML表达范围. 此包在处理大型XML文档(如机器人说明)时最为有用. 它在如urdf的包中大量使用. 本文主要来源于&lt;a href=&quot;http://wiki.ros.org/xacro&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方教程&lt;/a&gt;. &lt;/p&gt;
+      &lt;p&gt;Xacro(XML Macros)Xacro 是一种 XML 宏语言. 使用 xacro, 可以通过使用宏命令构建更精悍短小但又具有更高可读性的 XML 文件, 这种宏命令可以扩展达到更大的 XML 表达范围. 此包在处理大型 XML 文档(如机器人说明)时最为有用. 它在如 urdf 的包中大量使用. 本文主要来源于&lt;a href=&quot;http://wiki.ros.org/xacro&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;官方教程&lt;/a&gt;.&lt;/p&gt;
     
     </summary>
     
@@ -464,11 +450,11 @@
     <link href="https://xwnb.github.io/posts/73359715/"/>
     <id>https://xwnb.github.io/posts/73359715/</id>
     <published>2019-10-22T14:25:52.000Z</published>
-    <updated>2020-03-07T04:21:08.363Z</updated>
+    <updated>2020-06-24T19:39:51.272Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;这个页面描述了用于&lt;code&gt;roslaunch&lt;/code&gt;的&lt;code&gt;.launch&lt;/code&gt;文件的&lt;code&gt;XML&lt;/code&gt;格式. 有关&lt;code&gt;roslaunch&lt;/code&gt;的背景、功能和相关工具, 请先访问&lt;code&gt;roslaunch&lt;/code&gt;页面. &lt;/p&gt;
+      &lt;p&gt;这个页面描述了用于&lt;code&gt;roslaunch&lt;/code&gt;的&lt;code&gt;.launch&lt;/code&gt;文件的&lt;code&gt;XML&lt;/code&gt;格式. 有关&lt;code&gt;roslaunch&lt;/code&gt;的背景、功能和相关工具, 请先访问&lt;code&gt;roslaunch&lt;/code&gt;页面.&lt;/p&gt;
     
     </summary>
     
@@ -487,7 +473,7 @@
     <link href="https://xwnb.github.io/posts/1318413979/"/>
     <id>https://xwnb.github.io/posts/1318413979/</id>
     <published>2019-10-04T09:01:43.000Z</published>
-    <updated>2019-10-22T13:58:26.024Z</updated>
+    <updated>2020-06-24T19:46:33.094Z</updated>
     
     <summary type="html">
     
