@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xwnb.github.io/"/>
-  <updated>2020-06-22T15:51:33.103Z</updated>
+  <updated>2020-06-24T19:11:33.068Z</updated>
   <id>https://xwnb.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>github action test</title>
+    <link href="https://xwnb.github.io/posts/1401209445/"/>
+    <id>https://xwnb.github.io/posts/1401209445/</id>
+    <published>2020-06-23T16:43:30.000Z</published>
+    <updated>2020-06-24T19:11:33.068Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>自动驾驶仿真 - AirSim (9) - 如何在 AirSim 使用雷达</title>
@@ -469,27 +492,6 @@
     <summary type="html">
     
       &lt;p&gt;检查 &lt;code&gt;input&lt;/code&gt;输入框是否输入限制字符。如果是，则丢弃；否则，正常输入。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="微信小程序开发" scheme="https://xwnb.github.io/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/"/>
-    
-    
-      <category term="wechat-dev" scheme="https://xwnb.github.io/tags/wechat-dev/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>微信小程序开发-布局flex</title>
-    <link href="https://xwnb.github.io/posts/208261819/"/>
-    <id>https://xwnb.github.io/posts/208261819/</id>
-    <published>2019-10-04T07:38:54.000Z</published>
-    <updated>2019-10-04T09:01:07.860Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;微信小程序开发-布局flex&lt;/p&gt;
     
     </summary>
     

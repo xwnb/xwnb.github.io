@@ -493,7 +493,10 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/1401209445/" rel="prev" title="github action test">
+      <i class="fa fa-chevron-left"></i> github action test
+    </a></div>
       <div class="post-nav-item">
     <a href="/posts/3783722863/" rel="next" title="自动驾驶仿真 - AirSim (8) - AirSim 传感器">
       自动驾驶仿真 - AirSim (8) - AirSim 传感器 <i class="fa fa-chevron-right"></i>
@@ -572,7 +575,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">22</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -812,5 +815,22 @@
         flOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
       new needShareButton('#needsharebutton-float', flOptions);
   </script>
+
+
+  <!-- require APlayer -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+  <div id="aplayer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+  <!-- require MetingJS -->
+  <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+  <meting-js 
+    server="netease" 
+    type="playlist" 
+    id="60498371"  
+    autoplay="true" 
+    fixed="true" 
+    mutex="true"
+    order="random"
+  </meting-js>
 </body>
 </html>
