@@ -238,6 +238,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -276,7 +278,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>253</span>
+              <span>254</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -304,7 +306,8 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"digit"</span> <span class="attr">bindinput</span>=<span class="string">"regInput"</span> <span class="attr">maxlength</span>=<span class="string">"15"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <p>匹配正则通过则返回所有字符，不通过则去掉最后一个不匹配的字符返回。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*正则匹配*/</span></span><br><span class="line">regInput(e)&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="regexp">/^(\d?)+(\.\d&#123;0,2&#125;)?$/</span>.test(e.detail.value))&#123;</span><br><span class="line">    <span class="keyword">return</span> e.detail.value;</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> e.detail.value.substring(<span class="number">0</span>,e.detail.value.length<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.jb51.net/article/145878.htm" target="_blank" rel="noopener">https://www.jb51.net/article/145878.htm</a></p>
+<h2 id="参考链接"><a class="header-anchor" href="#参考链接">¶</a>参考链接</h2>
+<p><a href="https://www.jb51.net/article/145878.htm" target="_blank" rel="noopener">https://www.jb51.net/article/145878.htm</a></p>
 
     </div>
 
@@ -576,12 +579,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -750,8 +753,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

@@ -239,6 +239,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -277,7 +279,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -298,16 +300,18 @@
       
         <p>针对载具和汽车，AirSim 支持雷达。</p>
 <a id="more"></a>
-<p>可用及其他雷达设定可以通过 AirSimSettings json 配置.<br>请查看 <a href="sensors.md">general sensors</a> 获取通用/共享的传感器设置.</p>
-<h2 id="在汽车上使能雷达-Enabling-lidar-on-a-vehicle"><a href="#在汽车上使能雷达-Enabling-lidar-on-a-vehicle" class="headerlink" title="在汽车上使能雷达 Enabling lidar on a vehicle"></a>在汽车上使能雷达 Enabling lidar on a vehicle</h2><ul>
+<p>可用及其他雷达设定可以通过 AirSimSettings json 配置.<br>
+请查看 <a href="sensors.md">general sensors</a> 获取通用/共享的传感器设置.</p>
+<h2 id="在汽车上使能雷达-Enabling-lidar-on-a-vehicle"><a class="header-anchor" href="#在汽车上使能雷达-Enabling-lidar-on-a-vehicle">¶</a>在汽车上使能雷达 Enabling lidar on a vehicle</h2>
+<ul>
 <li>雷达默认是不可用的。 为了使用雷达， 在 settings json 中设定雷达 SensorType 和 Enabled 属性.</li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"Lidar1": &#123;</span><br><span class="line">     "SensorType": 6,</span><br><span class="line">     "Enabled" : true,</span><br></pre></td></tr></table></figure>
 <ul>
 <li>汽车多雷达也可用.</li>
 </ul>
-<h2 id="雷达配置-Lidar-configuration"><a href="#雷达配置-Lidar-configuration" class="headerlink" title="雷达配置 Lidar configuration"></a>雷达配置 Lidar configuration</h2><p>目前，下列参数可通过 setting json 来配置.</p>
-<div class="table-container">
+<h2 id="雷达配置-Lidar-configuration"><a class="header-anchor" href="#雷达配置-Lidar-configuration">¶</a>雷达配置 Lidar configuration</h2>
+<p>目前，下列参数可通过 setting json 来配置.</p>
 <table>
 <thead>
 <tr>
@@ -362,27 +366,36 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>例如,</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"SeeDocsAt"</span>: <span class="string">"https://github.com/Microsoft/AirSim/blob/master/docs/settings_json.md"</span>,</span><br><span class="line">  <span class="attr">"SettingsVersion"</span>: <span class="number">1.2</span>,</span><br><span class="line"></span><br><span class="line">  <span class="attr">"SimMode"</span>: <span class="string">"Multirotor"</span>,</span><br><span class="line"></span><br><span class="line">  <span class="attr">"Vehicles"</span>: &#123;</span><br><span class="line">    <span class="attr">"Drone1"</span>: &#123;</span><br><span class="line">      <span class="attr">"VehicleType"</span>: <span class="string">"simpleflight"</span>,</span><br><span class="line">      <span class="attr">"AutoCreate"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"Sensors"</span>: &#123;</span><br><span class="line">        <span class="attr">"LidarSensor1"</span>: &#123;</span><br><span class="line">          <span class="attr">"SensorType"</span>: <span class="number">6</span>,</span><br><span class="line">          <span class="attr">"Enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">"NumberOfChannels"</span>: <span class="number">16</span>,</span><br><span class="line">          <span class="attr">"RotationsPerSecond"</span>: <span class="number">10</span>,</span><br><span class="line">          <span class="attr">"PointsPerSecond"</span>: <span class="number">100000</span>,</span><br><span class="line">          <span class="attr">"X"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Y"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Z"</span>: <span class="number">-1</span>,</span><br><span class="line">          <span class="attr">"Roll"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Pitch"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Yaw"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"VerticalFOVUpper"</span>: <span class="number">-15</span>,</span><br><span class="line">          <span class="attr">"VerticalFOVLower"</span>: <span class="number">-25</span>,</span><br><span class="line">          <span class="attr">"HorizontalFOVStart"</span>: <span class="number">-20</span>,</span><br><span class="line">          <span class="attr">"HorizontalFOVEnd"</span>: <span class="number">20</span>,</span><br><span class="line">          <span class="attr">"DrawDebugPoints"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">"DataFrame"</span>: <span class="string">"SensorLocalFrame"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"LidarSensor2"</span>: &#123;</span><br><span class="line">          <span class="attr">"SensorType"</span>: <span class="number">6</span>,</span><br><span class="line">          <span class="attr">"Enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">"NumberOfChannels"</span>: <span class="number">4</span>,</span><br><span class="line">          <span class="attr">"RotationsPerSecond"</span>: <span class="number">10</span>,</span><br><span class="line">          <span class="attr">"PointsPerSecond"</span>: <span class="number">10000</span>,</span><br><span class="line">          <span class="attr">"X"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Y"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Z"</span>: <span class="number">-1</span>,</span><br><span class="line">          <span class="attr">"Roll"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Pitch"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"Yaw"</span>: <span class="number">0</span>,</span><br><span class="line">          <span class="attr">"VerticalFOVUpper"</span>: <span class="number">-15</span>,</span><br><span class="line">          <span class="attr">"VerticalFOVLower"</span>: <span class="number">-25</span>,</span><br><span class="line">          <span class="attr">"DrawDebugPoints"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="attr">"DataFrame"</span>: <span class="string">"SensorLocalFrame"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="用于调试的服务端可视化-Server-side-visualization-for-debugging"><a href="#用于调试的服务端可视化-Server-side-visualization-for-debugging" class="headerlink" title="用于调试的服务端可视化 Server side visualization for debugging"></a>用于调试的服务端可视化 Server side visualization for debugging</h2><p>默认情况下，雷达点不会被绘制在视图中。 为了能够在视图中绘制激光扫描点， 请通过 settings json 使能 <code>DrawDebugPoints</code>.<br>例如,</p>
+<h2 id="用于调试的服务端可视化-Server-side-visualization-for-debugging"><a class="header-anchor" href="#用于调试的服务端可视化-Server-side-visualization-for-debugging">¶</a>用于调试的服务端可视化 Server side visualization for debugging</h2>
+<p>默认情况下，雷达点不会被绘制在视图中。 为了能够在视图中绘制激光扫描点， 请通过 settings json 使能 <code>DrawDebugPoints</code>.<br>
+例如,</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">"Lidar1": &#123;</span><br><span class="line">     ...</span><br><span class="line">     "DrawDebugPoints": true</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<h2 id="客户端-API-Client-API"><a href="#客户端-API-Client-API" class="headerlink" title="客户端 API Client API"></a>客户端 API Client API</h2><p>使用 <code>getLidarData()</code> API 来获取雷达数据.</p>
+<h2 id="客户端-API-Client-API"><a class="header-anchor" href="#客户端-API-Client-API">¶</a>客户端 API Client API</h2>
+<p>使用 <code>getLidarData()</code> API 来获取雷达数据.</p>
 <ul>
 <li>这个 API 返回带捕捉时间戳和雷达位置的平面阵列的浮点数数组.</li>
-<li>点云:<ul>
+<li>点云:
+<ul>
 <li>浮点数表示每个在范围之类最后扫描到的 [x,y,z] 坐标.</li>
-<li>输出的数据帧可以通过 “DataFrame” 属性来配置。<br>“” 或者 “VehicleInertialFrame” — 默认; 返回汽车惯性坐标系下的点 (NED 坐标系, 米制)<br>“SensorLocalFrame” — 返回雷达局部坐标系下的点 (NED 坐标系, 米制)</li>
+<li>输出的数据帧可以通过 “DataFrame” 属性来配置。<br>
+“” 或者 “VehicleInertialFrame” – 默认; 返回汽车惯性坐标系下的点 (NED 坐标系, 米制)<br>
+“SensorLocalFrame” – 返回雷达局部坐标系下的点 (NED 坐标系, 米制)</li>
 </ul>
 </li>
-<li>雷达位姿:<ul>
+<li>雷达位姿:
+<ul>
 <li>在汽车惯性坐标系下的雷达位姿 (NED 坐标系, 米制)</li>
 <li>可以转换到其他坐标系下的点.</li>
 </ul>
 </li>
 </ul>
-<h3 id="Python-例程-Python-Examples"><a href="#Python-例程-Python-Examples" class="headerlink" title="Python 例程 Python Examples"></a>Python 例程 Python Examples</h3><p><a href="https://github.com/Microsoft/AirSim/tree/master/PythonClient//multirotor" target="_blank" rel="noopener">drone_lidar.py</a><br><a href="https://github.com/Microsoft/AirSim/tree/master/PythonClient//car" target="_blank" rel="noopener">car_lidar.py</a></p>
-<h2 id="即将到来"><a href="#即将到来" class="headerlink" title="即将到来"></a>即将到来</h2><ul>
+<h3 id="Python-例程-Python-Examples"><a class="header-anchor" href="#Python-例程-Python-Examples">¶</a>Python 例程 Python Examples</h3>
+<p><a href="https://github.com/Microsoft/AirSim/tree/master/PythonClient//multirotor" target="_blank" rel="noopener">drone_lidar.py</a><br>
+<a href="https://github.com/Microsoft/AirSim/tree/master/PythonClient//car" target="_blank" rel="noopener">car_lidar.py</a></p>
+<h2 id="即将到来"><a class="header-anchor" href="#即将到来">¶</a>即将到来</h2>
+<ul>
 <li>客户端的雷达数据可视化.</li>
 </ul>
 
@@ -395,13 +408,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\4243726933\" rel="bookmark">自动驾驶仿真 - AirSim (1) - Windows 10 下安装仿真平台 AirSim - v1.3.1</a></div>
+      <div class="popular-posts-title"><a href="\posts\3783722863\" rel="bookmark">自动驾驶仿真 - AirSim (8) - AirSim 传感器</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2194771931\" rel="bookmark">自动驾驶仿真 - AirSim (2) - 创建并设置 Unreal Engine 环境</a></div>
+      <div class="popular-posts-title"><a href="\posts\2251441435\" rel="bookmark">自动驾驶仿真 - AirSim(7) - AirSim 多载具</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\531482360\" rel="bookmark">自动驾驶仿真 - AirSim (3) - 配置 Visual Studio 工程</a></div>
+      <div class="popular-posts-title"><a href="\posts\1270863220\" rel="bookmark">自动驾驶仿真 - AirSim (6) - 设置</a></div>
     </li>
   </ul>
 
@@ -663,12 +676,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -837,8 +850,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

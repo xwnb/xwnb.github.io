@@ -239,6 +239,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -277,7 +279,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>835</span>
+              <span>843</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -309,59 +311,76 @@
 <li>Lidar = 6</li>
 </ul>
 <p><strong>注意</strong> : 相机配置与其他传感器不一样,所以没有关联枚举值. 相机配置和 API 查看 <a href="settings.md">general settings</a> 和 <a href="image_apis.md">image API</a> .</p>
-<h2 id="默认传感器-Default-sensors"><a href="#默认传感器-Default-sensors" class="headerlink" title="默认传感器 Default sensors"></a>默认传感器 Default sensors</h2><p>如果没有在 <code>settings.json</code> 指定传感器, 基于 sim 模式下,下列传感器默认可用.</p>
-<h3 id="载具-Multirotor"><a href="#载具-Multirotor" class="headerlink" title="载具 Multirotor"></a>载具 Multirotor</h3><ul>
+<h2 id="默认传感器-Default-sensors"><a class="header-anchor" href="#默认传感器-Default-sensors">¶</a>默认传感器 Default sensors</h2>
+<p>如果没有在 <code>settings.json</code> 指定传感器, 基于 sim 模式下,下列传感器默认可用.</p>
+<h3 id="载具-Multirotor"><a class="header-anchor" href="#载具-Multirotor">¶</a>载具 Multirotor</h3>
+<ul>
 <li>Imu</li>
 <li>Magnetometer</li>
 <li>Gps</li>
 <li>Barometer</li>
 </ul>
-<h3 id="车-Car"><a href="#车-Car" class="headerlink" title="车 Car"></a>车 Car</h3><ul>
+<h3 id="车-Car"><a class="header-anchor" href="#车-Car">¶</a>车 Car</h3>
+<ul>
 <li>Gps</li>
 </ul>
-<h3 id="计算机视觉-ComputerVision"><a href="#计算机视觉-ComputerVision" class="headerlink" title="计算机视觉 ComputerVision"></a>计算机视觉 ComputerVision</h3><ul>
+<h3 id="计算机视觉-ComputerVision"><a class="header-anchor" href="#计算机视觉-ComputerVision">¶</a>计算机视觉 ComputerVision</h3>
+<ul>
 <li>None</li>
 </ul>
 <p>场景之后, <a href="https://github.com/Microsoft/AirSim/blob/master/AirLib/include/common/AirSimSettings.hpp" target="_blank" rel="noopener">AirSimSettings.hpp</a> 中的 <code>createDefaultSensorSettings</code> 方法是用来设置上述带默认参数的传感器, 根据在 sim 模式在下 <code>settings.json</code> 文件设定的.</p>
-<h2 id="配置默认传感器列表-Configuring-the-default-sensor-list"><a href="#配置默认传感器列表-Configuring-the-default-sensor-list" class="headerlink" title="配置默认传感器列表 Configuring the default sensor list"></a>配置默认传感器列表 Configuring the default sensor list</h2><p>默认传感器列表可以在 settings json 配置:</p>
+<h2 id="配置默认传感器列表-Configuring-the-default-sensor-list"><a class="header-anchor" href="#配置默认传感器列表-Configuring-the-default-sensor-list">¶</a>配置默认传感器列表 Configuring the default sensor list</h2>
+<p>默认传感器列表可以在 settings json 配置:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">"DefaultSensors": &#123;</span><br><span class="line">    "Barometer": &#123;</span><br><span class="line">         "SensorType": 1,</span><br><span class="line">         "Enabled" : true</span><br><span class="line">    &#125;,</span><br><span class="line">    "Imu": &#123;</span><br><span class="line">         "SensorType": 2,</span><br><span class="line">         "Enabled" : true</span><br><span class="line">    &#125;,</span><br><span class="line">    "Gps": &#123;</span><br><span class="line">         "SensorType": 3,</span><br><span class="line">         "Enabled" : true</span><br><span class="line">    &#125;,</span><br><span class="line">    "Magnetometer": &#123;</span><br><span class="line">         "SensorType": 4,</span><br><span class="line">         "Enabled" : true</span><br><span class="line">    &#125;,</span><br><span class="line">    "Distance": &#123;</span><br><span class="line">         "SensorType": 5,</span><br><span class="line">         "Enabled" : true</span><br><span class="line">    &#125;,</span><br><span class="line">    "Lidar2": &#123;</span><br><span class="line">         "SensorType": 6,</span><br><span class="line">         "Enabled" : true,</span><br><span class="line">         "NumberOfChannels": 4,</span><br><span class="line">         "PointsPerSecond": 10000</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-<h2 id="配置汽车专用传感器列表-Configuring-vehicle-specific-sensor-list"><a href="#配置汽车专用传感器列表-Configuring-vehicle-specific-sensor-list" class="headerlink" title="配置汽车专用传感器列表 Configuring vehicle-specific sensor list"></a>配置汽车专用传感器列表 Configuring vehicle-specific sensor list</h2><p>如果载具提供他自己的传感器列表, 它<strong>必须</strong>提供完整的列表. <strong>不支持</strong> 选择性的增加/删除/更新默认传感器列表<br>汽车专用传感器列表可以在设置汽车的 json 部分设置.<br>即,</p>
+<h2 id="配置汽车专用传感器列表-Configuring-vehicle-specific-sensor-list"><a class="header-anchor" href="#配置汽车专用传感器列表-Configuring-vehicle-specific-sensor-list">¶</a>配置汽车专用传感器列表 Configuring vehicle-specific sensor list</h2>
+<p>如果载具提供他自己的传感器列表, 它<strong>必须</strong>提供完整的列表. <strong>不支持</strong> 选择性的增加/删除/更新默认传感器列表<br>
+汽车专用传感器列表可以在设置汽车的 json 部分设置.<br>
+即,</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> "Vehicles": &#123;</span><br><span class="line"></span><br><span class="line">     "Drone1": &#123;</span><br><span class="line">         "VehicleType": "SimpleFlight",</span><br><span class="line">         "AutoCreate": true,</span><br><span class="line">         ...</span><br><span class="line">         "Sensors": &#123;</span><br><span class="line">             "MyLidar1": &#123;</span><br><span class="line">                 "SensorType": 6,</span><br><span class="line">                 "Enabled" : true,</span><br><span class="line">                 "NumberOfChannels": 16,</span><br><span class="line">                 "PointsPerSecond": 10000,</span><br><span class="line">                 "X": 0, "Y": 0, "Z": -1,</span><br><span class="line">                 "DrawDebugPoints": true</span><br><span class="line">             &#125;,</span><br><span class="line">             "MyLidar2": &#123;</span><br><span class="line">                 "SensorType": 6,</span><br><span class="line">                 "Enabled" : true,</span><br><span class="line">                 "NumberOfChannels": 4,</span><br><span class="line">                 "PointsPerSecond": 10000,</span><br><span class="line">                 "X": 0, "Y": 0, "Z": -1,</span><br><span class="line">                 "DrawDebugPoints": true</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="传感器专用设置-Sensor-specific-settings"><a href="#传感器专用设置-Sensor-specific-settings" class="headerlink" title="传感器专用设置 Sensor specific settings"></a>传感器专用设置 Sensor specific settings</h3><p>每种传感器类型也有它自己的设置.</p>
+<h3 id="传感器专用设置-Sensor-specific-settings"><a class="header-anchor" href="#传感器专用设置-Sensor-specific-settings">¶</a>传感器专用设置 Sensor specific settings</h3>
+<p>每种传感器类型也有它自己的设置.</p>
 <p>以雷达专用设定为例,请查看 <a href="lidar.md">lidar</a> .</p>
-<h2 id="传感器-APIs-Sensor-APIs"><a href="#传感器-APIs-Sensor-APIs" class="headerlink" title="传感器 APIs Sensor APIs"></a>传感器 APIs Sensor APIs</h2><p>使用例程可直接跳转到 <a href="https://github.com/Microsoft/AirSim/blob/master/PythonClient/multirotor/hello_drone.py" target="_blank" rel="noopener"><code>hello_drone.py</code></a> 或 <a href="https://github.com/Microsoft/AirSim/blob/master/HelloDrone/main.cpp" target="_blank" rel="noopener"><code>hello_drone.cpp</code></a> , 或者浏览下述全部的 API.</p>
+<h2 id="传感器-APIs-Sensor-APIs"><a class="header-anchor" href="#传感器-APIs-Sensor-APIs">¶</a>传感器 APIs Sensor APIs</h2>
+<p>使用例程可直接跳转到 <a href="https://github.com/Microsoft/AirSim/blob/master/PythonClient/multirotor/hello_drone.py" target="_blank" rel="noopener"><code>hello_drone.py</code></a> 或 <a href="https://github.com/Microsoft/AirSim/blob/master/HelloDrone/main.cpp" target="_blank" rel="noopener"><code>hello_drone.cpp</code></a> , 或者浏览下述全部的 API.</p>
 <ul>
-<li><p>Barometer</p>
+<li>
+<p>Barometer</p>
 <p>C++</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::<span class="function">BarometerBase::Output <span class="title">getBarometerData</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; barometer_name, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; vehicle_name)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>Python</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">barometer_data = getBarometerData(barometer_name = <span class="string">""</span>, vehicle_name = <span class="string">""</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>IMU</p>
+<li>
+<p>IMU</p>
 <p>C++</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::<span class="function">ImuBase::Output <span class="title">getImuData</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; imu_name = <span class="string">""</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; vehicle_name = <span class="string">""</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>Python</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">imu_data = getImuData(imu_name = <span class="string">""</span>, vehicle_name = <span class="string">""</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>GPS</p>
+<li>
+<p>GPS</p>
 <p>C++</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::<span class="function">GpsBase::Output <span class="title">getGpsData</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; gps_name = <span class="string">""</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; vehicle_name = <span class="string">""</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>Python</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gps_data = getGpsData(gps_name = <span class="string">""</span>, vehicle_name = <span class="string">""</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Magnetometer</p>
+<li>
+<p>Magnetometer</p>
 <p>C++</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::<span class="function">MagnetometerBase::Output <span class="title">getMagnetometerData</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; magnetometer_name = <span class="string">""</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; vehicle_name = <span class="string">""</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>Python</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magnetometer_data = getMagnetometerData(magnetometer_name = <span class="string">""</span>, vehicle_name = <span class="string">""</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Distance sensor</p>
+<li>
+<p>Distance sensor</p>
 <p>C++</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::<span class="function">DistanceBase::Output <span class="title">getDistanceSensorData</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; distance_sensor_name = <span class="string">""</span>, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; vehicle_name = <span class="string">""</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>Python</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distance_sensor_name = getDistanceSensorData(distance_sensor_name = <span class="string">""</span>, vehicle_name = <span class="string">""</span>)</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Lidar<br>See <a href="lidar.md">lidar</a> for Lidar API.</p>
+<li>
+<p>Lidar<br>
+See <a href="lidar.md">lidar</a> for Lidar API.</p>
 </li>
 </ul>
 
@@ -374,13 +393,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\4243726933\" rel="bookmark">自动驾驶仿真 - AirSim (1) - Windows 10 下安装仿真平台 AirSim - v1.3.1</a></div>
+      <div class="popular-posts-title"><a href="\posts\954477841\" rel="bookmark">自动驾驶仿真 - AirSim (9) - 如何在 AirSim 使用雷达</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2194771931\" rel="bookmark">自动驾驶仿真 - AirSim (2) - 创建并设置 Unreal Engine 环境</a></div>
+      <div class="popular-posts-title"><a href="\posts\2251441435\" rel="bookmark">自动驾驶仿真 - AirSim(7) - AirSim 多载具</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\531482360\" rel="bookmark">自动驾驶仿真 - AirSim (3) - 配置 Visual Studio 工程</a></div>
+      <div class="popular-posts-title"><a href="\posts\1270863220\" rel="bookmark">自动驾驶仿真 - AirSim (6) - 设置</a></div>
     </li>
   </ul>
 
@@ -642,12 +661,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -816,8 +835,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

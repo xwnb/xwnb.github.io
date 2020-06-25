@@ -247,6 +247,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -316,7 +318,6 @@
 <p>The C++ Standard allows references and pointers to be invalidated independently for the same operation, which may result in an invalidated reference but not an invalidated pointer. However, relying on this distinction is insecure because the object pointed to by the pointer may be different than expected even if the pointer is valid. For instance, it is possible to retrieve a pointer to an element from a container, erase that element (invalidating references when destroying the underlying object), then insert a new element at the same location within the container causing the extant pointer to now point to a valid, but distinct object. Thus, any operation that invalidates a pointer or a reference should be treated as though it invalidates both pointers and references.</p>
 <p>以下容器函数会使迭代器，引用和指针在特定情况下失效。</p>
 <p>The following container functions can invalidate iterators, references, and pointers under certain circumstances.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -473,7 +474,7 @@
 <td style="text-align:left"><code>insert()</code>, <code>emplace()</code></td>
 <td style="text-align:left">X</td>
 <td style="text-align:left"></td>
-<td style="text-align:left"><code>insert</code> 和<code>emplace</code>成员不会对迭代器有效性造成影响，如果 (_N_+_n_) &lt; _z_ * _B_，其中 _N_ 是 <code>insert</code> 操作之前的容器元素个数， <em>n</em>是已插入元素的个数， _B_ 是容器的桶个数，_z_ 是容器的最大负载因子 。The <code>insert</code> and <code>emplace</code> members shall not affect the validity of iterators if (_N_+_n_) &lt; _z_ * _B_, where _N_ is the number of elements in the container prior to the <code>insert</code> operation, _n_ is the number of elements inserted, _B_ is the container’s bucket count, and _z_ is the container’s maximum load factor. ([unord.req], paragraph 15)</td>
+<td style="text-align:left"><code>insert</code> 和<code>emplace</code>成员不会对迭代器有效性造成影响，如果 (<em>N</em>+<em>n</em>) &lt; <em>z</em> * <em>B</em>，其中 <em>N</em> 是 <code>insert</code> 操作之前的容器元素个数， <em>n</em>是已插入元素的个数， <em>B</em> 是容器的桶个数，<em>z</em> 是容器的最大负载因子 。The <code>insert</code> and <code>emplace</code> members shall not affect the validity of iterators if (<em>N</em>+<em>n</em>) &lt; <em>z</em> * <em>B</em>, where <em>N</em> is the number of elements in the container prior to the <code>insert</code> operation, <em>n</em> is the number of elements inserted, <em>B</em> is the container’s bucket count, and <em>z</em> is the container’s maximum load factor. ([unord.req], paragraph 15)</td>
 </tr>
 <tr>
 <td style="text-align:left"></td>
@@ -491,21 +492,23 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>一个<code>std::basic_string</code> 对象也是一个适用这条规则的容器。更多关于 <code>std::basic_string</code> 容器的特定信息，查看 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/STR52-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+basic_string" target="_blank" rel="noopener">STR52-CPP. Use valid references, pointers, and iterators to reference elements of a basic_string</a> 。</p>
 <p>A <code>std::basic_string</code> object is also a container to which this rule applies. For more specific information pertaining to <code>std::basic_string</code> containers, see <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/STR52-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+basic_string" target="_blank" rel="noopener">STR52-CPP. Use valid references, pointers, and iterators to reference elements of a basic_string</a>.</p>
-<h2 id="不合规代码示例-Noncompliant-Code-Example"><a href="#不合规代码示例-Noncompliant-Code-Example" class="headerlink" title="不合规代码示例 Noncompliant Code Example"></a>不合规代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，在首次调用 <code>insert()</code> 时，<code>pos</code> 就失效了， 下标循环迭代有<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">未定义行为</a>.。</p>
+<h2 id="不合规代码示例-Noncompliant-Code-Example"><a class="header-anchor" href="#不合规代码示例-Noncompliant-Code-Example">¶</a>不合规代码示例 Noncompliant Code Example</h2>
+<p>在这个不合规的代码示例中，在首次调用 <code>insert()</code> 时，<code>pos</code> 就失效了， 下标循环迭代有<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">未定义行为</a>.。</p>
 <p>In this noncompliant code example, <code>pos</code> is invalidated after the first call to <code>insert()</code>, and subsequent loop iterations have <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;deque&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> *items, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">deque</span>&lt;<span class="keyword">double</span>&gt; d;</span><br><span class="line">  <span class="keyword">auto</span> pos = d.<span class="built_in">begin</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; count; ++i, ++pos) &#123;</span><br><span class="line">    d.insert(pos, items[i] + <span class="number">41.0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator"><a href="#合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator" class="headerlink" title="合规方案 (Updated Iterator) Compliant Solution (Updated Iterator)"></a>合规方案 (Updated Iterator) Compliant Solution (Updated Iterator)</h2><p>在这个合规方案中，每次迭代，<code>pos</code> 被重新分配了有效的迭代器，避免了未定义行为。</p>
+<h2 id="合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator"><a class="header-anchor" href="#合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator">¶</a>合规方案 (Updated Iterator) Compliant Solution (Updated Iterator)</h2>
+<p>在这个合规方案中，每次迭代，<code>pos</code> 被重新分配了有效的迭代器，避免了未定义行为。</p>
 <p>In this compliant solution, <code>pos</code> is assigned a valid iterator on each insertion, preventing undefined behavior.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;deque&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> *items, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">deque</span>&lt;<span class="keyword">double</span>&gt; d;</span><br><span class="line">  <span class="keyword">auto</span> pos = d.<span class="built_in">begin</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; count; ++i, ++pos) &#123;</span><br><span class="line">    pos = d.insert(pos, items[i] + <span class="number">41.0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm"><a href="#合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm" class="headerlink" title="合规方案 (Generic Algorithm) Compliant Solution (Generic Algorithm)"></a>合规方案 (Generic Algorithm) Compliant Solution (Generic Algorithm)</h2><p>这个合规方案用通用标准模板库算法 <code>std::transform()</code> 替换了手写循环。<code>std::transform()</code> 的函数调用接受转换的元素范围，被转换值存储的位置 (这里是一个用于在 <code>d</code> 的起始位置插入这些值的 <code>std::inserter</code> 对象)，应用的转换函数 (这里是一个简单的 lambda 表达式)。</p>
+<h2 id="合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm"><a class="header-anchor" href="#合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm">¶</a>合规方案 (Generic Algorithm) Compliant Solution (Generic Algorithm)</h2>
+<p>这个合规方案用通用标准模板库算法 <code>std::transform()</code> 替换了手写循环。<code>std::transform()</code> 的函数调用接受转换的元素范围，被转换值存储的位置 (这里是一个用于在 <code>d</code> 的起始位置插入这些值的 <code>std::inserter</code> 对象)，应用的转换函数 (这里是一个简单的 lambda 表达式)。</p>
 <p>This compliant solution replaces the handwritten loop with the generic standard template library algorithm <code>std::transform()</code>. The call to <code>std::transform()</code> accepts the range of elements to transform, the location to store the transformed values (which, in this case, is a <code>std::inserter</code> object to insert them at the beginning of <code>d</code>), and the transformation function to apply (which, in this case, is a simple lambda).</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;deque&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iterator&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> *items, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">deque</span>&lt;<span class="keyword">double</span>&gt; d;</span><br><span class="line">  <span class="built_in">std</span>::transform(items, items + count, <span class="built_in">std</span>::inserter(d, d.<span class="built_in">begin</span>()),</span><br><span class="line">                 [](<span class="keyword">double</span> d) &#123; <span class="keyword">return</span> d + <span class="number">41.0</span>; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="风险评估-Risk-Assessment"><a href="#风险评估-Risk-Assessment" class="headerlink" title="风险评估 Risk Assessment"></a>风险评估 Risk Assessment</h2><p>使用指向容器内元素的无效的引用，指针，或者迭代器将导致未定义行为。</p>
+<h2 id="风险评估-Risk-Assessment"><a class="header-anchor" href="#风险评估-Risk-Assessment">¶</a>风险评估 Risk Assessment</h2>
+<p>使用指向容器内元素的无效的引用，指针，或者迭代器将导致未定义行为。</p>
 <p>Using invalid references, pointers, or iterators to reference elements of a container results in undefined behavior.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -528,8 +531,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h2><div class="table-container">
+<h2 id="Automated-Detection"><a class="header-anchor" href="#Automated-Detection">¶</a>Automated Detection</h2>
 <table>
 <thead>
 <tr>
@@ -550,12 +552,13 @@
 <td style="text-align:left"><a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/PVS-Studio" target="_blank" rel="noopener">PVS-Studio</a></td>
 <td style="text-align:left"><img data-src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6UFZTLVN0dWRpb19WfQ&amp;locale=zh_CN&amp;version=2" alt="img"></td>
 <td style="text-align:left"><strong><a href="https://www.viva64.com/en/w/v783/" target="_blank" rel="noopener">V783</a></strong></td>
+<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h2><p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerabil" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR51-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
-<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><div class="table-container">
+<h2 id="Related-Vulnerabilities"><a class="header-anchor" href="#Related-Vulnerabilities">¶</a>Related Vulnerabilities</h2>
+<p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerabil" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR51-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
+<h2 id="Related-Guidelines"><a class="header-anchor" href="#Related-Guidelines">¶</a>Related Guidelines</h2>
 <table>
 <thead>
 <tr>
@@ -566,11 +569,11 @@
 <tbody>
 <tr>
 <td style="text-align:left"></td>
+<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><div class="table-container">
+<h2 id="Bibliography"><a class="header-anchor" href="#Bibliography">¶</a>Bibliography</h2>
 <table>
 <thead>
 <tr>
@@ -581,7 +584,7 @@
 <tbody>
 <tr>
 <td style="text-align:left">[<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Kalev99" target="_blank" rel="noopener">Kalev 1999</a>]</td>
-<td style="text-align:left">_ANSI/ISO C++ Professional Programmer’s Handbook_</td>
+<td style="text-align:left"><em>ANSI/ISO C++ Professional Programmer’s Handbook</em></td>
 </tr>
 <tr>
 <td style="text-align:left">[<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Meyers01" target="_blank" rel="noopener">Meyers 2001</a>]</td>
@@ -593,7 +596,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <hr>
 <p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046704" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&amp;modificationDate=1216910800000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&amp;modificationDate=1216910618000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046690" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&amp;modificationDate=1216910815000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
 
@@ -606,13 +608,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\3185197214\" rel="bookmark">CTR52-CPP. 确保库函数不要溢出</a></div>
+      <div class="popular-posts-title"><a href="\posts\505389678\" rel="bookmark">CTR58-CPP. 谓词函数对象不应该是 mutable </a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2396132143\" rel="bookmark">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div>
+      <div class="popular-posts-title"><a href="\posts\2368459165\" rel="bookmark">CTR57-CPP. 提供一个有效排序的谓词</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\676034886\" rel="bookmark">CTR53-CPP. 使用有效的迭代器范围</a></div>
+      <div class="popular-posts-title"><a href="\posts\1493253227\" rel="bookmark">CTR56-CPP. 不要在多态对象上使用指针运算</a></div>
     </li>
   </ul>
 
@@ -876,12 +878,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -1050,8 +1052,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

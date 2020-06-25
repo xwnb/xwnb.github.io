@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"xwnb.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="路径规划之 A_Star (A*)A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。">
+  <meta name="description" content="路径规划之 A_Star (A*) A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="路径规划-A_Star">
 <meta property="og:url" content="https://xwnb.github.io/posts/1627378678/index.html">
 <meta property="og:site_name" content="Sun of Beach">
-<meta property="og:description" content="路径规划之 A_Star (A*)A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。">
+<meta property="og:description" content="路径规划之 A_Star (A*) A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xwnb.github.io/posts/1627378678/a_star.gif">
 <meta property="article:published_time" content="2020-06-20T06:00:16.000Z">
@@ -242,6 +242,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -299,75 +301,104 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="路径规划之-A-Star-A"><a href="#路径规划之-A-Star-A" class="headerlink" title="路径规划之 A_Star (A*)"></a>路径规划之 A_Star (A*)</h1><p>A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。</p>
+        <h1>路径规划之 A_Star (A*)</h1>
+<p>A*算法是一种基于启发式搜索的算法，该算法综合了 BFS(最佳优先搜索)和 Dijkstra 算法的优点：在进行启发式搜索提高算法效率的同时，可以保证找到一条最优路径。</p>
 <a id="more"></a>
 <p><img data-src="a_star.gif" alt="a_star.gif"></p>
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>A*算法扩展路径时，在主循环的每次迭代中，基于路当前节点到起点的成本以及将路径一直扩展到目标所需的估计成本来执行此操作。即选择最小化路径:</p>
+<h2 id="算法描述"><a class="header-anchor" href="#算法描述">¶</a>算法描述</h2>
+<p>A*算法扩展路径时，在主循环的每次迭代中，基于路当前节点到起点的成本以及将路径一直扩展到目标所需的估计成本来执行此操作。即选择最小化路径:</p>
 <blockquote>
 <p>$f(n)=g(n)+h(n)$</p>
 </blockquote>
 <p>随着路径的扩展，以扩展到的但未计算的节点放入列表 $open_table$ , 完成计算的节点放入列表 $close_table$。算法每次从 $open_table$ 中选择 $f(n)$ 最小的节点作为当前节点开始扩展。一直到找到目标点或者达到最大搜索次数而终止。</p>
 <p>该公式包含有一下特征：</p>
 <blockquote>
-<p>如果$g(n)=0$, 即只计算当前节点<code>n</code>到目标节点<code>goal</code>的估计函数$h(n)$, 而不计算起点<code>start</code>到当前节点<code>n</code>的距离，算法转换为使用贪心策略的最佳优先搜索(BFS), 搜索速度提高，但是路径不是最优的<br>如果$h(n)$不大于当前节点<code>n</code>到目标节点<code>goal</code>的实际距离，则一定能得到最优解， 且$h(n)$越小，需要计算的节点越多，算法速度降低。<br>如果$h(n)=0$, 即只需求出起点<code>start</code>到当前节点<code>n</code>的最短路径$g(n)$，而不计算任何评估函数$h(n)$，则转化为单源最短路径问题，即 Dijkstra 算法，此时需要计算最多的顶点.</p>
+<p>如果$g(n)=0$, 即只计算当前节点<code>n</code>到目标节点<code>goal</code>的估计函数$h(n)$, 而不计算起点<code>start</code>到当前节点<code>n</code>的距离，算法转换为使用贪心策略的最佳优先搜索(BFS), 搜索速度提高，但是路径不是最优的<br>
+如果$h(n)$不大于当前节点<code>n</code>到目标节点<code>goal</code>的实际距离，则一定能得到最优解， 且$h(n)$越小，需要计算的节点越多，算法速度降低。<br>
+如果$h(n)=0$, 即只需求出起点<code>start</code>到当前节点<code>n</code>的最短路径$g(n)$，而不计算任何评估函数$h(n)$，则转化为单源最短路径问题，即 Dijkstra 算法，此时需要计算最多的顶点.</p>
 </blockquote>
 <p>其中：</p>
 <blockquote>
-<p>$f(n)$: 目标函数, 规划过程即最小化 f(n)；<br>$g(n)$: 起点$start$到当前节点$n$的实际距离；<br>$h(n)$: 启发函数, 当前节点$n$到终点$goal$的估计距离；<br>$open_table$: 记录需要搜寻过的节点列表<br>$close_table$: 记录已经被搜寻过的节点列表</p>
+<p>$f(n)$: 目标函数, 规划过程即最小化 f(n)；<br>
+$g(n)$: 起点$start$到当前节点$n$的实际距离；<br>
+$h(n)$: 启发函数, 当前节点$n$到终点$goal$的估计距离；<br>
+$open_table$: 记录需要搜寻过的节点列表<br>
+$close_table$: 记录已经被搜寻过的节点列表</p>
 </blockquote>
 <p>常用的启发函数$h(n)$一般有:</p>
 <ul>
-<li><p>曼哈顿距离:</p>
+<li>
+<p>曼哈顿距离:</p>
 <blockquote>
 <p>$d_{mahattan}=|p1.x-p2.x|+|p1.y-p2.y|$</p>
 </blockquote>
 </li>
-<li><p>切比雪夫距离:</p>
+<li>
+<p>切比雪夫距离:</p>
 <blockquote>
 <p>$d_{chebyshev}=max(|p1.x-p2.x|,|p1.y-p2.y|)$</p>
 </blockquote>
 </li>
-<li><p>欧式距离:</p>
+<li>
+<p>欧式距离:</p>
 <blockquote>
-<p>$d_{euclidean}=\sqrt{(p1.x-p2.x)^2+(p1.y-p2.y)^2}$</p>
+<p>$d_{euclidean}=\sqrt{(p1.x-p2.x)<sup>2+(p1.y-p2.y)</sup>2}$</p>
 </blockquote>
 </li>
-<li><p>对角距离:</p>
+<li>
+<p>对角距离:</p>
 <blockquote>
 <p>$d_{diagonal}=(|p1.x-p2.x|+|p1.y-p2.y|)+\sqrt{2}-2\times min(|p1.x-p2.x|,|p1.y-p2.y|)$</p>
 </blockquote>
 </li>
 </ul>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
-<li><p>初始化<code>A_STAR.__init__</code>: 初始化地图，对地图图片二值化处理，网格节点划分，若网格内包含障碍物，则该网格节点标记为障碍物: <code>Node.is_obs = True</code></p>
-</li>
-<li><p>输入需要随机产生的障碍物网格个数(可选);</p>
-</li>
-<li><p>计算起点<code>qstart</code>的$h$,$g$,$f$值,这里选择 $h=d_{mahattan}$, $g=d_{diagonal}$计算.将节点放入<code>open_table</code></p>
-</li>
-<li><p>开始迭代, 若迭代次数达到上限或者<code>open_table</code>为空, 则退出迭代：</p>
+<h2 id="流程"><a class="header-anchor" href="#流程">¶</a>流程</h2>
 <ul>
-<li><p>从<code>open_table</code>列表中选择<code>f</code>值最小的节点作为当前节点,记为<code>best_node</code></p>
+<li>
+<p>初始化<code>A_STAR.__init__</code>: 初始化地图，对地图图片二值化处理，网格节点划分，若网格内包含障碍物，则该网格节点标记为障碍物: <code>Node.is_obs = True</code></p>
 </li>
-<li><p>若<code>best_node</code>为目标节点<code>goal</code>, 即找到目标, 遍历<code>best_node</code>的父节点链表并逆序, 得到完整路径, 退出算法. 否则继续下一步:</p>
+<li>
+<p>输入需要随机产生的障碍物网格个数(可选);</p>
 </li>
-<li><p>将<code>best_node</code>从<code>open_table</code>列表弹出, 并放入<code>close_table</code>列表中.</p>
+<li>
+<p>计算起点<code>qstart</code>的$h$,$g$,$f$值,这里选择 $h=d_{mahattan}$, $g=d_{diagonal}$计算.将节点放入<code>open_table</code></p>
 </li>
-<li><p>搜索<code>best_node</code>的 8 个邻接节点<code>Neighbors</code>,对其中每个邻接节点<code>neighbor</code>:</p>
+<li>
+<p>开始迭代, 若迭代次数达到上限或者<code>open_table</code>为空, 则退出迭代：</p>
 <ul>
-<li><p>若该<code>neighbor</code>在<code>close_table</code>中,或者不可达, 则跳过该<code>neighbor</code>,检查下一个邻接节点, 否则继续下一步:</p>
+<li>
+<p>从<code>open_table</code>列表中选择<code>f</code>值最小的节点作为当前节点,记为<code>best_node</code></p>
 </li>
-<li><p>计算该<code>neighbor</code>的新<code>g</code>值(<code>tentative_g</code>), 即为当前节点<code>best_node</code>的<code>g</code>值加上, 当前节点<code>best_node</code>到该邻接节点<code>neighbor</code>的实际距离:<br><code>tentative_g = best_node.g + Distance(best_node, neighbor)</code></p>
+<li>
+<p>若<code>best_node</code>为目标节点<code>goal</code>, 即找到目标, 遍历<code>best_node</code>的父节点链表并逆序, 得到完整路径, 退出算法. 否则继续下一步:</p>
 </li>
-<li><p>若该<code>neighbor</code>不在<code>open_table</code>中, 计算该<code>neighbor</code>的<code>g</code>, <code>h</code>, <code>f</code>值, 并放入<code>open_table</code>中</p>
+<li>
+<p>将<code>best_node</code>从<code>open_table</code>列表弹出, 并放入<code>close_table</code>列表中.</p>
 </li>
-<li><p>若该<code>neighbor</code>在<code>open_table</code>中:</p>
+<li>
+<p>搜索<code>best_node</code>的 8 个邻接节点<code>Neighbors</code>,对其中每个邻接节点<code>neighbor</code>:</p>
 <ul>
-<li><p>若该邻接节点<code>neighbor</code>新的<code>tentative_g</code>值比已有的<code>g</code>值小, 意味着当前节点<code>best_node</code>通过该<code>neighbor</code>可以更快的到达终点.</p>
+<li>
+<p>若该<code>neighbor</code>在<code>close_table</code>中,或者不可达, 则跳过该<code>neighbor</code>,检查下一个邻接节点, 否则继续下一步:</p>
 </li>
-<li><p>更新该<code>neighbor</code>节点的<code>g</code>值为<code>tentative_g</code>,并更新<code>f</code>值</p>
+<li>
+<p>计算该<code>neighbor</code>的新<code>g</code>值(<code>tentative_g</code>), 即为当前节点<code>best_node</code>的<code>g</code>值加上, 当前节点<code>best_node</code>到该邻接节点<code>neighbor</code>的实际距离:<br>
+<code>tentative_g = best_node.g + Distance(best_node, neighbor)</code></p>
 </li>
-<li><p>更新该该<code>neighbor</code>节点的父节点为当前节点<code>best_node</code>.</p>
+<li>
+<p>若该<code>neighbor</code>不在<code>open_table</code>中, 计算该<code>neighbor</code>的<code>g</code>, <code>h</code>, <code>f</code>值, 并放入<code>open_table</code>中</p>
+</li>
+<li>
+<p>若该<code>neighbor</code>在<code>open_table</code>中:</p>
+<ul>
+<li>
+<p>若该邻接节点<code>neighbor</code>新的<code>tentative_g</code>值比已有的<code>g</code>值小, 意味着当前节点<code>best_node</code>通过该<code>neighbor</code>可以更快的到达终点.</p>
+</li>
+<li>
+<p>更新该<code>neighbor</code>节点的<code>g</code>值为<code>tentative_g</code>,并更新<code>f</code>值</p>
+</li>
+<li>
+<p>更新该该<code>neighbor</code>节点的父节点为当前节点<code>best_node</code>.</p>
 </li>
 </ul>
 </li>
@@ -376,9 +407,13 @@
 </ul>
 </li>
 </ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pos)</span>:</span></span><br><span class="line">        self.pos = pos          <span class="comment"># 当前节点的位置坐标</span></span><br><span class="line">        self.g = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的g(n),g_score</span></span><br><span class="line">        self.h = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的的h(n),h_score</span></span><br><span class="line">        self.f = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的的f(n), f_score</span></span><br><span class="line">        self.p = <span class="literal">None</span>           <span class="comment"># 当前节点的父节点</span></span><br><span class="line">        self.is_obs = <span class="literal">False</span>     <span class="comment"># 当前节点是否是障碍物</span></span><br></pre></td></tr></table></figure>
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">map_path:   地图图片路径</span></span><br><span class="line"><span class="string">qstart:     起点坐标 [row, col]</span></span><br><span class="line"><span class="string">qgoal:      目标点坐标 [row, col]</span></span><br><span class="line"><span class="string">grid_size:  网格大小（用来碰撞检测）</span></span><br><span class="line"><span class="string">max_steps:  最大扩展节点数</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">a_star = A_STAR(map_path, qstart, qgoal, grid_size, max_steps)</span><br></pre></td></tr></table></figure>
-<h3 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Planning</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">    color_close = (random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                   random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                   random.randint(<span class="number">0</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">    color_open = (random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                  random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                  random.randint(<span class="number">0</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># input numbers of obstacle grid if necessary</span></span><br><span class="line">    num = input(<span class="string">"input obstacle numbers: "</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        input_num = eval(num)</span><br><span class="line">        <span class="keyword">if</span> type(input_num) == int:</span><br><span class="line">            obstacle_set = self.AddObstacle(input_num)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># init qstart node</span></span><br><span class="line">    self.qstart.g = <span class="number">0</span></span><br><span class="line">    self.qstart.h = self.HScore(self.qstart)</span><br><span class="line">    self.qstart.f = self.FScore(self.qstart)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># init open_table and close_table</span></span><br><span class="line">    self.open_table = set()</span><br><span class="line">    self.close_table = set()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># add start node into open_table</span></span><br><span class="line">    self.open_table.add(self.qstart)</span><br><span class="line"></span><br><span class="line">    k = <span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt; self.max_steps <span class="keyword">or</span> len(self.open_table) != <span class="number">0</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># get the node in open_table having the lowest f_score value</span></span><br><span class="line">        best_node = min(self.open_table, key=<span class="keyword">lambda</span> node: node.f)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># reach the goal node</span></span><br><span class="line">        <span class="keyword">if</span> best_node.pos == self.qgoal.pos:</span><br><span class="line">            print(<span class="string">"Found"</span>)</span><br><span class="line">            self.FindPath()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># remove the best node in open table and add it into close table</span></span><br><span class="line">        self.open_table.remove(best_node)</span><br><span class="line">        self.close_table.add(best_node)</span><br><span class="line">        self.DrawGrid(best_node.pos, color_close)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># traversal the neighbors of best node</span></span><br><span class="line">        <span class="keyword">for</span> neighbor <span class="keyword">in</span> self.Neighbors(best_node):</span><br><span class="line"></span><br><span class="line">            <span class="comment"># if neighbor is in close table or is collision, skip</span></span><br><span class="line">            <span class="keyword">if</span> neighbor <span class="keyword">in</span> self.close_table <span class="keyword">or</span> self.CollisionFree(best_node, neighbor) == <span class="literal">False</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># calculate the tentative_g which is the distance from start to the neighbor through best_node</span></span><br><span class="line">            tentative_g = self.GScore(best_node, neighbor)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># check the neighbor is in open table or not</span></span><br><span class="line">            <span class="keyword">if</span> neighbor <span class="keyword">not</span> <span class="keyword">in</span> self.open_table:</span><br><span class="line">                <span class="comment"># if neighbor not in open table,</span></span><br><span class="line">                <span class="comment"># then calculate the g, h, f values and add it into open table</span></span><br><span class="line">                neighbor.g = tentative_g</span><br><span class="line">                neighbor.h = self.HScore(neighbor)</span><br><span class="line">                neighbor.f = self.FScore(neighbor)</span><br><span class="line">                neighbor.p = best_node</span><br><span class="line">                self.open_table.add(neighbor)</span><br><span class="line">                self.DrawGrid(neighbor.pos, color_open)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># if neighbor in open table,</span></span><br><span class="line">                <span class="comment"># then compare the tentative_g and neighbor.g</span></span><br><span class="line">                <span class="keyword">if</span> tentative_g &lt; neighbor.g:</span><br><span class="line">                    <span class="comment"># the path from best_node to neighbor is better than previous</span></span><br><span class="line">                    neighbor.g = tentative_g</span><br><span class="line">                    neighbor.f = self.FScore(neighbor)</span><br><span class="line">                    neighbor.p = best_node</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"Not Found"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="实现"><a class="header-anchor" href="#实现">¶</a>实现</h2>
+<h3 id="数据结构"><a class="header-anchor" href="#数据结构">¶</a>数据结构</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pos)</span>:</span></span><br><span class="line">        self.pos = pos          <span class="comment"># 当前节点的位置坐标</span></span><br><span class="line">        self.g = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的g(n),g_score</span></span><br><span class="line">        self.h = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的的h(n),h_score</span></span><br><span class="line">        self.f = float(<span class="string">'inf'</span>)   <span class="comment"># 当前节点的的f(n), f_score</span></span><br><span class="line">        self.p = <span class="literal">None</span>           <span class="comment"># 当前节点的父节点</span></span><br><span class="line">        self.is_obs = <span class="literal">False</span>     <span class="comment"># 当前节点是否是障碍物</span></span><br></pre></td></tr></table></figure>
+<h3 id="接口"><a class="header-anchor" href="#接口">¶</a>接口</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">map_path:   地图图片路径</span></span><br><span class="line"><span class="string">qstart:     起点坐标 [row, col]</span></span><br><span class="line"><span class="string">qgoal:      目标点坐标 [row, col]</span></span><br><span class="line"><span class="string">grid_size:  网格大小（用来碰撞检测）</span></span><br><span class="line"><span class="string">max_steps:  最大扩展节点数</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">a_star = A_STAR(map_path, qstart, qgoal, grid_size, max_steps)</span><br></pre></td></tr></table></figure>
+<h3 id="Planning"><a class="header-anchor" href="#Planning">¶</a>Planning</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Planning</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">    color_close = (random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                   random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                   random.randint(<span class="number">0</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">    color_open = (random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                  random.randint(<span class="number">0</span>, <span class="number">255</span>),</span><br><span class="line">                  random.randint(<span class="number">0</span>, <span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># input numbers of obstacle grid if necessary</span></span><br><span class="line">    num = input(<span class="string">"input obstacle numbers: "</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        input_num = eval(num)</span><br><span class="line">        <span class="keyword">if</span> type(input_num) == int:</span><br><span class="line">            obstacle_set = self.AddObstacle(input_num)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># init qstart node</span></span><br><span class="line">    self.qstart.g = <span class="number">0</span></span><br><span class="line">    self.qstart.h = self.HScore(self.qstart)</span><br><span class="line">    self.qstart.f = self.FScore(self.qstart)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># init open_table and close_table</span></span><br><span class="line">    self.open_table = set()</span><br><span class="line">    self.close_table = set()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># add start node into open_table</span></span><br><span class="line">    self.open_table.add(self.qstart)</span><br><span class="line"></span><br><span class="line">    k = <span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt; self.max_steps <span class="keyword">or</span> len(self.open_table) != <span class="number">0</span>:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># get the node in open_table having the lowest f_score value</span></span><br><span class="line">        best_node = min(self.open_table, key=<span class="keyword">lambda</span> node: node.f)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># reach the goal node</span></span><br><span class="line">        <span class="keyword">if</span> best_node.pos == self.qgoal.pos:</span><br><span class="line">            print(<span class="string">"Found"</span>)</span><br><span class="line">            self.FindPath()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># remove the best node in open table and add it into close table</span></span><br><span class="line">        self.open_table.remove(best_node)</span><br><span class="line">        self.close_table.add(best_node)</span><br><span class="line">        self.DrawGrid(best_node.pos, color_close)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># traversal the neighbors of best node</span></span><br><span class="line">        <span class="keyword">for</span> neighbor <span class="keyword">in</span> self.Neighbors(best_node):</span><br><span class="line"></span><br><span class="line">            <span class="comment"># if neighbor is in close table or is collision, skip</span></span><br><span class="line">            <span class="keyword">if</span> neighbor <span class="keyword">in</span> self.close_table <span class="keyword">or</span> self.CollisionFree(best_node, neighbor) == <span class="literal">False</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># calculate the tentative_g which is the distance from start to the neighbor through best_node</span></span><br><span class="line">            tentative_g = self.GScore(best_node, neighbor)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># check the neighbor is in open table or not</span></span><br><span class="line">            <span class="keyword">if</span> neighbor <span class="keyword">not</span> <span class="keyword">in</span> self.open_table:</span><br><span class="line">                <span class="comment"># if neighbor not in open table,</span></span><br><span class="line">                <span class="comment"># then calculate the g, h, f values and add it into open table</span></span><br><span class="line">                neighbor.g = tentative_g</span><br><span class="line">                neighbor.h = self.HScore(neighbor)</span><br><span class="line">                neighbor.f = self.FScore(neighbor)</span><br><span class="line">                neighbor.p = best_node</span><br><span class="line">                self.open_table.add(neighbor)</span><br><span class="line">                self.DrawGrid(neighbor.pos, color_open)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># if neighbor in open table,</span></span><br><span class="line">                <span class="comment"># then compare the tentative_g and neighbor.g</span></span><br><span class="line">                <span class="keyword">if</span> tentative_g &lt; neighbor.g:</span><br><span class="line">                    <span class="comment"># the path from best_node to neighbor is better than previous</span></span><br><span class="line">                    neighbor.g = tentative_g</span><br><span class="line">                    neighbor.f = self.FScore(neighbor)</span><br><span class="line">                    neighbor.p = best_node</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"Not Found"</span>)</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -389,13 +424,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2955947163\" rel="bookmark">路径规划-RRT</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\367356294\" rel="bookmark">路径规划-LPA_Star</a></div>
+      <div class="popular-posts-title"><a href="\posts\3092301982\" rel="bookmark">路径规划-RRT_Star</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\posts\2708526344\" rel="bookmark">路径规划-RRT_Connect</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\367356294\" rel="bookmark">路径规划-LPA_Star</a></div>
     </li>
   </ul>
 
@@ -560,7 +595,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#路径规划之-A-Star-A"><span class="nav-text">路径规划之 A_Star (A*)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述"><span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planning"><span class="nav-text">Planning</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">路径规划之 A_Star (A*)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述"><span class="nav-text">算法描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planning"><span class="nav-text">Planning</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -658,12 +693,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -887,8 +922,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

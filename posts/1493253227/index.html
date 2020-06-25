@@ -250,6 +250,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -306,10 +308,10 @@
 <p><a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR56-CPP.+Do+not+use+pointer+arithmetic+on+polymorphic+objects" target="_blank" rel="noopener">https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR56-CPP.+Do+not+use+pointer+arithmetic+on+polymorphic+objects</a></p>
 <a id="more"></a>
 <hr>
-<p>来自 C++ 标准的 _指针运算_ 的定义，[expr.add], paragraph 7 [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014" target="_blank" rel="noopener">ISO/IEC 14882-2014</a>]，陈述如下：</p>
-<p>The definition of _pointer arithmetic_ from the C++ Standard, [expr.add], paragraph 7 [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014" target="_blank" rel="noopener">ISO/IEC 14882-2014</a>], states the following:</p>
+<p>来自 C++ 标准的 <em>指针运算</em> 的定义，[expr.add], paragraph 7 [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014" target="_blank" rel="noopener">ISO/IEC 14882-2014</a>]，陈述如下：</p>
+<p>The definition of <em>pointer arithmetic</em> from the C++ Standard, [expr.add], paragraph 7 [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014" target="_blank" rel="noopener">ISO/IEC 14882-2014</a>], states the following:</p>
 <blockquote>
-<p>For addition or subtraction, if the expressions <code>P</code> or <code>Q</code> have type “pointer to _cv_ <code>T</code>”, where <code>T</code> is different from the cv-unqualified array element type, the behavior is undefined. [<em>Note:</em> In particular, a pointer to a base class cannot be used for pointer arithmetic when the array contains objects of a derived class type. —<em>end note</em>]</p>
+<p>For addition or subtraction, if the expressions <code>P</code> or <code>Q</code> have type “pointer to <em>cv</em> <code>T</code>”, where <code>T</code> is different from the cv-unqualified array element type, the behavior is undefined. [<em>Note:</em> In particular, a pointer to a base class cannot be used for pointer arithmetic when the array contains objects of a derived class type. —<em>end note</em>]</p>
 </blockquote>
 <p>指针运算不考虑多态对象的大小，试图在多态对象上运用指针运算将导致<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>。</p>
 <p>C++ 标准, [expr.sub], paragraph 1 [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014" target="_blank" rel="noopener">ISO/IEC 14882-2014</a>], 定义了数组下标操作被视为指针运算。特别地，它陈述如下：</p>
@@ -323,23 +325,27 @@
 <p>Do not use pointer arithmetic, including array subscripting, on polymorphic objects.</p>
 <p>The following code examples assume the following static variables and class definitions.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> globI;</span><br><span class="line"><span class="keyword">double</span> globD;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">  S() : i(globI++) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">T</span> :</span> S &#123;</span><br><span class="line">  <span class="keyword">double</span> d;</span><br><span class="line"></span><br><span class="line">  T() : S(), d(globD++) &#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="不合规的代码示例-指针运算-Noncompliant-Code-Example-Pointer-Arithmetic"><a href="#不合规的代码示例-指针运算-Noncompliant-Code-Example-Pointer-Arithmetic" class="headerlink" title="不合规的代码示例 (指针运算) Noncompliant Code Example (Pointer Arithmetic)"></a>不合规的代码示例 (指针运算) Noncompliant Code Example (Pointer Arithmetic)</h2><p>在这个不合规的代码示例中，<code>f()</code> 接受一个 <code>S</code> 对象的数据作为第一个形参。然而，<code>main()</code> 传递了 <code>T</code> 对象的数组作为 <code>f()</code> 的实参，这将造成 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a> ，因为 <code>for</code> 循环中使用了指针运算。</p>
+<h2 id="不合规的代码示例-指针运算-Noncompliant-Code-Example-Pointer-Arithmetic"><a class="header-anchor" href="#不合规的代码示例-指针运算-Noncompliant-Code-Example-Pointer-Arithmetic">¶</a>不合规的代码示例 (指针运算) Noncompliant Code Example (Pointer Arithmetic)</h2>
+<p>在这个不合规的代码示例中，<code>f()</code> 接受一个 <code>S</code> 对象的数据作为第一个形参。然而，<code>main()</code> 传递了 <code>T</code> 对象的数组作为 <code>f()</code> 的实参，这将造成 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a> ，因为 <code>for</code> 循环中使用了指针运算。</p>
 <p>In this noncompliant code example, <code>f()</code> accepts an array of <code>S</code> objects as its first parameter. However, <code>main()</code> passes an array of <code>T</code> objects as the first argument to <code>f()</code>, which results in <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a> due to the pointer arithmetic used within the <code>for</code> loop.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ... definitions for S, T, globI, globD ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> S *someSes, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> S *<span class="built_in">end</span> = someSes + count; someSes != <span class="built_in">end</span>; ++someSes) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; someSes-&gt;i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  T test[<span class="number">5</span>];</span><br><span class="line">  f(test, <span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="不合规的代码示例-数组下标操作-Noncompliant-Code-Example-Array-Subscripting"><a href="#不合规的代码示例-数组下标操作-Noncompliant-Code-Example-Array-Subscripting" class="headerlink" title="不合规的代码示例 (数组下标操作) Noncompliant Code Example (Array Subscripting)"></a>不合规的代码示例 (数组下标操作) Noncompliant Code Example (Array Subscripting)</h2><p>在这个不合规的代码示例中，<code>for</code> 循环使用了数组下标操作。因为数组下标操作使用了指针运算，这份代码也导致未定义行为。</p>
+<h2 id="不合规的代码示例-数组下标操作-Noncompliant-Code-Example-Array-Subscripting"><a class="header-anchor" href="#不合规的代码示例-数组下标操作-Noncompliant-Code-Example-Array-Subscripting">¶</a>不合规的代码示例 (数组下标操作) Noncompliant Code Example (Array Subscripting)</h2>
+<p>在这个不合规的代码示例中，<code>for</code> 循环使用了数组下标操作。因为数组下标操作使用了指针运算，这份代码也导致未定义行为。</p>
 <p>In this noncompliant code example, the <code>for</code> loop uses array subscripting. Since array subscripts are computed using pointer arithmetic, this code also results in undefined behavior.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ... definitions for S, T, globI, globD ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> S *someSes, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">std</span>::<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; someSes[i].i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  T test[<span class="number">5</span>];</span><br><span class="line">  f(test, <span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-数组-Compliant-Solution-Array"><a href="#合规方案-数组-Compliant-Solution-Array" class="headerlink" title="合规方案 (数组) Compliant Solution (Array)"></a>合规方案 (数组) Compliant Solution (Array)</h2><p>替换具有对象数组，指针数组解决了不同对象大小不同的问题，如这个合规方案。</p>
+<h2 id="合规方案-数组-Compliant-Solution-Array"><a class="header-anchor" href="#合规方案-数组-Compliant-Solution-Array">¶</a>合规方案 (数组) Compliant Solution (Array)</h2>
+<p>替换具有对象数组，指针数组解决了不同对象大小不同的问题，如这个合规方案。</p>
 <p>Instead of having an array of objects, an array of pointers solves the problem of the objects being of different sizes, as in this compliant solution.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ... definitions for S, T, globI, globD ...</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> S * <span class="keyword">const</span> *someSes, <span class="built_in">std</span>::<span class="keyword">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> S * <span class="keyword">const</span> *<span class="built_in">end</span> = someSes + count; someSes != <span class="built_in">end</span>; ++someSes) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; (*someSes)-&gt;i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  S *test[] = &#123;<span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T&#125;;</span><br><span class="line">  f(test, <span class="number">5</span>);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> v : test) &#123;</span><br><span class="line">    <span class="keyword">delete</span> v;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>数组里面的元素不在是多态对象 (而是指向多态对象的指针)。所以这里的指针运算不会有 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>。</p>
 <p>The elements in the arrays are no longer polymorphic objects (instead, they are pointers to polymorphic objects), and so there is no <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a> with the pointer arithmetic.</p>
-<h2 id="合规方案-std-vector-Compliant-Solution-std-vector"><a href="#合规方案-std-vector-Compliant-Solution-std-vector" class="headerlink" title="合规方案 (std::vector) Compliant Solution (std::vector)"></a>合规方案 (<code>std::vector</code>) Compliant Solution (<code>std::vector</code>)</h2><p>另外一种方法是使用标准模板库 (STL) 容器来替换数组。并且该方法的 <code>f()</code> 接收迭代器作为形参，如该合规方案。然而，因为 STL 容器需要同构元素，因此容器内依然需要指针。</p>
+<h2 id="合规方案-std-vector-Compliant-Solution-std-vector"><a class="header-anchor" href="#合规方案-std-vector-Compliant-Solution-std-vector">¶</a>合规方案 (<code>std::vector</code>) Compliant Solution (<code>std::vector</code>)</h2>
+<p>另外一种方法是使用标准模板库 (STL) 容器来替换数组。并且该方法的 <code>f()</code> 接收迭代器作为形参，如该合规方案。然而，因为 STL 容器需要同构元素，因此容器内依然需要指针。</p>
 <p>Another approach is to use a standard template library (STL) container instead of an array and have <code>f()</code> accept iterators as parameters, as in this compliant solution. However, because STL containers require homogeneous elements, pointers are still required within the container.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ... definitions for S, T, globI, globD ...</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Iter&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Iter i, Iter e)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (; i != e; ++i) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; (*i)-&gt;i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;S *&gt; test&#123;<span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T, <span class="keyword">new</span> T&#125;;</span><br><span class="line">  f(test.cbegin(), test.cend());</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> v : test) &#123;</span><br><span class="line">    <span class="keyword">delete</span> v;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="风险指针-Risk-Assessment"><a href="#风险指针-Risk-Assessment" class="headerlink" title="风险指针 Risk Assessment"></a>风险指针 Risk Assessment</h2><p>使用多态类型地数组会造成内存崩溃，这会导致攻击者能够执行任意代码。</p>
+<h2 id="风险指针-Risk-Assessment"><a class="header-anchor" href="#风险指针-Risk-Assessment">¶</a>风险指针 Risk Assessment</h2>
+<p>使用多态类型地数组会造成内存崩溃，这会导致攻击者能够执行任意代码。</p>
 <p>Using arrays polymorphically can result in memory corruption, which could lead to an attacker being able to execute arbitrary code.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -362,8 +368,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h2><div class="table-container">
+<h2 id="Automated-Detection"><a class="header-anchor" href="#Automated-Detection">¶</a>Automated Detection</h2>
 <table>
 <thead>
 <tr>
@@ -377,7 +382,7 @@
 <tr>
 <td style="text-align:left"><a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/Axivion+Bauhaus+Suite" target="_blank" rel="noopener">Axivion Bauhaus Suite</a></td>
 <td style="text-align:left"><img data-src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6QXhpdmlvbiBCYXVoYXVzIFN1aXRlX1Z9&amp;locale=zh_CN&amp;version=2" alt="img"></td>
-<td style="text-align:left"><strong>CertC++-CTR56</strong></td>
+<td style="text-align:left"><strong>CertC+±CTR56</strong></td>
 <td style="text-align:left"></td>
 </tr>
 <tr>
@@ -402,12 +407,13 @@
 <td style="text-align:left"><a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/PVS-Studio" target="_blank" rel="noopener">PVS-Studio</a></td>
 <td style="text-align:left"><img data-src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6UFZTLVN0dWRpb19WfQ&amp;locale=zh_CN&amp;version=2" alt="img"></td>
 <td style="text-align:left"><strong><a href="https://www.viva64.com/en/w/v777/" target="_blank" rel="noopener">V777</a></strong></td>
+<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h2><p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerabil" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR39-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
-<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><div class="table-container">
+<h2 id="Related-Vulnerabilities"><a class="header-anchor" href="#Related-Vulnerabilities">¶</a>Related Vulnerabilities</h2>
+<p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerabil" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR39-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
+<h2 id="Related-Guidelines"><a class="header-anchor" href="#Related-Guidelines">¶</a>Related Guidelines</h2>
 <table>
 <thead>
 <tr>
@@ -418,11 +424,11 @@
 <tbody>
 <tr>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><div class="table-container">
+<h2 id="Bibliography"><a class="header-anchor" href="#Bibliography">¶</a>Bibliography</h2>
 <table>
 <thead>
 <tr>
@@ -449,7 +455,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <hr>
 <p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046720" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&amp;modificationDate=1216910800000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&amp;modificationDate=1216910618000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046458" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&amp;modificationDate=1216910815000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
 
@@ -462,13 +467,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\39044419\" rel="bookmark">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</a></div>
+      <div class="popular-posts-title"><a href="\posts\505389678\" rel="bookmark">CTR58-CPP. 谓词函数对象不应该是 mutable </a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\3185197214\" rel="bookmark">CTR52-CPP. 确保库函数不要溢出</a></div>
+      <div class="popular-posts-title"><a href="\posts\2368459165\" rel="bookmark">CTR57-CPP. 提供一个有效排序的谓词</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2396132143\" rel="bookmark">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div>
+      <div class="popular-posts-title"><a href="\posts\3996505531\" rel="bookmark">CTR55-CPP. 不要使用对迭代器使用加法运算如果结果会溢出</a></div>
     </li>
   </ul>
 
@@ -732,12 +737,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -906,8 +911,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

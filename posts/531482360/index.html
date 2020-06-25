@@ -246,6 +246,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -284,7 +286,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>1.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -310,18 +312,26 @@
 <hr>
 <p>[TOC]</p>
 <hr>
-<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a>新建工程</h2><ol>
-<li><p>创建一个控制台应用，指定一个自己的归档路径。过程不叙述了。这里，我新建了一个<code>car-controller</code> 文件夹（和 <code>AirSim</code> 项目不在一起）。工程就叫做 <code>CarController</code>.</p>
+<h2 id="新建工程"><a class="header-anchor" href="#新建工程">¶</a>新建工程</h2>
+<ol>
+<li>
+<p>创建一个控制台应用，指定一个自己的归档路径。过程不叙述了。这里，我新建了一个<code>car-controller</code> 文件夹（和 <code>AirSim</code> 项目不在一起）。工程就叫做 <code>CarController</code>.</p>
 <p><img data-src="image-20200607165137306.png" alt="image-20200607165137306"></p>
 </li>
-<li><p>把示例程序 <code>HelloCar</code> 的源码拷贝过来，不用想，这里肯定都是满屏的错误。</p>
+<li>
+<p>把示例程序 <code>HelloCar</code> 的源码拷贝过来，不用想，这里肯定都是满屏的错误。</p>
 </li>
-<li>整个过程其实和配置 <code>OpenCV</code>的过程差不多，开始配置项目工程属性，进入 <code>项目</code> -&gt; <code>属性</code>。</li>
+<li>
+<p>整个过程其实和配置 <code>OpenCV</code>的过程差不多，开始配置项目工程属性，进入 <code>项目</code> -&gt; <code>属性</code>。</p>
+</li>
 </ol>
-<h2 id="添加附加包含目录"><a href="#添加附加包含目录" class="headerlink" title="添加附加包含目录"></a>添加附加包含目录</h2><ol>
-<li><p><code>配置属性</code> -&gt; <code>C/C++</code> -&gt; <code>常规</code> -&gt; <code>附加包含目录</code></p>
+<h2 id="添加附加包含目录"><a class="header-anchor" href="#添加附加包含目录">¶</a>添加附加包含目录</h2>
+<ol>
+<li>
+<p><code>配置属性</code> -&gt; <code>C/C++</code> -&gt; <code>常规</code> -&gt; <code>附加包含目录</code></p>
 </li>
-<li><p>添加如下三个包含目录，在 <code>AirSim</code> 工程内。我这里是 <code>D:\dev\airsim_ws\airsim</code></p>
+<li>
+<p>添加如下三个包含目录，在 <code>AirSim</code> 工程内。我这里是 <code>D:\dev\airsim_ws\airsim</code></p>
 <blockquote>
 <p><code>$(airsim项目目录)\AirLib\deps\rpclib\include</code></p>
 <p><code>$(airsim项目目录)\AirLib\deps\eigen3</code></p>
@@ -330,17 +340,21 @@
 <p><img data-src="image-20200607170319035.png" alt="image-20200607170319035"></p>
 </li>
 </ol>
-<h2 id="添加附加库目录"><a href="#添加附加库目录" class="headerlink" title="添加附加库目录"></a>添加附加库目录</h2><ol>
-<li><p><code>配置属性</code> -&gt; <code>链接器</code> -&gt; <code>常规</code> -&gt; <code>附加库目录</code></p>
+<h2 id="添加附加库目录"><a class="header-anchor" href="#添加附加库目录">¶</a>添加附加库目录</h2>
+<ol>
+<li>
+<p><code>配置属性</code> -&gt; <code>链接器</code> -&gt; <code>常规</code> -&gt; <code>附加库目录</code></p>
 </li>
-<li><p>添加如下三个包含库目录，在 <code>AirSim</code> 工程内。</p>
+<li>
+<p>添加如下三个包含库目录，在 <code>AirSim</code> 工程内。</p>
 <blockquote>
 <p><code>$(airsim项目目录)\AirLib\lib\$(Platform)\$(Configuration)</code></p>
 <p><code>$(airsim项目目录)\AirLib\deps\rpclib\lib\$(Platform)\$(Configuration)</code></p>
 <p><code>$(airsim项目目录)\AirLib\deps\MavLinkCom\lib\$(Platform)\$(Configuration)</code></p>
 </blockquote>
 </li>
-<li><p><strong>PS</strong>: 因为 <code>Windows</code> 下的库区分 <code>Debug</code> 和 <code>Release</code>模式，还有 <code>x86</code> 和 <code>x64</code> 连个平台。</p>
+<li>
+<p><strong>PS</strong>: 因为 <code>Windows</code> 下的库区分 <code>Debug</code> 和 <code>Release</code>模式，还有 <code>x86</code> 和 <code>x64</code> 连个平台。</p>
 <blockquote>
 <p><code>$(Platform)</code> : 这个就是区分 <code>Debug</code> 和 <code>Release</code>的</p>
 <p><code>$(Configuration)</code> : 这个区分 <code>x86</code>还是 <code>x64</code>的</p>
@@ -348,20 +362,25 @@
 </li>
 </ol>
 <p><img data-src="image-20200607171024035.png" alt="image-20200607171024035"></p>
-<h2 id="配置附加依赖项"><a href="#配置附加依赖项" class="headerlink" title="配置附加依赖项"></a>配置附加依赖项</h2><p>完成上一步，这时候代码应该不会冒红了，但是编译还是过不了的。会包 <code>LNK2019</code> 无法解析的外部符号的错误，因为依赖库找不到。</p>
+<h2 id="配置附加依赖项"><a class="header-anchor" href="#配置附加依赖项">¶</a>配置附加依赖项</h2>
+<p>完成上一步，这时候代码应该不会冒红了，但是编译还是过不了的。会包 <code>LNK2019</code> 无法解析的外部符号的错误，因为依赖库找不到。</p>
 <ol>
-<li><p><code>配置属性</code> -&gt; <code>链接器</code> -&gt; <code>输入</code> -&gt; <code>附加依赖项</code></p>
+<li>
+<p><code>配置属性</code> -&gt; <code>链接器</code> -&gt; <code>输入</code> -&gt; <code>附加依赖项</code></p>
 </li>
-<li><p>添加库，上一步的三个 <code>lib</code> 文件夹下的库都需要添加进去。<strong>PS</strong>: 还有一种方法针对很多库的，比如 <code>OpenCV</code> 是不是在这里要添加很多库，有些时候还会漏掉导致工程编译失败。这里也又一个小技巧，就是用通配符，把指定目录下的所有 lib 都添加进来。</p>
+<li>
+<p>添加库，上一步的三个 <code>lib</code> 文件夹下的库都需要添加进去。<strong>PS</strong>: 还有一种方法针对很多库的，比如 <code>OpenCV</code> 是不是在这里要添加很多库，有些时候还会漏掉导致工程编译失败。这里也又一个小技巧，就是用通配符，把指定目录下的所有 lib 都添加进来。</p>
 <blockquote>
 <p><code>$(airsim项目目录)\AirLib\deps\rpclib\lib\$(Platform)\$(Configuration)\*.lib</code> &gt; <code>$(airsim项目目录)\AirLib\deps\MavLinkCom\lib\$(Platform)\$(Configuration)\*.lib</code> &gt; <code>$(airsim项目目录)\AirLib\lib\$(Platform)\$(Configuration)\*.lib</code></p>
 </blockquote>
 </li>
 </ol>
 <p><img data-src="image-20200607175949310.png" alt="image-20200607175949310"></p>
-<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><p>工程配置： <code>Debug</code>, <code>x64</code>。例程再次跑起来了。</p>
+<h2 id="编译运行"><a class="header-anchor" href="#编译运行">¶</a>编译运行</h2>
+<p>工程配置： <code>Debug</code>, <code>x64</code>。例程再次跑起来了。</p>
 <p><img data-src="image-20200607182009709.png" alt="image-20200607182009709"></p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>其实到这里，如果有编译好的库和插件，其实都不需要下载 UE （除非要自定义场景）或者源码编译。</p>
+<h2 id="其他"><a class="header-anchor" href="#其他">¶</a>其他</h2>
+<p>其实到这里，如果有编译好的库和插件，其实都不需要下载 UE （除非要自定义场景）或者源码编译。</p>
 <p>这里把我编译好的库文件和插件上传了，可自行下载:</p>
 <blockquote>
 <p>AirLib-v1.3.1-vs2019.zip</p>
@@ -370,7 +389,8 @@
 <p>地图的话，在官方的 <code>github</code> 上可以自己<a href="https://github.com/microsoft/AirSim/releases" target="_blank" rel="noopener">下载</a>: <a href="https://github.com/microsoft/AirSim/releases" target="_blank" rel="noopener">https://github.com/microsoft/AirSim/releases</a>，里面是打包好的应用程序，双击就可以运行，可以下载一个小地图试试。</p>
 <p><strong>PS</strong>：如果是汽车的话就不要下载 <code>ZhangJiaJie</code>那幅图了，给无人机用的，车开不了。</p>
 <p><img data-src="image-20200607183454753.png" alt="image-20200607183454753"></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>接下去就要开始正真的开发使用了……</p>
+<h2 id="最后"><a class="header-anchor" href="#最后">¶</a>最后</h2>
+<p>接下去就要开始正真的开发使用了……</p>
 
     </div>
 
@@ -381,13 +401,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\4243726933\" rel="bookmark">自动驾驶仿真 - AirSim (1) - Windows 10 下安装仿真平台 AirSim - v1.3.1</a></div>
+      <div class="popular-posts-title"><a href="\posts\954477841\" rel="bookmark">自动驾驶仿真 - AirSim (9) - 如何在 AirSim 使用雷达</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2194771931\" rel="bookmark">自动驾驶仿真 - AirSim (2) - 创建并设置 Unreal Engine 环境</a></div>
+      <div class="popular-posts-title"><a href="\posts\3783722863\" rel="bookmark">自动驾驶仿真 - AirSim (8) - AirSim 传感器</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\1307933338\" rel="bookmark">自动驾驶仿真 - AirSim (4) - 核心 APIs - C++</a></div>
+      <div class="popular-posts-title"><a href="\posts\2251441435\" rel="bookmark">自动驾驶仿真 - AirSim(7) - AirSim 多载具</a></div>
     </li>
   </ul>
 
@@ -649,12 +669,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -823,8 +843,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

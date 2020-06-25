@@ -239,6 +239,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -277,7 +279,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.4k</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -299,35 +301,140 @@
         <p><code>controller_manager</code>提供硬实时兼容的环来控制的机械手,由一个<code>hardware_interface::RobotHW</code>实例代表(参见<code>hardware_interface</code>包).该<code>controller_manager</code>提供了加载,卸载,启动和停止控制器的基本结构.</p>
 <a id="more"></a>
 <p>当加载一个控制器时,<code>controller_manager</code>将使用控制器名作为所有控制器特定参数的<code>root</code>,最重要的是,<code>type</code>用于标识要加载哪个插件.</p>
-<h2 id="控制器运行的工具-Tools-for-running-controllers"><a href="#控制器运行的工具-Tools-for-running-controllers" class="headerlink" title="控制器运行的工具(Tools for running controllers)"></a>控制器运行的工具(<code>Tools for running controllers</code>)</h2><p>控制器管理器提供的与控制器进行交互的基本结构.根据控制器从启动文件,命令行,或者<code>ROS</code>节点运行,控制管理器提供不同的工具来运行控制器.</p>
+<h2 id="控制器运行的工具-Tools-for-running-controllers"><a class="header-anchor" href="#控制器运行的工具-Tools-for-running-controllers">¶</a>控制器运行的工具(<code>Tools for running controllers</code>)</h2>
+<p>控制器管理器提供的与控制器进行交互的基本结构.根据控制器从启动文件,命令行,或者<code>ROS</code>节点运行,控制管理器提供不同的工具来运行控制器.</p>
 <p><a href="http://wiki.ros.org/controller_manager?action=AttachFile&amp;do=get&amp;target=controller+state.png">controller_manager</a></p>
-<h2 id="命令行工具-Command-line-tools"><a href="#命令行工具-Command-line-tools" class="headerlink" title="命令行工具(Command-line tools)"></a>命令行工具(<code>Command-line tools</code>)</h2><h3 id="控制管理器-controller-manager"><a href="#控制管理器-controller-manager" class="headerlink" title="控制管理器(controller_manager)"></a>控制管理器(<code>controller_manager</code>)</h3><p>使用<code>controller_manager</code>工具与从命令行运行的控制器交互.要与特定的控制器进行交互,可以使用:</p>
+<h2 id="命令行工具-Command-line-tools"><a class="header-anchor" href="#命令行工具-Command-line-tools">¶</a>命令行工具(<code>Command-line tools</code>)</h2>
+<h3 id="控制管理器-controller-manager"><a class="header-anchor" href="#控制管理器-controller-manager">¶</a>控制管理器(<code>controller_manager</code>)</h3>
+<p>使用<code>controller_manager</code>工具与从命令行运行的控制器交互.要与特定的控制器进行交互,可以使用:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_manager &lt;<span class="built_in">command</span>&gt; &lt;controller_name&gt;</span><br></pre></td></tr></table></figure>
-<p>以下命令可用:<br>| | |<br>| :—————— | :—————————————————— |<br>| <strong><code>load</code></strong>: | 加载控制器 (construct and initialize) |<br>| <strong><code>unload</code></strong>: | 卸载控制器 (destruct) |<br>| <strong><code>start</code></strong>: | 启动控制器 |<br>| <strong><code>stop</code></strong>: | 结束控制器 |<br>| <strong><code>spawn</code></strong>: | 加载并启动控制器 |<br>| <strong><code>kill</code></strong>: | 停止并卸载控制器 |</p>
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>load</code></strong>:</td>
+<td style="text-align:left">加载控制器 (construct and initialize)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>unload</code></strong>:</td>
+<td style="text-align:left">卸载控制器 (destruct)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>start</code></strong>:</td>
+<td style="text-align:left">启动控制器</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>stop</code></strong>:</td>
+<td style="text-align:left">结束控制器</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>spawn</code></strong>:</td>
+<td style="text-align:left">加载并启动控制器</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>kill</code></strong>:</td>
+<td style="text-align:left">停止并卸载控制器</td>
+</tr>
+</tbody>
+</table>
 <p>想获得控制器状态, 用:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_manager &lt;<span class="built_in">command</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>以下命令可用:<br>| | |<br>| :———————————————— | :—————————————————————————————————————————————————————— |<br>| <strong><code>list</code></strong>: | 根据执行顺序,列出所有控制器,并给出每个控制器的状态 |<br>| <strong><code>list-types</code></strong>: | 列出所有控制器管理知道的控制器类型.如果控制器不在此列表中,将无法加载并启动. |<br>| <strong><code>list-joints</code></strong>: | 列出所有控制器管理使用的的关节和驱动器的名称. |<br>| <strong><code>reload-libraries</code></strong>: | 重新加载所有可作为插件的控制器库.当我们正在开发控制器时,可以方便的测试控制器代码,而 不用每次都重新启动机器人. |<br>| <strong><code>reload-libraries --restore</code></strong>: | 重新加载所有可作为插件的的控制器库,并把所有控制器恢复到初始状态. |<br>| | |</p>
-<h3 id="加载并启动控制器-spawner"><a href="#加载并启动控制器-spawner" class="headerlink" title="加载并启动控制器(spawner)"></a>加载并启动控制器(<code>spawner</code>)</h3><p>为了立刻自动加载并启动一系列控制器以及立刻停止并卸载这些控制器,使用<code>spawner</code>工具:</p>
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>list</code></strong>:</td>
+<td style="text-align:left">根据执行顺序,列出所有控制器,并给出每个控制器的状态</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>list-types</code></strong>:</td>
+<td style="text-align:left">列出所有控制器管理知道的控制器类型.如果控制器不在此列表中,将无法加载并启动.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>list-joints</code></strong>:</td>
+<td style="text-align:left">列出所有控制器管理使用的的关节和驱动器的名称.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>reload-libraries</code></strong>:</td>
+<td style="text-align:left">重新加载所有可作为插件的控制器库.当我们正在开发控制器时,可以方便的测试控制器代码,而 不用每次都重新启动机器人.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>reload-libraries --restore</code></strong>:</td>
+<td style="text-align:left">重新加载所有可作为插件的的控制器库,并把所有控制器恢复到初始状态.</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="加载并启动控制器-spawner"><a class="header-anchor" href="#加载并启动控制器-spawner">¶</a>加载并启动控制器(<code>spawner</code>)</h3>
+<p>为了立刻自动加载并启动一系列控制器以及立刻停止并卸载这些控制器,使用<code>spawner</code>工具:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager spawner [--stopped] name1 name2 name3</span><br></pre></td></tr></table></figure>
 <p>当运行<code>spawner</code>时,列表中控制器将被载入和启动(除非指定<code>--stopped</code>). 当控制器已开启(<code>controllers are up</code>),<code>spawner</code>将保持运行.当你杀死<code>spawner</code>进程(<code>CTRL-C</code>),会自动停止并卸载所有它最开始启动的控制器.</p>
-<h3 id="卸载控制器-unspawner"><a href="#卸载控制器-unspawner" class="headerlink" title="卸载控制器(unspawner)"></a>卸载控制器(<code>unspawner</code>)</h3><p>想要自动停止一组控制器,然后重新启动,可使用<code>unspawner</code>工具:</p>
+<h3 id="卸载控制器-unspawner"><a class="header-anchor" href="#卸载控制器-unspawner">¶</a>卸载控制器(<code>unspawner</code>)</h3>
+<p>想要自动停止一组控制器,然后重新启动,可使用<code>unspawner</code>工具:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager unspawner name1 name2 name3</span><br></pre></td></tr></table></figure>
 <p>列表中的控制器将被停止,但没有卸载.一旦<code>spawner</code>关闭,该控制器将重新启动.</p>
-<h3 id="控制器组-controller-group"><a href="#控制器组-controller-group" class="headerlink" title="控制器组(controller_group)"></a>控制器组(<code>controller_group</code>)</h3><p><code>controller_group</code>允许开发者在运行时切换控制器,但是出于一些特殊意图,当你想从一组控制器切换到另一组时,这就不是很方便.<code>controller_group</code>脚本对于那些在<code>ROS parameter controller_groups</code>已经定义的分组的切换就很容易实现.它知道所有包含的控制器,当它切换控制器组时,控制器需要被停止或者被启动.所以,不同的控制器组可以共享某些控制器.</p>
+<h3 id="控制器组-controller-group"><a class="header-anchor" href="#控制器组-controller-group">¶</a>控制器组(<code>controller_group</code>)</h3>
+<p><code>controller_group</code>允许开发者在运行时切换控制器,但是出于一些特殊意图,当你想从一组控制器切换到另一组时,这就不是很方便.<code>controller_group</code>脚本对于那些在<code>ROS parameter controller_groups</code>已经定义的分组的切换就很容易实现.它知道所有包含的控制器,当它切换控制器组时,控制器需要被停止或者被启动.所以,不同的控制器组可以共享某些控制器.</p>
 <p><code>controller_groups</code>的一个例子:</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">controller_groups:</span></span><br><span class="line">  <span class="attr">production:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prod_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prod_controller_2</span></span><br><span class="line">  <span class="attr">development:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">devel_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">devel_controller_2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">shared_controller_3</span></span><br><span class="line">  <span class="attr">diagnostics:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">diag_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">diag_controller_2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">shared_controller_3</span></span><br></pre></td></tr></table></figure>
 <p>启动<code>controller_groups</code>的脚本:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_group &lt;<span class="built_in">command</span>&gt; &lt;args&gt;</span><br></pre></td></tr></table></figure>
-<p>以下命令可用:<br>| | |<br>| :—————————— | :———————————————————————————————————————————————————————————- |<br>| <strong><code>list</code></strong>: | 列出所有能在<code>controler_groups</code>参数中找到的组定义 |<br>| <strong><code>spawn &lt;group&gt;</code></strong>: | 载入和启动所有包含在名称为<code>&lt;group&gt;</code>组内的所有控制器,通常在<code>ROS launch</code>文件中使用 |<br>| <strong><code>switch &lt;group&gt;</code></strong>: | 切换到<code>&lt;group&gt;</code>组.这意味着将停止其他组内正在运行的控制器,但是定在在本组内的不会被停止,然后启动在本组内的未运行的控制器器 |<br>| | |</p>
-<h2 id="创建启动文件-Creating-launch-files"><a href="#创建启动文件-Creating-launch-files" class="headerlink" title="创建启动文件(Creating launch files)"></a>创建启动文件(<code>Creating launch files</code>)</h2><p>我们可以运行<code>controller_manager</code>,从启动文件(<code>launch file</code>)内启动控制器.然而,即使启动文件被撤下,控制器仍会保持.而<code>spawner</code>工具会从启动文件中自动加载,启动,停止和卸载控制器.当启动<code>spawner</code>工具时,它会加载并启动控制器.当你停止<code>spawner</code>(当启动文件被撤下),它将停止并卸载控制器.启动文件可能如下:</p>
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>list</code></strong>:</td>
+<td style="text-align:left">列出所有能在<code>controler_groups</code>参数中找到的组定义</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>spawn &lt;group&gt;</code></strong>:</td>
+<td style="text-align:left">载入和启动所有包含在名称为<code>&lt;group&gt;</code>组内的所有控制器,通常在<code>ROS launch</code>文件中使用</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>switch &lt;group&gt;</code></strong>:</td>
+<td style="text-align:left">切换到<code>&lt;group&gt;</code>组.这意味着将停止其他组内正在运行的控制器,但是定在在本组内的不会被停止,然后启动在本组内的未运行的控制器器</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="创建启动文件-Creating-launch-files"><a class="header-anchor" href="#创建启动文件-Creating-launch-files">¶</a>创建启动文件(<code>Creating launch files</code>)</h2>
+<p>我们可以运行<code>controller_manager</code>,从启动文件(<code>launch file</code>)内启动控制器.然而,即使启动文件被撤下,控制器仍会保持.而<code>spawner</code>工具会从启动文件中自动加载,启动,停止和卸载控制器.当启动<code>spawner</code>工具时,它会加载并启动控制器.当你停止<code>spawner</code>(当启动文件被撤下),它将停止并卸载控制器.启动文件可能如下:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">node</span> <span class="attr">pkg</span>=<span class="string">"controller_manager"</span> <span class="attr">type</span>=<span class="string">"spawner"</span> <span class="attr">args</span>=<span class="string">"controller_name1 controller_name2"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
 <p>或者,只是想加载控制器,但是还没有启动:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">launch</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">pkg</span>=<span class="string">"controller_manager"</span> <span class="attr">type</span>=<span class="string">"spawner"</span> <span class="attr">args</span>=<span class="string">"--stopped controller_name1 controller_name2"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">launch</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h2 id="图形工具-Graphical-tools"><a href="#图形工具-Graphical-tools" class="headerlink" title="图形工具(Graphical tools)"></a>图形工具(Graphical tools)</h2><p><code>rqt_controller_manager</code>是一个<code>rqt</code>插件,该插件以图形化方式加载,卸载,启动和停止控制器;同时用来显示加载的控制器的信息.</p>
+<h2 id="图形工具-Graphical-tools"><a class="header-anchor" href="#图形工具-Graphical-tools">¶</a>图形工具(Graphical tools)</h2>
+<p><code>rqt_controller_manager</code>是一个<code>rqt</code>插件,该插件以图形化方式加载,卸载,启动和停止控制器;同时用来显示加载的控制器的信息.</p>
 <p>它可以从<code>rqt</code>的<code>Plugin</code>菜单中启动,或者通过命令行单独执行:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun rqt_controller_manager rqt_controller_manager</span><br></pre></td></tr></table></figure>
-<h2 id="ROS应用程序接口-ROS-API"><a href="#ROS应用程序接口-ROS-API" class="headerlink" title="ROS应用程序接口(ROS API)"></a><code>ROS</code>应用程序接口(<code>ROS API</code>)</h2><p>为了与另一个<code>ROS</code>节点的控制器交互,控制管理器提供了五种服务调用:</p>
-<h2 id="控制管理器-controller-manager-1"><a href="#控制管理器-controller-manager-1" class="headerlink" title="控制管理器 (controller_manager)"></a>控制管理器 (<code>controller_manager</code>)</h2><h3 id="服务-Services"><a href="#服务-Services" class="headerlink" title="服务(Services)"></a>服务(Services)</h3><p><code>controller_manager/load_controller (controller_manager_msgs/LoadController)</code></p>
+<h2 id="ROS应用程序接口-ROS-API"><a class="header-anchor" href="#ROS应用程序接口-ROS-API">¶</a><code>ROS</code>应用程序接口(<code>ROS API</code>)</h2>
+<p>为了与另一个<code>ROS</code>节点的控制器交互,控制管理器提供了五种服务调用:</p>
+<h2 id="控制管理器-controller-manager-v2"><a class="header-anchor" href="#控制管理器-controller-manager-v2">¶</a>控制管理器 (<code>controller_manager</code>)</h2>
+<h3 id="服务-Services"><a class="header-anchor" href="#服务-Services">¶</a>服务(Services)</h3>
+<p><code>controller_manager/load_controller (controller_manager_msgs/LoadController)</code></p>
 <blockquote>
 <p>服务请求包含了要加载的控制器的名字,响应包含了一个表示成功或失败的布尔值.</p>
 </blockquote>
@@ -369,13 +476,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\1500545740\" rel="bookmark">ROS学习-ur5机器人的gazebo仿真以及controller的使用</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\posts\2389657244\" rel="bookmark">ROS学习-xacro</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\posts\73359715\" rel="bookmark">ROS学习-roslaunch_xml</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\1500545740\" rel="bookmark">ROS学习-ur5机器人的gazebo仿真以及controller的使用</a></div>
     </li>
   </ul>
 
@@ -539,7 +646,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器运行的工具-Tools-for-running-controllers"><span class="nav-text">控制器运行的工具(Tools for running controllers)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行工具-Command-line-tools"><span class="nav-text">命令行工具(Command-line tools)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制管理器-controller-manager"><span class="nav-text">控制管理器(controller_manager)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载并启动控制器-spawner"><span class="nav-text">加载并启动控制器(spawner)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载控制器-unspawner"><span class="nav-text">卸载控制器(unspawner)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制器组-controller-group"><span class="nav-text">控制器组(controller_group)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建启动文件-Creating-launch-files"><span class="nav-text">创建启动文件(Creating launch files)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图形工具-Graphical-tools"><span class="nav-text">图形工具(Graphical tools)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROS应用程序接口-ROS-API"><span class="nav-text">ROS应用程序接口(ROS API)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制管理器-controller-manager-1"><span class="nav-text">控制管理器 (controller_manager)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务-Services"><span class="nav-text">服务(Services)</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#控制器运行的工具-Tools-for-running-controllers"><span class="nav-text">控制器运行的工具(Tools for running controllers)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行工具-Command-line-tools"><span class="nav-text">命令行工具(Command-line tools)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控制管理器-controller-manager"><span class="nav-text">控制管理器(controller_manager)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载并启动控制器-spawner"><span class="nav-text">加载并启动控制器(spawner)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载控制器-unspawner"><span class="nav-text">卸载控制器(unspawner)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制器组-controller-group"><span class="nav-text">控制器组(controller_group)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建启动文件-Creating-launch-files"><span class="nav-text">创建启动文件(Creating launch files)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图形工具-Graphical-tools"><span class="nav-text">图形工具(Graphical tools)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROS应用程序接口-ROS-API"><span class="nav-text">ROS应用程序接口(ROS API)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制管理器-controller-manager-v2"><span class="nav-text">控制管理器 (controller_manager)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务-Services"><span class="nav-text">服务(Services)</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -637,12 +744,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -811,8 +918,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

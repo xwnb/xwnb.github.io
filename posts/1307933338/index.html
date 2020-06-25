@@ -32,7 +32,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xwnb.github.io/posts/1307933338/image-20200609012940736.png">
 <meta property="article:published_time" content="2020-06-22T15:44:22.000Z">
-<meta property="article:modified_time" content="2020-06-22T15:52:35.945Z">
+<meta property="article:modified_time" content="2020-06-24T19:47:35.814Z">
 <meta property="article:author" content="村口最靓的 小Xu">
 <meta property="article:tag" content="自动驾驶">
 <meta property="article:tag" content="AirSim">
@@ -241,15 +241,23 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-06-22 23:44:22 / 修改时间：23:52:35" itemprop="dateCreated datePublished" datetime="2020-06-22T23:44:22+08:00">2020-06-22</time>
+              <time title="创建时间：2020-06-22 23:44:22" itemprop="dateCreated datePublished" datetime="2020-06-22T23:44:22+08:00">2020-06-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-25 03:47:35" itemprop="dateModified" datetime="2020-06-25T03:47:35+08:00">2020-06-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -298,33 +306,42 @@
 <hr>
 <p>[TOC]</p>
 <hr>
-<h2 id="Hello-Car-源码"><a href="#Hello-Car-源码" class="headerlink" title="Hello Car 源码"></a><code>Hello Car</code> 源码</h2><p>官方<a href="https://microsoft.github.io/AirSim/apis_cpp/#quick-start" target="_blank" rel="noopener">文档</a>该部分的源码还没有更新, 这里源码为 <a href="https://github.com/Microsoft/AirSim/blob/master/HelloCar/main.cpp" target="_blank" rel="noopener">GitHub</a>上的源码. 如果要用文档的例程, 需要把 <code>两处</code></p>
+<h2 id="Hello-Car-源码"><a class="header-anchor" href="#Hello-Car-源码">¶</a><code>Hello Car</code> 源码</h2>
+<p>官方<a href="https://microsoft.github.io/AirSim/apis_cpp/#quick-start" target="_blank" rel="noopener">文档</a>该部分的源码还没有更新, 这里源码为 <a href="https://github.com/Microsoft/AirSim/blob/master/HelloCar/main.cpp" target="_blank" rel="noopener">GitHub</a>上的源码. 如果要用文档的例程, 需要把 <code>两处</code></p>
 <blockquote>
-<p><del><code>CarControllerBase::CarControls</code></del></p>
+<p><s><code>CarControllerBase::CarControls</code></s></p>
 </blockquote>
 <p>改为</p>
 <blockquote>
 <p><code>msr::airlib::CarApiBase::CarControls</code></p>
 </blockquote>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copyright (c) Microsoft Corporation. All rights reserved.</span></span><br><span class="line"><span class="comment">// Licensed under the MIT License.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"common/common_utils/StrictMode.hpp"</span></span></span><br><span class="line">STRICT_MODE_OFF</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> RPCLIB_MSGPACK</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RPCLIB_MSGPACK clmdep_msgpack</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// !RPCLIB_MSGPACK</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"rpc/rpc_error.h"</span></span></span><br><span class="line">STRICT_MODE_ON</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"vehicles/car/api/CarRpcLibClient.hpp"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"common/common_utils/FileSystem.hpp"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;chrono&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> msr::airlib;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Make sure settings.json has \"SimMode\"=\"Car\" at root. Press Enter to continue."</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// This assumes you are running DroneServer already on the same machine.</span></span><br><span class="line">    <span class="comment">// DroneServer must be running first.</span></span><br><span class="line">    msr::airlib::CarRpcLibClient client;</span><br><span class="line">    <span class="keyword">typedef</span> ImageCaptureBase::ImageRequest ImageRequest;</span><br><span class="line">    <span class="keyword">typedef</span> ImageCaptureBase::ImageResponse ImageResponse;</span><br><span class="line">    <span class="keyword">typedef</span> ImageCaptureBase::ImageType ImageType;</span><br><span class="line">    <span class="keyword">typedef</span> common_utils::<span class="built_in">FileSystem</span> <span class="built_in">FileSystem</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        client.confirmConnection();</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Press Enter to get FPV image"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;ImageRequest&gt; request = &#123; ImageRequest(<span class="string">"0"</span>, ImageType::Scene), ImageRequest(<span class="string">"1"</span>, ImageType::DepthPlanner, <span class="literal">true</span>) &#125;;</span><br><span class="line">        <span class="keyword">const</span> <span class="built_in">vector</span>&lt;ImageResponse&gt;&amp; response = client.simGetImages(request);</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"# of images received: "</span> &lt;&lt; response.<span class="built_in">size</span>() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (response.<span class="built_in">size</span>() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Enter path with ending separator to save images (leave empty for no save)"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">string</span> path;</span><br><span class="line">            <span class="built_in">std</span>::getline(<span class="built_in">std</span>::<span class="built_in">cin</span>, path);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">const</span> ImageResponse&amp; image_info : response) &#123;</span><br><span class="line">                <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Image uint8 size: "</span> &lt;&lt; image_info.image_data_uint8.<span class="built_in">size</span>() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">                <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Image float size: "</span> &lt;&lt; image_info.image_data_float.<span class="built_in">size</span>() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (path != <span class="string">""</span>) &#123;</span><br><span class="line">                    <span class="built_in">std</span>::<span class="built_in">string</span> file_path = <span class="built_in">FileSystem</span>::combine(path, <span class="built_in">std</span>::to_string(image_info.time_stamp));</span><br><span class="line">                    <span class="keyword">if</span> (image_info.pixels_as_float) &#123;</span><br><span class="line">                        Utils::writePfmFile(image_info.image_data_float.data(), image_info.<span class="built_in">width</span>, image_info.<span class="built_in">height</span>,</span><br><span class="line">                            file_path + <span class="string">".pfm"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">std</span>::ofstream file(file_path + <span class="string">".png"</span>, <span class="built_in">std</span>::ios::binary);</span><br><span class="line">                        file.<span class="built_in">write</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span>*&gt;(image_info.image_data_uint8.data()), image_info.image_data_uint8.<span class="built_in">size</span>());</span><br><span class="line">                        file.<span class="built_in">close</span>();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//enable API control</span></span><br><span class="line">        client.enableApiControl(<span class="literal">true</span>);</span><br><span class="line">        CarApiBase::CarControls controls;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Press enter to drive forward"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        controls.throttle = <span class="number">0.5f</span>;</span><br><span class="line">        controls.steering = <span class="number">0.0f</span>;</span><br><span class="line">        client.setCarControls(controls);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Press Enter to activate handbrake"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        controls.handbrake = <span class="literal">true</span>;</span><br><span class="line">        client.setCarControls(controls);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Press Enter to take turn and drive backward"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        controls.handbrake = <span class="literal">false</span>;</span><br><span class="line">        controls.throttle = <span class="number">-0.5</span>;</span><br><span class="line">        controls.steering = <span class="number">1</span>;</span><br><span class="line">        controls.is_manual_gear = <span class="literal">true</span>;</span><br><span class="line">        controls.manual_gear = <span class="number">-1</span>;</span><br><span class="line">        client.setCarControls(controls);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Press Enter to stop"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">        client.setCarControls(CarApiBase::CarControls());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (rpc::rpc_error&amp;  e) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> msg = e.get_error().as&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;();</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Exception raised by the API, something went wrong."</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span> &lt;&lt; msg &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="built_in">std</span>::<span class="built_in">cin</span>.<span class="built_in">get</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Common-APIS"><a href="#Common-APIS" class="headerlink" title="Common APIS"></a><code>Common APIS</code></h2><p>以下方法均在类： <code>msr::airlib::CarRpcLibClient</code></p>
+<h2 id="Common-APIS"><a class="header-anchor" href="#Common-APIS">¶</a><code>Common APIS</code></h2>
+<p>以下方法均在类： <code>msr::airlib::CarRpcLibClient</code></p>
 <ul>
-<li><p><code>reset</code>: 重置汽车回初始状态 (PS: 调用这个方法, 汽车会重新出现在出生点, 状态均重置) . 你必须在调用 <code>reset</code> 之后再次调用 <code>enableApiControl</code> 和 <code>armDisarm</code></p>
+<li>
+<p><code>reset</code>: 重置汽车回初始状态 (PS: 调用这个方法, 汽车会重新出现在出生点, 状态均重置) . 你必须在调用 <code>reset</code> 之后再次调用 <code>enableApiControl</code> 和 <code>armDisarm</code></p>
 <p>(<strong>PS</strong>: 好像不调用这两个函数, 其他方法依然生效, 不晓得是不是版本更新过的缘故) .</p>
 </li>
-<li><p><code>confirmConnection</code>: 每隔 1 秒检查链接状态, 并且在控制台输出连接进展.</p>
+<li>
+<p><code>confirmConnection</code>: 每隔 1 秒检查链接状态, 并且在控制台输出连接进展.</p>
 </li>
-<li><p><code>enableApiControl</code>: 处于安全原因, 默认禁止 API 控制自动驾驶汽车, 完全人工控制的 (通常通过 RC 或者 手柄模拟) . 用户必须调用这个函数去请求通过 API 控制. 这就像人工驾驶汽车可能禁止 API 控制, 意味着<code>enableApiControl</code> 是不起作用的. 这个可以通过<code>isApiControlEnabled</code> 来检查.</p>
+<li>
+<p><code>enableApiControl</code>: 处于安全原因, 默认禁止 API 控制自动驾驶汽车, 完全人工控制的 (通常通过 RC 或者 手柄模拟) . 用户必须调用这个函数去请求通过 API 控制. 这就像人工驾驶汽车可能禁止 API 控制, 意味着<code>enableApiControl</code> 是不起作用的. 这个可以通过<code>isApiControlEnabled</code> 来检查.</p>
 </li>
-<li><p><code>isApiControlEnabled</code>: 返回 true 如果 API 控制被建立了. 如果是 false (默认设置), API 调用将会被忽略. 当成功调用<code>enableApiControl</code>, <code>isApiControlEnabled</code> 将返回 true.</p>
+<li>
+<p><code>isApiControlEnabled</code>: 返回 true 如果 API 控制被建立了. 如果是 false (默认设置), API 调用将会被忽略. 当成功调用<code>enableApiControl</code>, <code>isApiControlEnabled</code> 将返回 true.</p>
 <p><strong>PS</strong>: 默认好像是 true.</p>
 </li>
-<li><p><code>ping</code>: 如果建立连接, 这个调用将会返回 true, 否则会阻塞知道直到超时.</p>
+<li>
+<p><code>ping</code>: 如果建立连接, 这个调用将会返回 true, 否则会阻塞知道直到超时.</p>
 </li>
-<li><p><code>simPrintLogMessage</code>: 在仿真窗口输出指定的 <code>message</code>. 如果 <code>message_param</code>也被提供, 那么也将输出. 如果这个 API 被调用时使用相同的 <code>message</code>值, 但是 <code>message_param</code>不同, 那么前一行将会被新行覆盖 (而不是创建新行来显示) . 举个例子, 当使用不同的 i 值调用 <code>simPrintLogMessage(&quot;Iteration: &quot;, to_string(i))</code> 时, 将在同一行保持更新. 合法的 severity 参数是 0 到 3, 分别以不同的颜色.</p>
+<li>
+<p><code>simPrintLogMessage</code>: 在仿真窗口输出指定的 <code>message</code>. 如果 <code>message_param</code>也被提供, 那么也将输出. 如果这个 API 被调用时使用相同的 <code>message</code>值, 但是 <code>message_param</code>不同, 那么前一行将会被新行覆盖 (而不是创建新行来显示) . 举个例子, 当使用不同的 i 值调用 <code>simPrintLogMessage(&quot;Iteration: &quot;, to_string(i))</code> 时, 将在同一行保持更新. 合法的 severity 参数是 0 到 3, 分别以不同的颜色.</p>
 <p><strong>PS</strong>: 不知道在哪儿看到这些输出日志).</p>
 </li>
-<li><p><code>simGetObjectPose</code>, <code>simSetObjectPose</code>: 获取和设置 Unreal 环境中指定对象的位姿. 这里的对象表示 Unreal 术语中的 ”actor”. 它们通过标签 (tag) 和名称 (name) 来搜索. 请记住这些显示在 UE Editor 中的名称是每次运行时 _自动生成 (auto-generated)_ 的, 并非永久的. 所以, 如果你想通过名称来引用 actor, 你必须在 UE Editor 中修改自动生成的名称. 你也可以在 Unreal Editor 中, 通过点击 actor 来完成对它添加一个标签. 然后去 <a href="https://answers.unrealengine.com/questions/543807/whats-the-difference-between-tag-and-tag.html" target="_blank" rel="noopener">Tags property</a> , 点击 “+” 号, 添加一些字符串值. 如果多个 actors 有相同的标签, 那么第一个符合的将会被返回. 如果没有符合的对象被找到, 那么将会返回 NaN. 返回的位姿值是在以玩家出生点为原点的 NED 坐标系下的国际标准单位值. 对于<code>simSetObjectPose</code>, 指定的 actor 必须将 <a href="https://docs.unrealengine.com/en-us/Engine/Actors/Mobility" target="_blank" rel="noopener">Mobility</a> 设置为可移动, 否则你将得到未定义行为. <code>simSetObjectPose</code> 有一个 <code>teleport</code> 参数, 表示对象正在 <a href="https://www.unrealengine.com/en-US/blog/moving-physical-objects" target="_blank" rel="noopener">moved through other objects</a> (<strong>PS</strong>： 瞬移？) , 如果移动成功, 则返回 true.</p>
+<li>
+<p><code>simGetObjectPose</code>, <code>simSetObjectPose</code>: 获取和设置 Unreal 环境中指定对象的位姿. 这里的对象表示 Unreal 术语中的 ”actor”. 它们通过标签 (tag) 和名称 (name) 来搜索. 请记住这些显示在 UE Editor 中的名称是每次运行时 <em>自动生成 (auto-generated)</em> 的, 并非永久的. 所以, 如果你想通过名称来引用 actor, 你必须在 UE Editor 中修改自动生成的名称. 你也可以在 Unreal Editor 中, 通过点击 actor 来完成对它添加一个标签. 然后去 <a href="https://answers.unrealengine.com/questions/543807/whats-the-difference-between-tag-and-tag.html" target="_blank" rel="noopener">Tags property</a> , 点击 “+” 号, 添加一些字符串值. 如果多个 actors 有相同的标签, 那么第一个符合的将会被返回. 如果没有符合的对象被找到, 那么将会返回 NaN. 返回的位姿值是在以玩家出生点为原点的 NED 坐标系下的国际标准单位值. 对于<code>simSetObjectPose</code>, 指定的 actor 必须将 <a href="https://docs.unrealengine.com/en-us/Engine/Actors/Mobility" target="_blank" rel="noopener">Mobility</a> 设置为可移动, 否则你将得到未定义行为. <code>simSetObjectPose</code> 有一个 <code>teleport</code> 参数, 表示对象正在 <a href="https://www.unrealengine.com/en-US/blog/moving-physical-objects" target="_blank" rel="noopener">moved through other objects</a> (<strong>PS</strong>： 瞬移？) , 如果移动成功, 则返回 true.</p>
 <p><strong>PS:</strong> 见下图，如果要获取这辆车的位姿，调用的参数名应该是 <code>PhysXCar</code>, 调用 <code>SuvCarPawn-1</code> (自动生成的名称) 位姿值是 <code>NaN</code></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msr::airlib::Pose pose_car = client.simGetObjectPose(<span class="string">"PhysXCar"</span>);</span><br></pre></td></tr></table></figure>
 <p><img data-src="image-20200609012940736.png" alt="image-20200609012940736"></p>
@@ -340,13 +357,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\4243726933\" rel="bookmark">自动驾驶仿真 - AirSim (1) - Windows 10 下安装仿真平台 AirSim - v1.3.1</a></div>
+      <div class="popular-posts-title"><a href="\posts\954477841\" rel="bookmark">自动驾驶仿真 - AirSim (9) - 如何在 AirSim 使用雷达</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2194771931\" rel="bookmark">自动驾驶仿真 - AirSim (2) - 创建并设置 Unreal Engine 环境</a></div>
+      <div class="popular-posts-title"><a href="\posts\3783722863\" rel="bookmark">自动驾驶仿真 - AirSim (8) - AirSim 传感器</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\531482360\" rel="bookmark">自动驾驶仿真 - AirSim (3) - 配置 Visual Studio 工程</a></div>
+      <div class="popular-posts-title"><a href="\posts\2251441435\" rel="bookmark">自动驾驶仿真 - AirSim(7) - AirSim 多载具</a></div>
     </li>
   </ul>
 
@@ -608,12 +625,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -782,8 +799,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

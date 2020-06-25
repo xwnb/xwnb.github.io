@@ -246,6 +246,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -316,21 +318,25 @@
 <li>for all <code>x</code>, <code>y</code>, <code>z</code>: if <code>x &lt; y &amp;&amp; y &lt; z</code>then<code>x &lt; z</code> (transitivity)</li>
 </ul>
 <p>Providing an invalid ordering predicate for an associative container (e.g., sets, maps, multisets, and multimaps), or as a comparison criterion with the sorting algorithms, can result in erratic behavior or infinite loops [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Meyers01" target="_blank" rel="noopener">Meyers 01</a>]. When an ordering predicate is required for an associative container or a generic standard template library algorithm, the predicate must meet the requirements for inducing a strict weak ordering.</p>
-<h2 id="不合规的代码示例-Noncompliant-Code-Example"><a href="#不合规的代码示例-Noncompliant-Code-Example" class="headerlink" title="不合规的代码示例 Noncompliant Code Example"></a>不合规的代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，通过使用不遵循严格弱排序要求的比较器来创建 <code>std::set</code> 对象。特别地，对于相等的值这不会返回 false。因此，遍历来自 <code>std::set::equal_range</code> 返回的结果将造成 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-unspecifiedbehavior" target="_blank" rel="noopener">unspecified behavior</a>。</p>
+<h2 id="不合规的代码示例-Noncompliant-Code-Example"><a class="header-anchor" href="#不合规的代码示例-Noncompliant-Code-Example">¶</a>不合规的代码示例 Noncompliant Code Example</h2>
+<p>在这个不合规的代码示例中，通过使用不遵循严格弱排序要求的比较器来创建 <code>std::set</code> 对象。特别地，对于相等的值这不会返回 false。因此，遍历来自 <code>std::set::equal_range</code> 返回的结果将造成 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-unspecifiedbehavior" target="_blank" rel="noopener">unspecified behavior</a>。</p>
 <p>In this noncompliant code example, the <code>std::set</code> object is created with a comparator that does not adhere to the strict weak ordering requirement. Specifically, it fails to return false for equivalent values. As a result, the behavior of iterating over the results from <code>std::set::equal_range</code> results in <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-unspecifiedbehavior" target="_blank" rel="noopener">unspecified behavior</a>.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">set</span>&lt;<span class="keyword">int</span>, <span class="built_in">std</span>::less_equal&lt;<span class="keyword">int</span>&gt;&gt; s&#123;<span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> r = s.equal_range(<span class="number">10</span>); r.first != r.second; ++r.first) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; *r.first &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-Compliant-Solution"><a href="#合规方案-Compliant-Solution" class="headerlink" title="合规方案 Compliant Solution"></a>合规方案 Compliant Solution</h2><p>这个合规方案使用 <code>std::set</code> 默认比较器替换提供的不合理的比较器。</p>
+<h2 id="合规方案-Compliant-Solution"><a class="header-anchor" href="#合规方案-Compliant-Solution">¶</a>合规方案 Compliant Solution</h2>
+<p>这个合规方案使用 <code>std::set</code> 默认比较器替换提供的不合理的比较器。</p>
 <p>This compliant solution uses the default comparator with <code>std::set</code> instead of providing an invalid one.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; s&#123;<span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> r = s.equal_range(<span class="number">10</span>); r.first != r.second; ++r.first) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; *r.first &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="不合规的代码示例-Noncompliant-Code-Example-1"><a href="#不合规的代码示例-Noncompliant-Code-Example-1" class="headerlink" title="不合规的代码示例 Noncompliant Code Example"></a>不合规的代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，被存储在 <code>std::set</code> 的对象有一个重载 <code>operator&lt;</code> 的实现，允许对象通过 <code>std::less</code> 来比较。然而，比较运算没有提供严格的弱排序。特别地，两个 sets，x 和 y，值均为 1， 但是 j 的值不一样，会导致 <code>comp(x, y)</code> 和 <code>comp(y, x)</code> 均返回 false 的场景。不满足非对称要求。</p>
+<h2 id="不合规的代码示例-Noncompliant-Code-Example-v2"><a class="header-anchor" href="#不合规的代码示例-Noncompliant-Code-Example-v2">¶</a>不合规的代码示例 Noncompliant Code Example</h2>
+<p>在这个不合规的代码示例中，被存储在 <code>std::set</code> 的对象有一个重载 <code>operator&lt;</code> 的实现，允许对象通过 <code>std::less</code> 来比较。然而，比较运算没有提供严格的弱排序。特别地，两个 sets，x 和 y，值均为 1， 但是 j 的值不一样，会导致 <code>comp(x, y)</code> 和 <code>comp(y, x)</code> 均返回 false 的场景。不满足非对称要求。</p>
 <p>In this noncompliant code example, the objects stored in the std::set have an overloaded operator&lt; implementation, allowing the objects to be compared with std::less. However, the comparison operation does not provide a strict weak ordering. Specifically, two sets, x and y, whose i values are both 1, but have differing j values can result in a situation where comp(x, y) and comp(y, x) are both false, failing the asymmetry requirements.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">S</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> i, j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  S(<span class="keyword">int</span> i, <span class="keyword">int</span> j) : i(i), j(j) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> S &amp;lhs, <span class="keyword">const</span> S &amp;rhs) &#123;</span><br><span class="line">    <span class="keyword">return</span> lhs.i &lt; rhs.i &amp;&amp; lhs.j &lt; rhs.j;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">friend</span> <span class="built_in">std</span>::ostream &amp;<span class="keyword">operator</span>&lt;&lt;(<span class="built_in">std</span>::ostream &amp;os, <span class="keyword">const</span> S&amp; o) &#123;</span><br><span class="line">    os &lt;&lt; <span class="string">"i: "</span> &lt;&lt; o.i &lt;&lt; <span class="string">", j: "</span> &lt;&lt; o.j;</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">set</span>&lt;S&gt; t&#123;S(<span class="number">1</span>, <span class="number">1</span>), S(<span class="number">1</span>, <span class="number">2</span>), S(<span class="number">2</span>, <span class="number">1</span>)&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> v : t) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-Compliant-Solution-1"><a href="#合规方案-Compliant-Solution-1" class="headerlink" title="合规方案 Compliant Solution"></a>合规方案 Compliant Solution</h2><p>这个合规方案使用 <code>std::tie()</code> 来实现 <code>operator&lt;</code> 严格的弱排序谓词。</p>
+<h2 id="合规方案-Compliant-Solution-v2"><a class="header-anchor" href="#合规方案-Compliant-Solution-v2">¶</a>合规方案 Compliant Solution</h2>
+<p>这个合规方案使用 <code>std::tie()</code> 来实现 <code>operator&lt;</code> 严格的弱排序谓词。</p>
 <p>This compliant solution uses std::tie() to properly implement the strict weak ordering operator&lt; predicate.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tuple&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">S</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> i, j;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  S(<span class="keyword">int</span> i, <span class="keyword">int</span> j) : i(i), j(j) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> S &amp;lhs, <span class="keyword">const</span> S &amp;rhs) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">std</span>::tie(lhs.i, lhs.j) &lt; <span class="built_in">std</span>::tie(rhs.i, rhs.j);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">friend</span> <span class="built_in">std</span>::ostream &amp;<span class="keyword">operator</span>&lt;&lt;(<span class="built_in">std</span>::ostream &amp;os, <span class="keyword">const</span> S&amp; o) &#123;</span><br><span class="line">    os &lt;&lt; <span class="string">"i: "</span> &lt;&lt; o.i &lt;&lt; <span class="string">", j: "</span> &lt;&lt; o.j;</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">set</span>&lt;S&gt; t&#123;S(<span class="number">1</span>, <span class="number">1</span>), S(<span class="number">1</span>, <span class="number">2</span>), S(<span class="number">2</span>, <span class="number">1</span>)&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> v : t) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; v &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="风险评估-Risk-Assessment"><a href="#风险评估-Risk-Assessment" class="headerlink" title="风险评估 Risk Assessment"></a>风险评估 Risk Assessment</h2><p>使用一个无效排序规则会导致怪异的行为或无限循环。</p>
+<h2 id="风险评估-Risk-Assessment"><a class="header-anchor" href="#风险评估-Risk-Assessment">¶</a>风险评估 Risk Assessment</h2>
+<p>使用一个无效排序规则会导致怪异的行为或无限循环。</p>
 <p>Using an invalid ordering rule can lead to erratic behavior or infinite loops.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -353,8 +359,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h2><div class="table-container">
+<h2 id="Automated-Detection"><a class="header-anchor" href="#Automated-Detection">¶</a>Automated Detection</h2>
 <table>
 <thead>
 <tr>
@@ -373,24 +378,24 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h2><p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vul" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR40-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
-<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><div class="table-container">
+<h2 id="Related-Vulnerabilities"><a class="header-anchor" href="#Related-Vulnerabilities">¶</a>Related Vulnerabilities</h2>
+<p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vul" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR40-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
+<h2 id="Related-Guidelines"><a class="header-anchor" href="#Related-Guidelines">¶</a>Related Guidelines</h2>
 <table>
 <thead>
 <tr>
 <th><a href="https://wiki.sei.cmu.edu/confluence/display/java/SEI+CERT+Oracle+Coding+Standard+for+Java" target="_blank" rel="noopener">SEI CERT Oracle Coding Standard for Java</a></th>
-<th><a href="https://wiki.sei.cmu.edu/confluence/display/java/MET10-J.+Follow+the+general+contract+when+implementing+the+compareTo(" target="_blank" rel="noopener">MET10-J. Follow the general contract when implementing the compareTo() method</a>+method&gt;)</th>
+<th><a href="https://wiki.sei.cmu.edu/confluence/display/java/MET10-J.+Follow+the+general+contract+when+implementing+the+compareTo()+method" target="_blank" rel="noopener">MET10-J. Follow the general contract when implementing the compareTo() method</a></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><div class="table-container">
+<h2 id="Bibliography"><a class="header-anchor" href="#Bibliography">¶</a>Bibliography</h2>
 <table>
 <thead>
 <tr>
@@ -409,11 +414,11 @@
 </tr>
 </tbody>
 </table>
-</div>
 <hr>
 <p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046755" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&amp;modificationDate=1216910800000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&amp;modificationDate=1216910618000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046679" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&amp;modificationDate=1216910815000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
 <p>备注，这里评论区提出了质疑，需要注意的。</p>
-<h4 id="Timmy-Weerwag-发表："><a href="#Timmy-Weerwag-发表：" class="headerlink" title="Timmy Weerwag 发表："></a><a href="https://wiki.sei.cmu.edu/confluence/display/~tweerwag" target="_blank" rel="noopener">Timmy Weerwag</a> 发表：</h4><blockquote>
+<h4 id="Timmy-Weerwag-发表："><a class="header-anchor" href="#Timmy-Weerwag-发表：">¶</a><a href="https://wiki.sei.cmu.edu/confluence/display/~tweerwag" target="_blank" rel="noopener">Timmy Weerwag</a> 发表：</h4>
+<blockquote>
 <p>The list of requirements at the top do not correctly specify a strict weak ordering. In fact, these only specify a strict partial ordering (note that asymetry is already implied by irreflexivity and transitivity). One also needs transitivity of incomparability.</p>
 <p>The explanation for the second non-compliant example is also wrong. The relation is assymetric but fails the transitivity of incomparability. Consider P = (0, 2), Q = (2, 0) and R = (1, 3). Observe that P and Q are incomparable (neither P &lt; Q nor Q &lt; P), and Q and R are incomparable. However, P &lt; R and hence, P and R are comparable.</p>
 </blockquote>
@@ -427,13 +432,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\39044419\" rel="bookmark">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</a></div>
+      <div class="popular-posts-title"><a href="\posts\505389678\" rel="bookmark">CTR58-CPP. 谓词函数对象不应该是 mutable </a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\3185197214\" rel="bookmark">CTR52-CPP. 确保库函数不要溢出</a></div>
+      <div class="popular-posts-title"><a href="\posts\1493253227\" rel="bookmark">CTR56-CPP. 不要在多态对象上使用指针运算</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2396132143\" rel="bookmark">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div>
+      <div class="popular-posts-title"><a href="\posts\3996505531\" rel="bookmark">CTR55-CPP. 不要使用对迭代器使用加法运算如果结果会溢出</a></div>
     </li>
   </ul>
 
@@ -599,7 +604,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规方案-Compliant-Solution"><span class="nav-text">合规方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example-1"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规方案-Compliant-Solution-1"><span class="nav-text">合规方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#风险评估-Risk-Assessment"><span class="nav-text">风险评估 Risk Assessment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Automated-Detection"><span class="nav-text">Automated Detection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Vulnerabilities"><span class="nav-text">Related Vulnerabilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Guidelines"><span class="nav-text">Related Guidelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bibliography"><span class="nav-text">Bibliography</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Timmy-Weerwag-发表："><span class="nav-text">Timmy Weerwag 发表：</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规方案-Compliant-Solution"><span class="nav-text">合规方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example-v2"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规方案-Compliant-Solution-v2"><span class="nav-text">合规方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#风险评估-Risk-Assessment"><span class="nav-text">风险评估 Risk Assessment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Automated-Detection"><span class="nav-text">Automated Detection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Vulnerabilities"><span class="nav-text">Related Vulnerabilities</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Guidelines"><span class="nav-text">Related Guidelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bibliography"><span class="nav-text">Bibliography</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Timmy-Weerwag-发表："><span class="nav-text">Timmy Weerwag 发表：</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -697,12 +702,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -871,8 +876,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

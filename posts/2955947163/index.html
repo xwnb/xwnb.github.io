@@ -23,18 +23,18 @@
     var CONFIG = {"hostname":"xwnb.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q~init~ 和 q~goal~ 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被">
+  <meta name="description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树) RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 qinit 和 qgoal 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="路径规划-RRT">
 <meta property="og:url" content="https://xwnb.github.io/posts/2955947163/index.html">
 <meta property="og:site_name" content="Sun of Beach">
-<meta property="og:description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q~init~ 和 q~goal~ 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被">
+<meta property="og:description" content="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树) RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 qinit 和 qgoal 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://xwnb.github.io/posts/2955947163/rrt.gif">
 <meta property="og:image" content="https://xwnb.github.io/posts/2955947163/algorithm_rrt_extension.png">
 <meta property="og:image" content="https://xwnb.github.io/posts/2955947163/algorithm_rrt.png">
 <meta property="article:published_time" content="2020-03-07T04:30:47.000Z">
-<meta property="article:modified_time" content="2020-06-21T06:54:54.635Z">
+<meta property="article:modified_time" content="2020-06-24T19:46:51.724Z">
 <meta property="article:author" content="村口最靓的 小Xu">
 <meta property="article:tag" content="路径规划">
 <meta property="article:tag" content="motion planning">
@@ -244,6 +244,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -257,7 +259,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-21 14:54:54" itemprop="dateModified" datetime="2020-06-21T14:54:54+08:00">2020-06-21</time>
+                <time title="修改时间：2020-06-25 03:46:51" itemprop="dateModified" datetime="2020-06-25T03:46:51+08:00">2020-06-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -301,13 +303,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树"><a href="#路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树" class="headerlink" title="路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)"></a>路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)</h1><p>RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q~init~ 和 q~goal~ 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概率完备的。</p>
+        <h1>路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)</h1>
+<p>RRTs 作为一种 single-query 的规划算法被引入，它有效地覆盖了 q<sub>init</sub> 和 q<sub>goal</sub> 之间的空间。该规划器最初也是为 kinodynamic 运动规划而开发的，就像在 ESTs 中一样，只构建一棵树。RRTs 的适用范围超出了 kinodynamic 规划问题。RRT 算法已被证明是概率完备的。</p>
 <a id="more"></a>
 <p><img data-src="rrt.gif" alt="rrt.gif"></p>
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>$T$表示一颗树。 $T_{init}$ 和 $T_{goal}$ 根节分别为 $q_{init}$ 和 $q_{goal}$ 的树。每棵树$T$都是增量扩展的。在每次迭代中，在 $Q_{free}$ 中随机均匀采样一点 $q_{rand}$ 。在$T$中找到距离 $q_{rand}$ 最近的节点 $q_{near}$ ，并尝试从 $q_{near}$ 向 $q_{rand}$ 方向移动一段距离 $step_size$ ，生成一个新节点 $q_{new}$ 。若该节点是无碰撞的(collision-free)，则添加节点 $q_{new}$ 到 $T$ 的顶点集合(vertices)中，添加 $(q_{near}, q_{new})$ 到 $T$ 的边集合(edges)中。下图展示了 RRT 在二维欧式空间扩展一个点的过程。</p>
+<h2 id="算法描述"><a class="header-anchor" href="#算法描述">¶</a>算法描述</h2>
+<p>$T$表示一颗树。 $T_{init}$ 和 $T_{goal}$ 根节分别为 $q_{init}$ 和 $q_{goal}$ 的树。每棵树$T$都是增量扩展的。在每次迭代中，在 $Q_{free}$ 中随机均匀采样一点 $q_{rand}$ 。在$T$中找到距离 $q_{rand}$ 最近的节点 $q_{near}$ ，并尝试从 $q_{near}$ 向 $q_{rand}$ 方向移动一段距离 $step_size$ ，生成一个新节点 $q_{new}$ 。若该节点是无碰撞的(collision-free)，则添加节点 $q_{new}$ 到 $T$ 的顶点集合(vertices)中，添加 $(q_{near}, q_{new})$ 到 $T$ 的边集合(edges)中。下图展示了 RRT 在二维欧式空间扩展一个点的过程。</p>
 <p><img data-src="algorithm_rrt_extension.png" alt="Figure 7.14"></p>
-<h3 id="伪码"><a href="#伪码" class="headerlink" title="伪码"></a>伪码</h3><p><img data-src="algorithm_rrt.png" alt="Algorithms RRT"></p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<h3 id="伪码"><a class="header-anchor" href="#伪码">¶</a>伪码</h3>
+<p><img data-src="algorithm_rrt.png" alt="Algorithms RRT"></p>
+<h2 id="流程"><a class="header-anchor" href="#流程">¶</a>流程</h2>
+<ol>
 <li>初始化随机树，树结点和边只包含起点 $q_{start}$（根节点）。边和书中有一点区别，因为这里的节点用了一个链表结构，这里每个扩展节点 ($q_{new}$) 包含有一个后向指针，指向源节点 ($q_{near}$)，所以不需要单独定义边。只要构造出树，最后反向遍历即可完成路径的构造。</li>
 <li>起始点 start 加入到树节点和边中</li>
 <li>开始迭代</li>
@@ -320,9 +326,13 @@
 <li><code>FindPath()</code>: 根据目标节点 $q_{goal}$ 的反向指针，遍历至起点 $q_{start}$ ，即完成路径的构造。</li>
 <li><code>SmoothPath(path)</code>: 上一步的路径是按照步长一个节点一个节点扩展的，因此这里可以对路径进行圆滑，遍历路径的节点，取最长不碰撞的节点构造新路径。</li>
 </ol>
-<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pos=[<span class="number">0</span>, <span class="number">0</span>])</span>:</span></span><br><span class="line">        self.pos = pos</span><br><span class="line">        self.parent = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
-<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">map_path: 地图图片路径</span></span><br><span class="line"><span class="string">qstart: 起点坐标 [row, col]</span></span><br><span class="line"><span class="string">qgoal: 目标点坐标 [row, col]</span></span><br><span class="line"><span class="string">grid_size: 网格大小（用来碰撞检测）</span></span><br><span class="line"><span class="string">step_size: 扩展步长</span></span><br><span class="line"><span class="string">max_steps: 最大扩展节点数</span></span><br><span class="line"><span class="string">goal_prob: 增加趋向目标点概率（贪婪）</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">rrt = RRT(map_path, qstart, qgoal, grid_size,</span><br><span class="line">          step_size, max_steps, goal_prob)</span><br></pre></td></tr></table></figure>
-<h3 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Planning</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    rrt planning</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    self.AddVertices(self.qstart)</span><br><span class="line">    self.AddEdges(<span class="literal">None</span>, self.qstart)</span><br><span class="line"></span><br><span class="line">    k = <span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt; self.max_steps:</span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line">        qrand = self.GenerateRandomNode()</span><br><span class="line">        _, qnear = self.FindNearestNode(qrand)</span><br><span class="line">        qnew = self.ExtendTree(qnear, qrand)</span><br><span class="line">        <span class="keyword">if</span> qnew <span class="keyword">and</span> self.CollsionFree(qnear, qnew):</span><br><span class="line">            self.AddVertices(qnew)</span><br><span class="line">            self.AddEdges(qnear, qnew)</span><br><span class="line"></span><br><span class="line">            self.DrawEdges(qnear, qnew)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> self.IsArrival(qnew):</span><br><span class="line">                print(<span class="string">"Found"</span>)</span><br><span class="line">                self.AddVertices(self.qgoal)</span><br><span class="line">                self.AddEdges(qnew, self.qgoal)</span><br><span class="line"></span><br><span class="line">                path = self.FindPath()</span><br><span class="line">                self.DrawPath(path)</span><br><span class="line">                smooth_path = self.SmoothPath(path)</span><br><span class="line">                self.DrawPath(smooth_path)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    print(<span class="string">'Not Found'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h2 id="算法实现"><a class="header-anchor" href="#算法实现">¶</a>算法实现</h2>
+<h3 id="数据结构"><a class="header-anchor" href="#数据结构">¶</a>数据结构</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pos=[<span class="number">0</span>, <span class="number">0</span>])</span>:</span></span><br><span class="line">        self.pos = pos</span><br><span class="line">        self.parent = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+<h3 id="接口"><a class="header-anchor" href="#接口">¶</a>接口</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">map_path: 地图图片路径</span></span><br><span class="line"><span class="string">qstart: 起点坐标 [row, col]</span></span><br><span class="line"><span class="string">qgoal: 目标点坐标 [row, col]</span></span><br><span class="line"><span class="string">grid_size: 网格大小（用来碰撞检测）</span></span><br><span class="line"><span class="string">step_size: 扩展步长</span></span><br><span class="line"><span class="string">max_steps: 最大扩展节点数</span></span><br><span class="line"><span class="string">goal_prob: 增加趋向目标点概率（贪婪）</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">rrt = RRT(map_path, qstart, qgoal, grid_size,</span><br><span class="line">          step_size, max_steps, goal_prob)</span><br></pre></td></tr></table></figure>
+<h3 id="Planning"><a class="header-anchor" href="#Planning">¶</a>Planning</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Planning</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    rrt planning</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    self.AddVertices(self.qstart)</span><br><span class="line">    self.AddEdges(<span class="literal">None</span>, self.qstart)</span><br><span class="line"></span><br><span class="line">    k = <span class="number">-1</span></span><br><span class="line">    <span class="keyword">while</span> k &lt; self.max_steps:</span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line">        qrand = self.GenerateRandomNode()</span><br><span class="line">        _, qnear = self.FindNearestNode(qrand)</span><br><span class="line">        qnew = self.ExtendTree(qnear, qrand)</span><br><span class="line">        <span class="keyword">if</span> qnew <span class="keyword">and</span> self.CollsionFree(qnear, qnew):</span><br><span class="line">            self.AddVertices(qnew)</span><br><span class="line">            self.AddEdges(qnear, qnew)</span><br><span class="line"></span><br><span class="line">            self.DrawEdges(qnear, qnew)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> self.IsArrival(qnew):</span><br><span class="line">                print(<span class="string">"Found"</span>)</span><br><span class="line">                self.AddVertices(self.qgoal)</span><br><span class="line">                self.AddEdges(qnew, self.qgoal)</span><br><span class="line"></span><br><span class="line">                path = self.FindPath()</span><br><span class="line">                self.DrawPath(path)</span><br><span class="line">                smooth_path = self.SmoothPath(path)</span><br><span class="line">                self.DrawPath(smooth_path)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    print(<span class="string">'Not Found'</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -333,13 +343,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\1627378678\" rel="bookmark">路径规划-A_Star</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\367356294\" rel="bookmark">路径规划-LPA_Star</a></div>
+      <div class="popular-posts-title"><a href="\posts\3092301982\" rel="bookmark">路径规划-RRT_Star</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\posts\2708526344\" rel="bookmark">路径规划-RRT_Connect</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="\posts\367356294\" rel="bookmark">路径规划-LPA_Star</a></div>
     </li>
   </ul>
 
@@ -504,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#路径规划之-Rapidly-Exploring-Random-Trees-快速扩展随机树"><span class="nav-text">路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述"><span class="nav-text">算法描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#伪码"><span class="nav-text">伪码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法实现"><span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planning"><span class="nav-text">Planning</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">路径规划之 Rapidly-Exploring Random Trees (快速扩展随机树)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述"><span class="nav-text">算法描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#伪码"><span class="nav-text">伪码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程"><span class="nav-text">流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法实现"><span class="nav-text">算法实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Planning"><span class="nav-text">Planning</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -602,12 +612,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -831,8 +841,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

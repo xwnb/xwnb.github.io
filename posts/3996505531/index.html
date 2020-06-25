@@ -247,6 +247,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -310,19 +312,21 @@
 <p>因为迭代器是一个泛化的指针，同样的限制也会被施加在和任随机访问迭代器的加法运算上。特别地，C++ 标准， [iterator.requirements.general], paragraph 5, 陈述如下：</p>
 <p>Because iterators are a generalization of pointers, the same constraints apply to additive operators with random access iterators. Specifically, the C++ Standard, [iterator.requirements.general], paragraph 5, states the following:</p>
 <blockquote>
-<p>Just as a regular pointer to an array guarantees that there is a pointer value pointing past the last element of the array, so for any iterator type there is an iterator value that points past the last element of a corresponding sequence. These values are called _past-the-end_ values. Values of an iterator <code>i</code> for which the expression <code>*i</code> is defined are called _dereferenceable_. The library never assumes that past-the-end values are dereferenceable.</p>
+<p>Just as a regular pointer to an array guarantees that there is a pointer value pointing past the last element of the array, so for any iterator type there is an iterator value that points past the last element of a corresponding sequence. These values are called <em>past-the-end</em> values. Values of an iterator <code>i</code> for which the expression <code>*i</code> is defined are called <em>dereferenceable</em>. The library never assumes that past-the-end values are dereferenceable.</p>
 </blockquote>
 <p>当运算结果会溢出容器范围时，不允许一个整型地表达式和指针或者随机访问迭代器相加或者相减。</p>
 <p>Do not allow an expression of integral type to add to or subtract from a pointer or random access iterator when the resulting value would overflow the bounds of the container.</p>
-<h2 id="不合规的代码示例-std-vector-Noncompliant-Code-Example-std-vector"><a href="#不合规的代码示例-std-vector-Noncompliant-Code-Example-std-vector" class="headerlink" title="不合规的代码示例 (std::vector) Noncompliant Code Example (std::vector)"></a>不合规的代码示例 (<code>std::vector</code>) Noncompliant Code Example (<code>std::vector</code>)</h2><p>在这个不合规的代码示例中，一个来自 <code>std::vector</code> 的随机访问迭代器被用在一个加法表达式中，但是结果将在容器范围之外，而不是一个尾后值。</p>
+<h2 id="不合规的代码示例-std-vector-Noncompliant-Code-Example-std-vector"><a class="header-anchor" href="#不合规的代码示例-std-vector-Noncompliant-Code-Example-std-vector">¶</a>不合规的代码示例 (<code>std::vector</code>) Noncompliant Code Example (<code>std::vector</code>)</h2>
+<p>在这个不合规的代码示例中，一个来自 <code>std::vector</code> 的随机访问迭代器被用在一个加法表达式中，但是结果将在容器范围之外，而不是一个尾后值。</p>
 <p>In this noncompliant code example, a random access iterator from a <code>std::vector</code> is used in an additive expression, but the resulting value could be outside the bounds of the container rather than a past-the-end value.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> i = c.<span class="built_in">begin</span>(), e = i + <span class="number">20</span>; i != e; ++i) &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; *i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规方案-std-vector-Compliant-Solution-std-vector"><a href="#合规方案-std-vector-Compliant-Solution-std-vector" class="headerlink" title="合规方案 (std::vector) Compliant Solution (std::vector)"></a>合规方案 (<code>std::vector</code>) Compliant Solution (<code>std::vector</code>)</h2><p>这个合规方案假设程序员的意图是处理容器中最多 20 项。和假设所有容器有 20 项或者更多元素不同的是，在加法中，容器的尺寸被用来决定容器的上限。</p>
+<h2 id="合规方案-std-vector-Compliant-Solution-std-vector"><a class="header-anchor" href="#合规方案-std-vector-Compliant-Solution-std-vector">¶</a>合规方案 (<code>std::vector</code>) Compliant Solution (<code>std::vector</code>)</h2>
+<p>这个合规方案假设程序员的意图是处理容器中最多 20 项。和假设所有容器有 20 项或者更多元素不同的是，在加法中，容器的尺寸被用来决定容器的上限。</p>
 <p>This compliant solution assumes that the programmer’s intention was to process up to 20 items in the container. Instead of assuming all containers will have 20 or more elements, the size of the container is used to determine the upper bound on the addition.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::size_type maxSize = <span class="number">20</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">auto</span> i = c.<span class="built_in">begin</span>(), e = i + <span class="built_in">std</span>::<span class="built_in">min</span>(maxSize, c.<span class="built_in">size</span>()); i != e; ++i) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="风险评估-Risk-Assessment"><a href="#风险评估-Risk-Assessment" class="headerlink" title="风险评估 Risk Assessment"></a>风险评估 Risk Assessment</h2><p>如果在指针上加上或者减去一个整数造成一个元素的引用在数组之外或者数组对象的最后一个元素之后，这种行为是 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined</a> ，但是经常造成缓冲器溢出或者缓冲器欠载运行，这经常被<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-exploit" target="_blank" rel="noopener">exploited</a> 运行任意代码。迭代器和标准模板库容器展现出与指针和数组一样的行为和警告。</p>
+<h2 id="风险评估-Risk-Assessment"><a class="header-anchor" href="#风险评估-Risk-Assessment">¶</a>风险评估 Risk Assessment</h2>
+<p>如果在指针上加上或者减去一个整数造成一个元素的引用在数组之外或者数组对象的最后一个元素之后，这种行为是 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined</a> ，但是经常造成缓冲器溢出或者缓冲器欠载运行，这经常被<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-exploit" target="_blank" rel="noopener">exploited</a> 运行任意代码。迭代器和标准模板库容器展现出与指针和数组一样的行为和警告。</p>
 <p>If adding or subtracting an integer to a pointer results in a reference to an element outside the array or one past the last element of the array object, the behavior is <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined</a> but frequently leads to a buffer overflow or buffer underrun, which can often be <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-exploit" target="_blank" rel="noopener">exploited</a> to run arbitrary code. Iterators and standard template library containers exhibit the same behavior and caveats as pointers and arrays.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -345,8 +349,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h2><div class="table-container">
+<h2 id="Automated-Detection"><a class="header-anchor" href="#Automated-Detection">¶</a>Automated Detection</h2>
 <table>
 <thead>
 <tr>
@@ -371,9 +374,9 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h2><p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerability" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR38-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
-<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><div class="table-container">
+<h2 id="Related-Vulnerabilities"><a class="header-anchor" href="#Related-Vulnerabilities">¶</a>Related Vulnerabilities</h2>
+<p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerability" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR38-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
+<h2 id="Related-Guidelines"><a class="header-anchor" href="#Related-Guidelines">¶</a>Related Guidelines</h2>
 <table>
 <thead>
 <tr>
@@ -388,8 +391,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><div class="table-container">
+<h2 id="Bibliography"><a class="header-anchor" href="#Bibliography">¶</a>Bibliography</h2>
 <table>
 <thead>
 <tr>
@@ -404,10 +406,10 @@
 </tr>
 <tr>
 <td>[<a href="https://wiki.sei.cmu.edu/confluence/display/c/AA.+Bibliography#AA.Bibliography-VU#162289" target="_blank" rel="noopener">VU#162289</a>]</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
 <hr>
 <p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046693" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&amp;modificationDate=1216910800000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&amp;modificationDate=1216910618000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046755" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&amp;modificationDate=1216910815000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
 
@@ -420,13 +422,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\39044419\" rel="bookmark">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</a></div>
+      <div class="popular-posts-title"><a href="\posts\505389678\" rel="bookmark">CTR58-CPP. 谓词函数对象不应该是 mutable </a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\3185197214\" rel="bookmark">CTR52-CPP. 确保库函数不要溢出</a></div>
+      <div class="popular-posts-title"><a href="\posts\2368459165\" rel="bookmark">CTR57-CPP. 提供一个有效排序的谓词</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2396132143\" rel="bookmark">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div>
+      <div class="popular-posts-title"><a href="\posts\1493253227\" rel="bookmark">CTR56-CPP. 不要在多态对象上使用指针运算</a></div>
     </li>
   </ul>
 
@@ -690,12 +692,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -864,8 +866,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>

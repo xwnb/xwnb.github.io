@@ -248,6 +248,8 @@
         </h1>
 
         <div class="post-meta">
+
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -321,23 +323,27 @@
 </ul>
 <p>An empty iterator range (where the two iterators are valid and equivalent) is considered to be valid.</p>
 <p>Using a range of two iterators that are invalidated or do not refer into the same container results in <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>.</p>
-<h2 id="不合规的代码示例-Noncompliant-Code-Example"><a href="#不合规的代码示例-Noncompliant-Code-Example" class="headerlink" title="不合规的代码示例 Noncompliant Code Example"></a>不合规的代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，两个迭代器将范围限定在同一个迭代器中，但是第一个迭代器不是先于第二个迭代器。在它的内部循环迭代中，<code>std::for_each()</code> 比较第一个迭代器 (在累加之后) 和第二个迭代器是否相等；只要它们不等，它就继续递增第一个迭代器。递增表示范围内尾后元素的迭代器导致 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>.</p>
+<h2 id="不合规的代码示例-Noncompliant-Code-Example"><a class="header-anchor" href="#不合规的代码示例-Noncompliant-Code-Example">¶</a>不合规的代码示例 Noncompliant Code Example</h2>
+<p>在这个不合规的代码示例中，两个迭代器将范围限定在同一个迭代器中，但是第一个迭代器不是先于第二个迭代器。在它的内部循环迭代中，<code>std::for_each()</code> 比较第一个迭代器 (在累加之后) 和第二个迭代器是否相等；只要它们不等，它就继续递增第一个迭代器。递增表示范围内尾后元素的迭代器导致 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>.</p>
 <p>In this noncompliant example, the two iterators that delimit the range point into the same container, but the first iterator does not precede the second. On each iteration of its internal loop, <code>std::for_each()</code> compares the first iterator (after incrementing it) with the second for equality; as long as they are not equal, it will continue to increment the first iterator. Incrementing the iterator representing the past-the-end element of the range results in <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior" target="_blank" rel="noopener">undefined behavior</a>.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::for_each(c.<span class="built_in">end</span>(), c.<span class="built_in">begin</span>(), [](<span class="keyword">int</span> i) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>无效迭代器范围也可能是由于对两个相等的值返回 true 的比较函数造成。查看 <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR57-CPP.+Provide+a+valid+ordering+predicate" target="_blank" rel="noopener">CTR57-CPP. Provide a valid ordering predicate</a> 获取更多关于比较器的信息。</p>
 <p>Invalid iterator ranges can also result from comparison functions that return true for equal values. See <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR57-CPP.+Provide+a+valid+ordering+predicate" target="_blank" rel="noopener">CTR57-CPP. Provide a valid ordering predicate</a> for more information about comparators.</p>
-<h2 id="合规的方案-Compliant-Solution"><a href="#合规的方案-Compliant-Solution" class="headerlink" title="合规的方案 Compliant Solution"></a>合规的方案 Compliant Solution</h2><p>在这个合规方案中，这个传入<code>std::for_each()</code> 迭代器的值是恰当的顺序。</p>
+<h2 id="合规的方案-Compliant-Solution"><a class="header-anchor" href="#合规的方案-Compliant-Solution">¶</a>合规的方案 Compliant Solution</h2>
+<p>在这个合规方案中，这个传入<code>std::for_each()</code> 迭代器的值是恰当的顺序。</p>
 <p>In this compliant solution, the iterator values passed to <code>std::for_each()</code> are passed in the proper order.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::for_each(c.<span class="built_in">begin</span>(), c.<span class="built_in">end</span>(), [](<span class="keyword">int</span> i) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="不合规的代码示例-Noncompliant-Code-Example-1"><a href="#不合规的代码示例-Noncompliant-Code-Example-1" class="headerlink" title="不合规的代码示例 Noncompliant Code Example"></a>不合规的代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，来自不同容器的迭代器被传递了同一个迭代器范围。即使很多 STL <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions" target="_blank" rel="noopener">implementations</a> 将编译这块代码，程序可能表现得和开发者期望的一样，一个 STL 的实现将默认初始化的迭代器视为 <code>end()</code> 返回的迭代器的同义词不是必要的。</p>
+<h2 id="不合规的代码示例-Noncompliant-Code-Example-v2"><a class="header-anchor" href="#不合规的代码示例-Noncompliant-Code-Example-v2">¶</a>不合规的代码示例 Noncompliant Code Example</h2>
+<p>在这个不合规的代码示例中，来自不同容器的迭代器被传递了同一个迭代器范围。即使很多 STL <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions" target="_blank" rel="noopener">implementations</a> 将编译这块代码，程序可能表现得和开发者期望的一样，一个 STL 的实现将默认初始化的迭代器视为 <code>end()</code> 返回的迭代器的同义词不是必要的。</p>
 <p>In this noncompliant code example, iterators from different containers are passed for the same iterator range. Although many STL <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions" target="_blank" rel="noopener">implementations</a> will compile this code and the program may behave as the developer expects, there is no requirement that an STL implementation treat a default-initialized iterator as a synonym for the iterator returned by <code>end()</code>.</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::const_iterator e;</span><br><span class="line">  <span class="built_in">std</span>::for_each(c.<span class="built_in">begin</span>(), e, [](<span class="keyword">int</span> i) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="合规的方案-Compliant-Solution-1"><a href="#合规的方案-Compliant-Solution-1" class="headerlink" title="合规的方案 Compliant Solution"></a>合规的方案 Compliant Solution</h2><p>在这个合规方案中，通过调用 <code>end()</code> 生成的正确的迭代器被传入。</p>
+<h2 id="合规的方案-Compliant-Solution-v2"><a class="header-anchor" href="#合规的方案-Compliant-Solution-v2">¶</a>合规的方案 Compliant Solution</h2>
+<p>在这个合规方案中，通过调用 <code>end()</code> 生成的正确的迭代器被传入。</p>
 <p>In this compliant solution, the proper iterator generated by a call to <code>end()</code> is passed.</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;c)</span> </span>&#123;</span><br><span class="line">  <span class="built_in">std</span>::for_each(c.begin(), c.end(), [](<span class="keyword">int</span> i) &#123; <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="风险评估-Risk-Assessment"><a href="#风险评估-Risk-Assessment" class="headerlink" title="风险评估 Risk Assessment"></a>风险评估 Risk Assessment</h2><p>使用无效的迭代器范围与缓冲区溢出类似，会引起攻击者执行任意代码。</p>
+<h2 id="风险评估-Risk-Assessment"><a class="header-anchor" href="#风险评估-Risk-Assessment">¶</a>风险评估 Risk Assessment</h2>
+<p>使用无效的迭代器范围与缓冲区溢出类似，会引起攻击者执行任意代码。</p>
 <p>Using an invalid iterator range is similar to allowing a buffer overflow, which can lead to an attacker running arbitrary code.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -360,8 +366,7 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h3><div class="table-container">
+<h3 id="Automated-Detection"><a class="header-anchor" href="#Automated-Detection">¶</a>Automated Detection</h3>
 <table>
 <thead>
 <tr>
@@ -388,13 +393,14 @@
 <td style="text-align:left"><a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/PVS-Studio" target="_blank" rel="noopener">PVS-Studio</a></td>
 <td style="text-align:left"><img data-src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6UFZTLVN0dWRpb19WfQ&amp;locale=zh_CN&amp;version=2" alt="img"></td>
 <td style="text-align:left"><a href="https://www.viva64.com/en/w/v539/" target="_blank" rel="noopener"><strong>V539</strong></a>, <a href="https://www.viva64.com/en/w/v662/" target="_blank" rel="noopener"><strong>V662</strong></a>, <strong><a href="https://www.viva64.com/en/w/v789/" target="_blank" rel="noopener">V789</a></strong></td>
+<td style="text-align:left"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h3 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h3><p>In _Fun with erase()_, Chris Rohlf discusses the exploit potential of a program that calls <code>vector::erase()</code> with invalid iterator ranges [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-rohlf2009" target="_blank" rel="noopener">Rohlf 2009</a>].</p>
+<h3 id="Related-Vulnerabilities"><a class="header-anchor" href="#Related-Vulnerabilities">¶</a>Related Vulnerabilities</h3>
+<p>In <em>Fun with erase()</em>, Chris Rohlf discusses the exploit potential of a program that calls <code>vector::erase()</code> with invalid iterator ranges [<a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-rohlf2009" target="_blank" rel="noopener">Rohlf 2009</a>].</p>
 <p>Search for <a href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions" target="_blank" rel="noopener">vulnerabilities</a> resulting from the violation of this rule on the <a href="https://www.kb.cert.org/vulnotes/bymetric?searchview&amp;query=FIELD+KEYWORDS+contains+CTR53-CPP" target="_blank" rel="noopener">CERT website</a>.</p>
-<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><div class="table-container">
+<h2 id="Related-Guidelines"><a class="header-anchor" href="#Related-Guidelines">¶</a>Related Guidelines</h2>
 <table>
 <thead>
 <tr>
@@ -405,11 +411,11 @@
 <tbody>
 <tr>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
-<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><div class="table-container">
+<h2 id="Bibliography"><a class="header-anchor" href="#Bibliography">¶</a>Bibliography</h2>
 <table>
 <thead>
 <tr>
@@ -424,7 +430,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <hr>
 <p><a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046690" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&amp;modificationDate=1216910800000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&amp;modificationDate=1216910618000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a> <a href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046693" target="_blank" rel="noopener"><img data-src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&amp;modificationDate=1216910815000&amp;api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
 
@@ -437,13 +442,13 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\39044419\" rel="bookmark">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</a></div>
+      <div class="popular-posts-title"><a href="\posts\505389678\" rel="bookmark">CTR58-CPP. 谓词函数对象不应该是 mutable </a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\3185197214\" rel="bookmark">CTR52-CPP. 确保库函数不要溢出</a></div>
+      <div class="popular-posts-title"><a href="\posts\2368459165\" rel="bookmark">CTR57-CPP. 提供一个有效排序的谓词</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\posts\2396132143\" rel="bookmark">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div>
+      <div class="popular-posts-title"><a href="\posts\1493253227\" rel="bookmark">CTR56-CPP. 不要在多态对象上使用指针运算</a></div>
     </li>
   </ul>
 
@@ -609,7 +614,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规的方案-Compliant-Solution"><span class="nav-text">合规的方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example-1"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规的方案-Compliant-Solution-1"><span class="nav-text">合规的方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#风险评估-Risk-Assessment"><span class="nav-text">风险评估 Risk Assessment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Automated-Detection"><span class="nav-text">Automated Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Related-Vulnerabilities"><span class="nav-text">Related Vulnerabilities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Guidelines"><span class="nav-text">Related Guidelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bibliography"><span class="nav-text">Bibliography</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规的方案-Compliant-Solution"><span class="nav-text">合规的方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不合规的代码示例-Noncompliant-Code-Example-v2"><span class="nav-text">不合规的代码示例 Noncompliant Code Example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合规的方案-Compliant-Solution-v2"><span class="nav-text">合规的方案 Compliant Solution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#风险评估-Risk-Assessment"><span class="nav-text">风险评估 Risk Assessment</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Automated-Detection"><span class="nav-text">Automated Detection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Related-Vulnerabilities"><span class="nav-text">Related Vulnerabilities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Related-Guidelines"><span class="nav-text">Related Guidelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bibliography"><span class="nav-text">Bibliography</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -707,12 +712,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">96k</span>
+    <span title="站点总字数">97k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:27</span>
+    <span title="站点阅读时长">1:28</span>
 </div>
 
         
@@ -881,8 +886,6 @@
     fixed="true" 
     mutex="true"
     order="random"
-    lrcType=1
-    listFolded="false"
   </meting-js>
 </body>
 </html>
