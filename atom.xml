@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://xwnb.github.io/"/>
-  <updated>2020-06-24T20:31:50.372Z</updated>
+  <updated>2021-11-06T21:02:37.712Z</updated>
   <id>https://xwnb.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Test sync between github and gitee page</title>
+    <link href="https://xwnb.github.io/posts/3675401570/"/>
+    <id>https://xwnb.github.io/posts/3675401570/</id>
+    <published>2021-11-06T21:02:37.000Z</published>
+    <updated>2021-11-06T21:02:37.712Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>CTR58-CPP. 谓词函数对象不应该是 mutable </title>
@@ -478,29 +501,6 @@
     <summary type="html">
     
       &lt;p&gt;最近在学习自动驾驶相关的知识，看很多公司都是基于百度 &lt;code&gt;Apollo&lt;/code&gt; 平台的，不过因为基于 Linux。手头电脑上只有虚拟机，显卡什么不能用，跑起来有点费劲。然后找到了微软开放的一个仿真平台 &lt;code&gt;AirSim&lt;/code&gt;。因为微软加持，所以在 &lt;code&gt;Windows&lt;/code&gt;平台就很方便，另外也有 &lt;code&gt;Linux&lt;/code&gt;版本。（等买一个新硬盘再装个 &lt;code&gt;Linux&lt;/code&gt;系统再用下 &lt;code&gt;Apollo&lt;/code&gt; 和 &lt;code&gt;AirSim&lt;/code&gt; ）。本文主要记录了 &lt;code&gt;Windows 10&lt;/code&gt; 下安装 &lt;code&gt;AirSim - v1.3.1&lt;/code&gt;的步骤。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="自动驾驶" scheme="https://xwnb.github.io/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"/>
-    
-    
-      <category term="自动驾驶" scheme="https://xwnb.github.io/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/"/>
-    
-      <category term="AirSim" scheme="https://xwnb.github.io/tags/AirSim/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>自动驾驶仿真 - AirSim (2) - 创建并设置 Unreal Engine 环境</title>
-    <link href="https://xwnb.github.io/posts/2194771931/"/>
-    <id>https://xwnb.github.io/posts/2194771931/</id>
-    <published>2020-06-22T15:42:09.000Z</published>
-    <updated>2020-06-24T19:47:09.736Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;对自定义 UE 环境导入 AirSim 插件小车。本文主要参考官方文档 &lt;a href=&quot;https://microsoft.github.io/AirSim/unreal_custenv/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Creating and Setting Up Unreal Environment&lt;/a&gt;。&lt;/p&gt;
     
     </summary>
     
