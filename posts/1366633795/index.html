@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="个人站，学习记录、实践教程、资料收集等，哈哈哈。"><title>ROS学习-controller_manager | Sun of Beach</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">ROS学习-controller_manager</h1><a id="logo" href="/.">Sun of Beach</a><p class="description">Stay Angry, Stay Foolish</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">ROS学习-controller_manager</h1><div class="post-meta">2019-10-26<span> | </span><span class="category"><a href="/categories/ROS%E5%AD%A6%E4%B9%A0/">ROS学习</a></span><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1.7k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i><span class="post-count"> 6</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E5%B7%A5%E5%85%B7-Tools-for-running-controllers"><span class="toc-number">1.</span> <span class="toc-text">控制器运行的工具(Tools for running controllers)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7-Command-line-tools"><span class="toc-number">2.</span> <span class="toc-text">命令行工具(Command-line tools)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E7%AE%A1%E7%90%86%E5%99%A8-controller-manager"><span class="toc-number">2.1.</span> <span class="toc-text">控制管理器(controller_manager)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%B9%B6%E5%90%AF%E5%8A%A8%E6%8E%A7%E5%88%B6%E5%99%A8-spawner"><span class="toc-number">2.2.</span> <span class="toc-text">加载并启动控制器(spawner)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD%E6%8E%A7%E5%88%B6%E5%99%A8-unspawner"><span class="toc-number">2.3.</span> <span class="toc-text">卸载控制器(unspawner)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E7%BB%84-controller-group"><span class="toc-number">2.4.</span> <span class="toc-text">控制器组(controller_group)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6-Creating-launch-files"><span class="toc-number">3.</span> <span class="toc-text">创建启动文件(Creating launch files)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E5%B7%A5%E5%85%B7-Graphical-tools"><span class="toc-number">4.</span> <span class="toc-text">图形工具(Graphical tools)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ROS%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3-ROS-API"><span class="toc-number">5.</span> <span class="toc-text">ROS应用程序接口(ROS API)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E7%AE%A1%E7%90%86%E5%99%A8-controller-manager-1"><span class="toc-number">6.</span> <span class="toc-text">控制管理器 (controller_manager)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1-Services"><span class="toc-number">6.1.</span> <span class="toc-text">服务(Services)</span></a></li></ol></li></ol></div></div><div class="post-content"><p><code>controller_manager</code>提供硬实时兼容的环来控制的机械手,由一个<code>hardware_interface::RobotHW</code>实例代表(参见<code>hardware_interface</code>包).该<code>controller_manager</code>提供了加载,卸载,启动和停止控制器的基本结构.</p>
+<span id="more"></span>
+
+<p>当加载一个控制器时,<code>controller_manager</code>将使用控制器名作为所有控制器特定参数的<code>root</code>,最重要的是,<code>type</code>用于标识要加载哪个插件.</p>
+<h2 id="控制器运行的工具-Tools-for-running-controllers"><a href="#控制器运行的工具-Tools-for-running-controllers" class="headerlink" title="控制器运行的工具(Tools for running controllers)"></a>控制器运行的工具(<code>Tools for running controllers</code>)</h2><p>控制器管理器提供的与控制器进行交互的基本结构.根据控制器从启动文件,命令行,或者<code>ROS</code>节点运行,控制管理器提供不同的工具来运行控制器.</p>
+<p><a href="http://wiki.ros.org/controller_manager?action=AttachFile&do=get&target=controller+state.png">controller_manager</a></p>
+<h2 id="命令行工具-Command-line-tools"><a href="#命令行工具-Command-line-tools" class="headerlink" title="命令行工具(Command-line tools)"></a>命令行工具(<code>Command-line tools</code>)</h2><h3 id="控制管理器-controller-manager"><a href="#控制管理器-controller-manager" class="headerlink" title="控制管理器(controller_manager)"></a>控制管理器(<code>controller_manager</code>)</h3><p>使用<code>controller_manager</code>工具与从命令行运行的控制器交互.要与特定的控制器进行交互,可以使用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_manager &lt;<span class="built_in">command</span>&gt; &lt;controller_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>load</code></strong>:</td>
+<td align="left">加载控制器 (construct and initialize)</td>
+</tr>
+<tr>
+<td align="left"><strong><code>unload</code></strong>:</td>
+<td align="left">卸载控制器 (destruct)</td>
+</tr>
+<tr>
+<td align="left"><strong><code>start</code></strong>:</td>
+<td align="left">启动控制器</td>
+</tr>
+<tr>
+<td align="left"><strong><code>stop</code></strong>:</td>
+<td align="left">结束控制器</td>
+</tr>
+<tr>
+<td align="left"><strong><code>spawn</code></strong>:</td>
+<td align="left">加载并启动控制器</td>
+</tr>
+<tr>
+<td align="left"><strong><code>kill</code></strong>:</td>
+<td align="left">停止并卸载控制器</td>
+</tr>
+</tbody></table>
+<p>想获得控制器状态, 用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_manager &lt;<span class="built_in">command</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>list</code></strong>:</td>
+<td align="left">根据执行顺序,列出所有控制器,并给出每个控制器的状态</td>
+</tr>
+<tr>
+<td align="left"><strong><code>list-types</code></strong>:</td>
+<td align="left">列出所有控制器管理知道的控制器类型.如果控制器不在此列表中,将无法加载并启动.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>list-joints</code></strong>:</td>
+<td align="left">列出所有控制器管理使用的的关节和驱动器的名称.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>reload-libraries</code></strong>:</td>
+<td align="left">重新加载所有可作为插件的控制器库.当我们正在开发控制器时,可以方便的测试控制器代码,而 不用每次都重新启动机器人.</td>
+</tr>
+<tr>
+<td align="left"><strong><code>reload-libraries --restore</code></strong>:</td>
+<td align="left">重新加载所有可作为插件的的控制器库,并把所有控制器恢复到初始状态.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="加载并启动控制器-spawner"><a href="#加载并启动控制器-spawner" class="headerlink" title="加载并启动控制器(spawner)"></a>加载并启动控制器(<code>spawner</code>)</h3><p>为了立刻自动加载并启动一系列控制器以及立刻停止并卸载这些控制器,使用<code>spawner</code>工具:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager spawner [--stopped] name1 name2 name3</span><br></pre></td></tr></table></figure>
+
+<p>当运行<code>spawner</code>时,列表中控制器将被载入和启动(除非指定<code>--stopped</code>). 当控制器已开启(<code>controllers are up</code>),<code>spawner</code>将保持运行.当你杀死<code>spawner</code>进程(<code>CTRL-C</code>),会自动停止并卸载所有它最开始启动的控制器.</p>
+<h3 id="卸载控制器-unspawner"><a href="#卸载控制器-unspawner" class="headerlink" title="卸载控制器(unspawner)"></a>卸载控制器(<code>unspawner</code>)</h3><p>想要自动停止一组控制器,然后重新启动,可使用<code>unspawner</code>工具:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager unspawner name1 name2 name3</span><br></pre></td></tr></table></figure>
+
+<p>列表中的控制器将被停止,但没有卸载.一旦<code>spawner</code>关闭,该控制器将重新启动.</p>
+<h3 id="控制器组-controller-group"><a href="#控制器组-controller-group" class="headerlink" title="控制器组(controller_group)"></a>控制器组(<code>controller_group</code>)</h3><p><code>controller_group</code>允许开发者在运行时切换控制器,但是出于一些特殊意图,当你想从一组控制器切换到另一组时,这就不是很方便.<code>controller_group</code>脚本对于那些在<code>ROS parameter controller_groups</code>已经定义的分组的切换就很容易实现.它知道所有包含的控制器,当它切换控制器组时,控制器需要被停止或者被启动.所以,不同的控制器组可以共享某些控制器.</p>
+<p><code>controller_groups</code>的一个例子:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">controller_groups:</span></span><br><span class="line">  <span class="attr">production:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prod_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">prod_controller_2</span></span><br><span class="line">  <span class="attr">development:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">devel_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">devel_controller_2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">shared_controller_3</span></span><br><span class="line">  <span class="attr">diagnostics:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">diag_controller_1</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">diag_controller_2</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">shared_controller_3</span></span><br></pre></td></tr></table></figure>
+
+<p>启动<code>controller_groups</code>的脚本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rosrun controller_manager controller_group &lt;<span class="built_in">command</span>&gt; &lt;args&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以下命令可用:</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><code>list</code></strong>:</td>
+<td align="left">列出所有能在<code>controler_groups</code>参数中找到的组定义</td>
+</tr>
+<tr>
+<td align="left"><strong><code>spawn &lt;group&gt;</code></strong>:</td>
+<td align="left">载入和启动所有包含在名称为<code>&lt;group&gt;</code>组内的所有控制器,通常在<code>ROS launch</code>文件中使用</td>
+</tr>
+<tr>
+<td align="left"><strong><code>switch &lt;group&gt;</code></strong>:</td>
+<td align="left">切换到<code>&lt;group&gt;</code>组.这意味着将停止其他组内正在运行的控制器,但是定在在本组内的不会被停止,然后启动在本组内的未运行的控制器器</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="创建启动文件-Creating-launch-files"><a href="#创建启动文件-Creating-launch-files" class="headerlink" title="创建启动文件(Creating launch files)"></a>创建启动文件(<code>Creating launch files</code>)</h2><p>我们可以运行<code>controller_manager</code>,从启动文件(<code>launch file</code>)内启动控制器.然而,即使启动文件被撤下,控制器仍会保持.而<code>spawner</code>工具会从启动文件中自动加载,启动,停止和卸载控制器.当启动<code>spawner</code>工具时,它会加载并启动控制器.当你停止<code>spawner</code>(当启动文件被撤下),它将停止并卸载控制器.启动文件可能如下:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">node</span> <span class="attr">pkg</span>=<span class="string">&quot;controller_manager&quot;</span> <span class="attr">type</span>=<span class="string">&quot;spawner&quot;</span> <span class="attr">args</span>=<span class="string">&quot;controller_name1 controller_name2&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者,只是想加载控制器,但是还没有启动:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">launch</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">node</span> <span class="attr">pkg</span>=<span class="string">&quot;controller_manager&quot;</span> <span class="attr">type</span>=<span class="string">&quot;spawner&quot;</span> <span class="attr">args</span>=<span class="string">&quot;--stopped controller_name1 controller_name2&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">launch</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="图形工具-Graphical-tools"><a href="#图形工具-Graphical-tools" class="headerlink" title="图形工具(Graphical tools)"></a>图形工具(Graphical tools)</h2><p><code>rqt_controller_manager</code>是一个<code>rqt</code>插件,该插件以图形化方式加载,卸载,启动和停止控制器;同时用来显示加载的控制器的信息.</p>
+<p>它可以从<code>rqt</code>的<code>Plugin</code>菜单中启动,或者通过命令行单独执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rosrun rqt_controller_manager rqt_controller_manager</span><br></pre></td></tr></table></figure>
+
+<h2 id="ROS应用程序接口-ROS-API"><a href="#ROS应用程序接口-ROS-API" class="headerlink" title="ROS应用程序接口(ROS API)"></a><code>ROS</code>应用程序接口(<code>ROS API</code>)</h2><p>为了与另一个<code>ROS</code>节点的控制器交互,控制管理器提供了五种服务调用:</p>
+<h2 id="控制管理器-controller-manager-1"><a href="#控制管理器-controller-manager-1" class="headerlink" title="控制管理器 (controller_manager)"></a>控制管理器 (<code>controller_manager</code>)</h2><h3 id="服务-Services"><a href="#服务-Services" class="headerlink" title="服务(Services)"></a>服务(Services)</h3><p><code>controller_manager/load_controller (controller_manager_msgs/LoadController)</code></p>
+<blockquote>
+<p>服务请求包含了要加载的控制器的名字,响应包含了一个表示成功或失败的布尔值.</p>
+</blockquote>
+<p><code>controller_manager/unload_controller (controller_manager_msgs/UnloadController)</code></p>
+<blockquote>
+<p>服务请求中包含要卸载的控制器的名称,响应包含了一个表示成功或失败的布尔值.控制器只能在当其处于停止状态的时候被卸载.</p>
+</blockquote>
+<p><code>controller_manager/switch_controller (controller_manager_msgs/SwitchController)</code></p>
+<blockquote>
+<p>服务请求包含了要开始的控制器的名称列表,要停止的控制器名称列表和一个表明规范性 (<code>strictness: BEST_EFFORT or STRICT</code>)的整型值(<code>int</code>).<code>STRICT</code>表示如果出现任何错误(无效的控制器名称,控制器启动失败,<code>etc</code>),控制器的切换(<code>switching</code>)将会失败并导致空操作(<code>no-op</code>).<code>BEST_EFFORT</code>表示,即使控制器出现了一些问题,该服务仍然会尝试启动&#x2F;停止余下的控制器.服务响应包含了一个表示成功或失败的布尔值.如果只是停止或者只是启动控制器,控制器启动或停止的列表可能为空.</p>
+</blockquote>
+<p><code>controller_manager/list_controllers (controller_manager_msgs/ListControllers)</code></p>
+<blockquote>
+<p>该服务返回所有当前加载的控制器.响应包括以下信息:控制器的名称,状态(运行或停止),类型,硬件接口,和占用的资源.</p>
+</blockquote>
+<p><code>controller_manager/list_controller_types (controller_manager_msgs/ListControllerTypes)</code></p>
+<blockquote>
+<p>该服务返回<code>controller_manager</code>已知的所有控制器类型.只有已知的控制器类型可以构建.</p>
+</blockquote>
+<p><code>controller_manager/reload_controller_libraries (controller_manager_msgs/ReloadControllerLibraries)</code></p>
+<blockquote>
+<p>服务重新加载所有可作为插件的控制器库.当我们正在开发控制器时,无需每次重新启动机器人 就可以方便的测试控制器代码.此服务只在控制器没有加载情况下工作.</p>
+</blockquote>
+<p>Translated by Ms Wang 2014-8-19</p>
+<p>Wiki: controller_manager (last edited 2014-03-10 15:22:46 by AdolfoRodriguez)</p>
+<hr>
+<p>参考来源:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://wiki.ros.org/cn/controller_manager">http://wiki.ros.org/cn/controller_manager</a></li>
+<li><a target="_blank" rel="noopener" href="http://wiki.ros.org/controller_manager?distro=kenetic">http://wiki.ros.org/controller_manager?distro=kenetic</a></li>
+</ul>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css?v=1.0.0"><script type="text/javascript" src="/js/donate.js?v=1.0.0" successtext="复制成功!"></script><a class="pos-f tr3" id="github" href="https://github.com/Kaiyuan/donate-page" target="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="WeChat" qr="/img/wechatpay.jpg"></li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.0.0"><p><span>本文标题：</span>ROS学习-controller_manager</p><p><span>文章作者：</span>xwnb</p><p><span>发布时间：</span>2019-10-26</p><p><span>最后更新：</span>2022-10-16</p><p><span>原始链接：</span><a href="/posts/1366633795/">https://xwnb.github.io/posts/1366633795/</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="https://xwnb.github.io/posts/1366633795/"></i></span></p><p><span>版权声明：</span>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！并保留本声明。感谢您的阅读和支持！</p></div><br><script type="text/javascript" src="/js/share.js?v=1.0.0" async></script><a class="article-share-link" data-url="https://xwnb.github.io/posts/1366633795/" data-id="cl9bap3nz003o2ro79w6p25jn" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzElEQVR42u3aS27DMAwFwNz/0inQVYtGyaNosV6MV4XtWKMuCPHzeMTX8/ta/f3z+nt/9bXV0wsuXFzcNvf59kqI76HV7a3ewcXFnecmwWuF6ATB3ICLi3tPbmcb/V/h4uLek5skLTkCFxf3/tw8pem8mf87LsjVcHFxG9wTCUwn4Tle38XFxW10Jaol0bxUurk6Li7uCHcVUKqFkqTFUm3KLsMcLi7uYW6fld+pHqGiEIaLi3uYe1XTNB/jSL7/6w4uLu4gNx+6SpoiectkM+3BxcUd586PX+TJEi4u7gw3OXYkKU1heKI93oGLi3uaW10+XyYZtqiOc+Hi4k5y94Yk8vJHXk798DVcXNwRbn94oh9nyu0cXFzcw9zkx/mBJjkwtUoquLi4I9xqUWOvLNJpzGzOjODi4ja4e03QvICSJzbJU1xc3Elu9XCTF1XzzUTfwcXFHeSWB6S2hiry8mghFuLi4h7gVgNKnlFVhzY22664uLjHuEnoSZbPt5qXWV+sgouLO8itBq+9hCfZ5Id3cHFxb8ZNjjh7JdcjgQwXF3eQW22v9tMqXFzc/+IWmp3FYse141y4uLgz3GppI3mab6wTRnFxcQ9wvwDQX75VexHpuwAAAABJRU5ErkJggg==">分享</a><div class="tags"><a href="/tags/ROS"><i class="fa fa-tag">ROS</i></a><a href="/tags/controller_manager"><i class="fa fa-tag">controller_manager</i></a></div><div class="post-nav"><a class="pre" href="/posts/2955947163/">路径规划-RRT</a><a class="next" href="/posts/1500545740/">ROS学习-ur5机器人的gazebo仿真以及controller的使用</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://xwnb.github.io"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="关于"><img src="/img/avatar.jpg"/></a><p>Stay Angry, Stay Foolish.</p><a class="info-icon" href="https://juejin.cn/user/435824491237181" title="掘金" target="_blank" style="margin-inline:5px"> <i class="fa fa-external-link-square" style="margin-inline:5px"></i></a><a class="info-icon" href="https://github.com/xwnb" title="GitHub" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ROS%E5%AD%A6%E4%B9%A0/">ROS学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SEI-CERT-C/">SEI CERT C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tutorial/">Tutorial</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/">微信小程序开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/">路径规划</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/Markdown/" style="font-size: 15px;">Markdown</a> <a href="/tags/wechat-dev/" style="font-size: 15px;">wechat-dev</a> <a href="/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/" style="font-size: 15px;">路径规划</a> <a href="/tags/motion-planning/" style="font-size: 15px;">motion planning</a> <a href="/tags/RRT/" style="font-size: 15px;">RRT</a> <a href="/tags/A/" style="font-size: 15px;">A*</a> <a href="/tags/LPA/" style="font-size: 15px;">LPA*</a> <a href="/tags/RRT-Connect/" style="font-size: 15px;">RRT_Connect</a> <a href="/tags/RRT/" style="font-size: 15px;">RRT*</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" style="font-size: 15px;">自动驾驶</a> <a href="/tags/AirSim/" style="font-size: 15px;">AirSim</a> <a href="/tags/SEI-CERT-C/" style="font-size: 15px;">SEI CERT C++</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 15px;">编码规范</a> <a href="/tags/%E7%BF%BB%E8%AF%91/" style="font-size: 15px;">翻译</a> <a href="/tags/CERT-Containers/" style="font-size: 15px;">CERT Containers</a> <a href="/tags/Input-Output/" style="font-size: 15px;">Input Output</a> <a href="/tags/Memory-Management/" style="font-size: 15px;">Memory Management</a> <a href="/tags/Characters-and-Strings/" style="font-size: 15px;">Characters and Strings</a> <a href="/tags/STR/" style="font-size: 15px;">STR</a> <a href="/tags/Integers/" style="font-size: 15px;">Integers</a> <a href="/tags/INT/" style="font-size: 15px;">INT</a> <a href="/tags/Object-Oriented-Programming/" style="font-size: 15px;">Object Oriented Programming</a> <a href="/tags/OOP/" style="font-size: 15px;">OOP</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/xacro/" style="font-size: 15px;">xacro</a> <a href="/tags/controller-manager/" style="font-size: 15px;">controller_manager</a> <a href="/tags/gazebo/" style="font-size: 15px;">gazebo</a> <a href="/tags/controller-manager/" style="font-size: 15px;">controller-manager</a> <a href="/tags/ur5/" style="font-size: 15px;">ur5</a> <a href="/tags/roslaunch/" style="font-size: 15px;">roslaunch</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/posts/2113816124/">FIO51-CPP. 关闭不再需要的文件</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/2518610003/">OPP-CPP58. 拷贝操作绝不能改变源对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/294055068/">OPP-CPP57. 优先使用特定的成员函数和重载的运算符而不是C标准库函数</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3554254475/">OOP56-CPP. 尊重替换handler的要求</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3554254475/">OOP55-CPP. 不要使用成员指针运算符来访问不存在的成员</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/144696281/">OOP54-CPP. 优雅地处理自我拷贝赋值</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3904355907/">OOP53-CPP. 按照规范顺序编写构造函数的成员初始化</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/4027020077/">OOP52-CPP. 不要删除一个无虚析构的多态对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/1084595410/">OOP51-CPP-不要切分派生对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/2354633166/">OOP50-CPP 不要在构造函数和析构函数中调用虚函函函数</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Sun of Beach.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" color="0,0,0" opacity="0.5" zIndex="-2" count="200" src="//lib.baomitu.com/canvas-nest.js/latest/canvas-nest.js"></script><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

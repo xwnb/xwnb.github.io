@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="个人站，学习记录、实践教程、资料收集等，哈哈哈。"><title>CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素 | Sun of Beach</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/latest/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/latest/grids-responsive-min.min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/latest/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/latest/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/latest/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/latest/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</h1><a id="logo" href="/.">Sun of Beach</a><p class="description">Stay Angry, Stay Foolish</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</h1><div class="post-meta">2020-06-25<span> | </span><span class="category"><a href="/categories/SEI-CERT-C/">SEI CERT C++</a></span><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 2.9k</span><span class="post-meta-item-text"> 字</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-clock-o"></i><span class="post-count"> 14</span><span class="post-meta-item-text"> 分钟</span></span></span></div><div class="post-content"><p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR51-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+container">CTR51-CPP. Use valid references, pointers, and iterators to reference elements of a container</a></p>
+<p><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR51-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+container">https://wiki.sei.cmu.edu/confluence/display/cplusplus/CTR51-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+container</a></p>
+<span id="more"></span>
+
+<p>迭代器是指针的泛化，允许 C++ 程序可以在不同的数据结构 (容器) 以一种通用的方式运行。指针，引用和迭代器具有密切关系，在引用值时必须通过一个有效的迭代器，指针或者引用。任何时候存储一个指向一个容器内的元素的迭代器，引用或者指针都有风险，底层容器可能会被修改以致于已经存储的迭代器，指针或者引用失效。例如，当序列容器例如 <code>std::vector</code> 需要重新分配，已有的迭代器，指针和引用将会失效 [<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Kalev99">Kalev 99</a>]。仅使用 <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-validpointer">有效指针</a> ，引用，或者迭代器来指向容器内的元素。</p>
+<p>C++ 标准，[container.requirements.general]，第 12 段 [<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014">ISO&#x2F;IEC 14882-2014</a>] 陈述如下：</p>
+<blockquote>
+<p>除非另有规定 (显式或者通过其他函数来定义一个函数)，调用一个容器的成员函数或者传递一个作为参数的容器到库函数不应该使指向该容器内对象的迭代器失效，或修改该容器内对象的值。</p>
+</blockquote>
+<p>Iterators are a generalization of pointers that allow a C++ program to work with different data structures (containers) in a uniform manner [<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014">ISO&#x2F;IEC 14882-2014</a>]. Pointers, references, and iterators share a close relationship in which it is required that referencing values be done through a valid iterator, pointer, or reference. Storing an iterator, reference, or pointer to an element within a container for any length of time comes with a risk that the underlying container may be modified such that the stored iterator, pointer, or reference becomes invalid. For instance, when a sequence container such as <code>std::vector</code> requires an underlying reallocation, outstanding iterators, pointers, and references will be invalidated [<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Kalev99">Kalev 99</a>]. Use only a <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-validpointer">valid pointer</a>, reference, or iterator to refer to an element of a container.</p>
+<p>The C++ Standard, [container.requirements.general], paragraph 12 [<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014">ISO&#x2F;IEC 14882-2014</a>] states the following:</p>
+<blockquote>
+<p>Unless otherwise specified (either explicitly or by defining a function in terms of other functions), invoking a container member function or passing a container as an argument to a library function shall not invalidate iterators to, or change the values of, objects within that container.</p>
+</blockquote>
+<p>C++ 标准允许引用和指针对于同样的操作各自独立地失效，这可能导致一个失效的引用但是未失效的指针。然后，依赖这个却别使不安全的，因为指针指向的对象可能与预期的不同，即使指针是有效的。例如，检索一个指向容器内元素的指针，擦除这个元素 (当销毁底层对象时，引用失效)，然后在容器的相同位置插入一个新的元素，造成现存的指针现在指向一个有效但是不同的对象。所以，任何使一个指针或者一个引用失效的操作应该被当作会使指针和引用都失效来对待。</p>
+<p>The C++ Standard allows references and pointers to be invalidated independently for the same operation, which may result in an invalidated reference but not an invalidated pointer. However, relying on this distinction is insecure because the object pointed to by the pointer may be different than expected even if the pointer is valid. For instance, it is possible to retrieve a pointer to an element from a container, erase that element (invalidating references when destroying the underlying object), then insert a new element at the same location within the container causing the extant pointer to now point to a valid, but distinct object. Thus, any operation that invalidates a pointer or a reference should be treated as though it invalidates both pointers and references.</p>
+<p>以下容器函数会使迭代器，引用和指针在特定情况下失效。</p>
+<p>The following container functions can invalidate iterators, references, and pointers under certain circumstances.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Class</th>
+<th align="left">Function</th>
+<th align="left">Iterators</th>
+<th align="left">References&#x2F;Pointers</th>
+<th align="left">Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>std::deque</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>insert()</code>, <code>emplace_front()</code>, <code>emplace_back()</code>, <code>emplace()</code>, <code>push_front()</code>, <code>push_back()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">在双端队列中间的插入操作使所有指向该队列的元素的迭代器和引用失效。尾部插入使所有迭代器失效但对该队列内元素的引用有效性没有影响。 An insertion in the middle of the deque invalidates all the iterators and references to elements of the deque. An insertion at either end of the deque invalidates all the iterators to the deque but has no effect on the validity of references to elements of the deque. ([deque.modifiers], paragraph 1)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase()</code>, <code>pop_back()</code>, <code>resize()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">对双端队列最后一个元素的擦除操作只会使尾后迭代器和所有指向被擦除元素的迭代器和引用失效。对双端队列第一个元素的擦除操作只使被擦除的元素失效。对双端队列非第一个及非最后一个元素的擦除操作尾后迭代器和所有指向该队列内元素的迭代器及引用失效。An erase operation that erases the last element of a deque invalidates only the past-the-end iterator and all iterators and references to the erased elements. An erase operation that erases the first element of a deque but not the last element invalidates only the erased elements. An erase operation that erases neither the first element nor the last element of a deque invalidates the past-the-end iterator and all iterators and references to all the elements of the deque. ([deque.modifiers], paragraph 4)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">销毁容器内的所有元素使所有的容器内元素的引用，指针和迭代器失效。可能也会使尾后迭代器失效。Destroys all elements in the container. Invalidates all references, pointers, and iterators referring to the elements of the container and may invalidate the past-the-end iterator. ([sequence.reqmts], Table 100)</td>
+</tr>
+<tr>
+<td align="left"><code>std::forward_list</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase_after()</code>, <code>pop_front()</code>, <code>resize()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left"><code>erase_after</code> 可能只使指向被擦除元素的迭代器和引用失效。<code>erase_after</code>shall invalidate only iterators and references to the erased elements. ([forwardlist.modifiers], paragraph 1)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>remove()</code>, <code>unique()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">只使指向被擦除元素的迭代器和引用失效。Invalidates only the iterators and references to the erased elements. ([forwardlist.ops], paragraph 12 &amp; paragraph 16)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">销毁容器内的所有元素使所有的容器内元素的引用，指针和迭代器失效。可能也会使尾后迭代器失效。Destroys all elements in the container. Invalidates all references, pointers, and iterators referring to the elements of the container and may invalidate the past-the-end iterator. ([sequence.reqmts], Table 100)</td>
+</tr>
+<tr>
+<td align="left"><code>std::list</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase()</code>, <code>pop_front()</code>, <code>pop_back()</code>, <code>clear()</code>, <code>remove()</code>, <code>remove_if()</code>, <code>unique()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">Invalidates only the iterators and references to the erased elements. ([list.modifiers], paragraph 3 and [list.ops], paragraph 15 &amp; paragraph 19)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">销毁容器内的所有元素使所有的容器内元素的引用，指针和迭代器失效。可能也会使尾后迭代器失效。Destroys all elements in the container. Invalidates all references, pointers, and iterators referring to the elements of the container and may invalidate the past-the-end iterator. ([sequence.reqmts], Table 100)</td>
+</tr>
+<tr>
+<td align="left"><code>std::vector</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>reserve()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">在<code>reserve()</code> 之后，如果重分配发生，<code>capacity()</code> 将大于或者等于 <code>reverse</code> 的参数值，否则，将等于 <code>capacity()</code> 先前的值。重分配使所有指向序列元素的引用，指针和迭代器失效。After <code>reserve()</code>, <code>capacity()</code> is greater or equal to the argument of <code>reserve</code> if reallocation happens and is equal to the previous value of <code>capacity()</code> otherwise. Reallocation invalidates all the references, pointers, and iterators referring to the elements in the sequence. ([vector.capacity], paragraph 3 &amp; paragraph 6)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>insert()</code>, <code>emplace_back()</code>, <code>emplace()</code>, <code>push_back()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">如果新的尺寸值大于旧的容量值，会造成重分配。如果没有发生重分配，所有在插入位置之前的迭代器和引用依然保持有效。所有在插入位置之后的迭代器和引用将失效。Causes reallocation if the new size is greater than the old capacity. If no reallocation happens, all the iterators and references before the insertion point remain valid. ([vector.modifiers], paragraph 1). All iterators and references after the insertion point are invalidated.</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase()</code>, <code>pop_back()</code>, <code>resize()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">在擦除位置及之后的迭代器和引用失效。Invalidates iterators and references at or after the point of the erase. ([vector.modifiers], paragraph 3)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">销毁容器内的所有元素使所有的容器内元素的引用，指针和迭代器失效。可能也会使尾后迭代器失效。Destroys all elements in the container. Invalidates all references, pointers, and iterators referring to the elements of the container and may invalidate the past-the-end iterator. ([sequence.reqmts], Table 100)</td>
+</tr>
+<tr>
+<td align="left"><code>std::set</code>, <code>std::multiset</code>, <code>std::map</code>, <code>std::multimap</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase()</code>, <code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">只使指向被擦除元素的迭代器和引用失效。Invalidates only iterators and references to the erased elements. ([associative.reqmts], paragraph 9)</td>
+</tr>
+<tr>
+<td align="left"><code>std::unordered_set</code>, <code>std::unordered_multiset</code>, <code>std::unordered_map</code>, <code>std::unordered_multimap</code></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>erase()</code>, <code>clear()</code></td>
+<td align="left">X</td>
+<td align="left">X</td>
+<td align="left">只使指向被擦除元素的迭代器和引用失效。Invalidates only iterators and references to the erased elements. ([unord.req], paragraph 14)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>insert()</code>, <code>emplace()</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left"><code>insert</code> 和<code>emplace</code>成员不会对迭代器有效性造成影响，如果 (<em>N</em>+<em>n</em>) &lt; <em>z</em> * <em>B_，其中 <em>N</em> 是 <code>insert</code> 操作之前的容器元素个数， <em>n</em>是已插入元素的个数， <em>B</em> 是容器的桶个数，_z</em> 是容器的最大负载因子 。The <code>insert</code> and <code>emplace</code> members shall not affect the validity of iterators if (<em>N</em>+<em>n</em>) &lt; <em>z</em> * <em>B</em>, where <em>N</em> is the number of elements in the container prior to the <code>insert</code> operation, <em>n</em> is the number of elements inserted, <em>B</em> is the container’s bucket count, and <em>z</em> is the container’s maximum load factor. ([unord.req], paragraph 15)</td>
+</tr>
+<tr>
+<td align="left"></td>
+<td align="left"><code>rehash()</code>, <code>reserve()</code></td>
+<td align="left">X</td>
+<td align="left"></td>
+<td align="left">重哈希会使迭代器失效，改变元素间的顺序，改变元素所在的桶，但是不会使指向元素的指针或者引用失效。Rehashing invalidates iterators, changes ordering between elements, and changes which buckets the elements appear in but does not invalidate pointers or references to elements. ([unord.req], paragraph 9)</td>
+</tr>
+<tr>
+<td align="left"><code>std::valarray</code></td>
+<td align="left"><code>resize()</code></td>
+<td align="left"></td>
+<td align="left">X</td>
+<td align="left">改变大小操作使所有指向数组元素的指针和引用失效。Resizing invalidates all pointers and references to elements in the array. ([valarray.members], paragraph 12)</td>
+</tr>
+</tbody></table>
+<p>一个<code>std::basic_string</code> 对象也是一个适用这条规则的容器。更多关于 <code>std::basic_string</code> 容器的特定信息，查看 <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/STR52-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+basic_string">STR52-CPP. Use valid references, pointers, and iterators to reference elements of a basic_string</a> 。</p>
+<p>A <code>std::basic_string</code> object is also a container to which this rule applies. For more specific information pertaining to <code>std::basic_string</code> containers, see <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/STR52-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+basic_string">STR52-CPP. Use valid references, pointers, and iterators to reference elements of a basic_string</a>.</p>
+<h2 id="不合规代码示例-Noncompliant-Code-Example"><a href="#不合规代码示例-Noncompliant-Code-Example" class="headerlink" title="不合规代码示例 Noncompliant Code Example"></a>不合规代码示例 Noncompliant Code Example</h2><p>在这个不合规的代码示例中，在首次调用 <code>insert()</code> 时，<code>pos</code> 就失效了， 下标循环迭代有<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior">未定义行为</a>.。</p>
+<p>In this noncompliant code example, <code>pos</code> is invalidated after the first call to <code>insert()</code>, and subsequent loop iterations have <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-undefinedbehavior">undefined behavior</a>.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;deque&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">const</span> <span class="type">double</span> *items, std::<span class="type">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  std::deque&lt;<span class="type">double</span>&gt; d;</span><br><span class="line">  <span class="keyword">auto</span> pos = d.<span class="built_in">begin</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; count; ++i, ++pos) &#123;</span><br><span class="line">    d.<span class="built_in">insert</span>(pos, items[i] + <span class="number">41.0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator"><a href="#合规方案-Updated-Iterator-Compliant-Solution-Updated-Iterator" class="headerlink" title="合规方案 (Updated Iterator) Compliant Solution (Updated Iterator)"></a>合规方案 (Updated Iterator) Compliant Solution (Updated Iterator)</h2><p>在这个合规方案中，每次迭代，<code>pos</code> 被重新分配了有效的迭代器，避免了未定义行为。</p>
+<p>In this compliant solution, <code>pos</code> is assigned a valid iterator on each insertion, preventing undefined behavior.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;deque&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">const</span> <span class="type">double</span> *items, std::<span class="type">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  std::deque&lt;<span class="type">double</span>&gt; d;</span><br><span class="line">  <span class="keyword">auto</span> pos = d.<span class="built_in">begin</span>();</span><br><span class="line">  <span class="keyword">for</span> (std::<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; count; ++i, ++pos) &#123;</span><br><span class="line">    pos = d.<span class="built_in">insert</span>(pos, items[i] + <span class="number">41.0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm"><a href="#合规方案-Generic-Algorithm-Compliant-Solution-Generic-Algorithm" class="headerlink" title="合规方案 (Generic Algorithm) Compliant Solution (Generic Algorithm)"></a>合规方案 (Generic Algorithm) Compliant Solution (Generic Algorithm)</h2><p>这个合规方案用通用标准模板库算法 <code>std::transform()</code> 替换了手写循环。<code>std::transform()</code> 的函数调用接受转换的元素范围，被转换值存储的位置 (这里是一个用于在 <code>d</code> 的起始位置插入这些值的 <code>std::inserter</code> 对象)，应用的转换函数 (这里是一个简单的 lambda 表达式)。</p>
+<p>This compliant solution replaces the handwritten loop with the generic standard template library algorithm <code>std::transform()</code>. The call to <code>std::transform()</code> accepts the range of elements to transform, the location to store the transformed values (which, in this case, is a <code>std::inserter</code> object to insert them at the beginning of <code>d</code>), and the transformation function to apply (which, in this case, is a simple lambda).</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;deque&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iterator&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">const</span> <span class="type">double</span> *items, std::<span class="type">size_t</span> count)</span> </span>&#123;</span><br><span class="line">  std::deque&lt;<span class="type">double</span>&gt; d;</span><br><span class="line">  std::<span class="built_in">transform</span>(items, items + count, std::<span class="built_in">inserter</span>(d, d.<span class="built_in">begin</span>()),</span><br><span class="line">                 [](<span class="type">double</span> d) &#123; <span class="keyword">return</span> d + <span class="number">41.0</span>; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="风险评估-Risk-Assessment"><a href="#风险评估-Risk-Assessment" class="headerlink" title="风险评估 Risk Assessment"></a>风险评估 Risk Assessment</h2><p>使用指向容器内元素的无效的引用，指针，或者迭代器将导致未定义行为。</p>
+<p>Using invalid references, pointers, or iterators to reference elements of a container results in undefined behavior.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Rule</th>
+<th align="left">Severity</th>
+<th align="left">Likelihood</th>
+<th align="left">Remediation Cost</th>
+<th align="left">Priority</th>
+<th align="left">Level</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">CTR51-CPP</td>
+<td align="left">High</td>
+<td align="left">Probable</td>
+<td align="left">High</td>
+<td align="left"><strong>P6</strong></td>
+<td align="left"><strong>L2</strong></td>
+</tr>
+</tbody></table>
+<h2 id="Automated-Detection"><a href="#Automated-Detection" class="headerlink" title="Automated Detection"></a>Automated Detection</h2><table>
+<thead>
+<tr>
+<th align="left">Tool</th>
+<th align="left">Version</th>
+<th align="left">Checker</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/Parasoft">Parasoft C&#x2F;C++test</a></td>
+<td align="left"><img src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6UGFyYXNvZnRfVn0&locale=zh_CN&version=2" alt="img"></td>
+<td align="left"><strong>CERT_CPP-CTR51-a</strong></td>
+<td align="left">Do not modify container while iterating over it</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/PVS-Studio">PVS-Studio</a></td>
+<td align="left"><img src="https://wiki.sei.cmu.edu/confluence/plugins/servlet/confluence/placeholder/macro?definition=e2luY2x1ZGU6UFZTLVN0dWRpb19WfQ&locale=zh_CN&version=2" alt="img"></td>
+<td align="left"><strong><a target="_blank" rel="noopener" href="https://www.viva64.com/en/w/v783/">V783</a></strong></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="Related-Vulnerabilities"><a href="#Related-Vulnerabilities" class="headerlink" title="Related Vulnerabilities"></a>Related Vulnerabilities</h2><p>Search for <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/BB.+Definitions#BB.Definitions-vulnerabil">vulnerabilities</a> resulting from the violation of this rule on the <a target="_blank" rel="noopener" href="https://www.kb.cert.org/vulnotes/bymetric?searchview&query=FIELD+KEYWORDS+contains+CTR51-CPP">CERT website</a>.</p>
+<h2 id="Related-Guidelines"><a href="#Related-Guidelines" class="headerlink" title="Related Guidelines"></a>Related Guidelines</h2><table>
+<thead>
+<tr>
+<th align="left"><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046682">SEI CERT C++ Coding Standard</a></th>
+<th align="left"><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/STR52-CPP.+Use+valid+references%2C+pointers%2C+and+iterators+to+reference+elements+of+a+basic_string">STR52-CPP. Use valid references, pointers, and iterators to reference elements of a basic_string</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="Bibliography"><a href="#Bibliography" class="headerlink" title="Bibliography"></a>Bibliography</h2><table>
+<thead>
+<tr>
+<th align="left">[<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-ISO/IEC14882-2014">ISO&#x2F;IEC 14882-2014</a>]</th>
+<th align="left">Clause 23, “Containers Library” Subclause 24.2.1, “In General”</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Kalev99">Kalev 1999</a>]</td>
+<td align="left"><em>ANSI&#x2F;ISO C++ Professional Programmer’s Handbook</em></td>
+</tr>
+<tr>
+<td align="left">[<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Meyers01">Meyers 2001</a>]</td>
+<td align="left">Item 43, “Prefer Algorithm Calls to Handwritten Loops”</td>
+</tr>
+<tr>
+<td align="left">[<a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/AA.+Bibliography#AA.Bibliography-Sutter04">Sutter 2004</a>]</td>
+<td align="left">Item 84, “Prefer Algorithm Calls to Handwritten Loops”</td>
+</tr>
+</tbody></table>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046704"><img src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_left.png?version=1&modificationDate=1216910800000&api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_left.png"></a> <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046331"><img src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_up.png?version=1&modificationDate=1216910618000&api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_up.png"></a> <a target="_blank" rel="noopener" href="https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046690"><img src="https://wiki.sei.cmu.edu/confluence/download/attachments/88046682/button_arrow_right.png?version=1&modificationDate=1216910815000&api=v2" alt="SEI CERT C++ Coding Standard &gt; SEI CERT C++ Coding Standard &gt; button_arrow_right.png"></a></p>
+</div><div id="donate"><link rel="stylesheet" type="text/css" href="/css/donate.css?v=1.0.0"><script type="text/javascript" src="/js/donate.js?v=1.0.0" successtext="复制成功!"></script><a class="pos-f tr3" id="github" href="https://github.com/Kaiyuan/donate-page" target="_blank" title="Github"></a><div id="DonateText">Donate</div><ul class="list pos-f" id="donateBox"><li id="WeChat" qr="/img/wechatpay.jpg"></li></ul><div class="pos-f left-100" id="QRBox"><div id="MainBox"></div></div></div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.0.0"><p><span>本文标题：</span>CTR51-CPP. 使用有效的引用，指针，迭代器来引用容器的元素</p><p><span>文章作者：</span>xwnb</p><p><span>发布时间：</span>2020-06-25</p><p><span>最后更新：</span>2022-10-16</p><p><span>原始链接：</span><a href="/posts/39044419/">https://xwnb.github.io/posts/39044419/</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="https://xwnb.github.io/posts/39044419/"></i></span></p><p><span>版权声明：</span>本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！并保留本声明。感谢您的阅读和支持！</p></div><br><script type="text/javascript" src="/js/share.js?v=1.0.0" async></script><a class="article-share-link" data-url="https://xwnb.github.io/posts/39044419/" data-id="cl9bap3r800e52ro73j4b5396" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABzklEQVR42u3aS26EMBAFwLn/pckBIsx7NnYmUnk1GsAusWj1h88nXtevld/fXn1h4eLiLnOv4RofkNxzd/Xu2YdXg4uLe5B7d0Cy9d0+44PHz97+j4uL+5XcuTvHIQ8XF/e/c5PwlCQruLi4389Nip+VDkb7Cl6o1XBxcRe4+cH7fm/p7+Li4k5xr3K1bZE2YD2cjouLe4SbB5S24GnbIsWwFhcXdzO3HYeM75n7UKPYARcX9wh3pThZCV5J2hSlOLi4uJu5+RbtkDUJasWgBRcXdzO3GG0O050W1A5icXFxT3LfGoW2acpS8oSLi7uZOzcUWWEVRc64YYqLi7uNOy5Oko3WE6PkRFxc3PPcPO1ok56VIPjQUsHFxd3MXWmC5CFpZeD6Ws8GFxe35OYpSBv+2qbqgwQXF/cgd25EmjRb86vRp2C4uLgHuW0RkhzcfoSRBEdcXNzd3KtcSbqzUiBFVREuLu5mbr7aAeoL7Y+pPXFxcd/ith9SvBWqxmdNJjq4uLivclcCTZ6ytMVPPWTFxcX9I24e+Nrha1Gx4eLifhk3SVDmyqdIiIuLe5CbB6Zx8zRvm7Z74uLinuSuNDfbUWtbMi31d3FxcWe4P5P/kJ8wDbO7AAAAAElFTkSuQmCC">分享</a><div class="tags"><a href="/tags/SEI CERT C++"><i class="fa fa-tag">SEI CERT C++</i></a><a href="/tags/编码规范"><i class="fa fa-tag">编码规范</i></a><a href="/tags/翻译"><i class="fa fa-tag">翻译</i></a><a href="/tags/CERT Containers"><i class="fa fa-tag">CERT Containers</i></a></div><div class="post-nav"><a class="pre" href="/posts/3185197214/">CTR52-CPP. 确保库函数不要溢出</a><a class="next" href="/posts/2396132143/">CTR50-CPP. 保证容器索引和迭代器在有效范围内</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="https://xwnb.github.io"/></form></div><div class="widget"><div class="author-info"><a class="info-avatar" href="/about/" title="关于"><img src="/img/avatar.jpg"/></a><p>Stay Angry, Stay Foolish.</p><a class="info-icon" href="https://juejin.cn/user/435824491237181" title="掘金" target="_blank" style="margin-inline:5px"> <i class="fa fa-external-link-square" style="margin-inline:5px"></i></a><a class="info-icon" href="https://github.com/xwnb" title="GitHub" target="_blank" style="margin-inline:5px"> <i class="fa fa-github-square" style="margin-inline:5px"></i></a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/ROS%E5%AD%A6%E4%B9%A0/">ROS学习</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/SEI-CERT-C/">SEI CERT C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tutorial/">Tutorial</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91/">微信小程序开发</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/">自动驾驶</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/">路径规划</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/Markdown/" style="font-size: 15px;">Markdown</a> <a href="/tags/wechat-dev/" style="font-size: 15px;">wechat-dev</a> <a href="/tags/%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%92/" style="font-size: 15px;">路径规划</a> <a href="/tags/motion-planning/" style="font-size: 15px;">motion planning</a> <a href="/tags/RRT/" style="font-size: 15px;">RRT</a> <a href="/tags/A/" style="font-size: 15px;">A*</a> <a href="/tags/LPA/" style="font-size: 15px;">LPA*</a> <a href="/tags/RRT-Connect/" style="font-size: 15px;">RRT_Connect</a> <a href="/tags/RRT/" style="font-size: 15px;">RRT*</a> <a href="/tags/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/" style="font-size: 15px;">自动驾驶</a> <a href="/tags/AirSim/" style="font-size: 15px;">AirSim</a> <a href="/tags/SEI-CERT-C/" style="font-size: 15px;">SEI CERT C++</a> <a href="/tags/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" style="font-size: 15px;">编码规范</a> <a href="/tags/%E7%BF%BB%E8%AF%91/" style="font-size: 15px;">翻译</a> <a href="/tags/CERT-Containers/" style="font-size: 15px;">CERT Containers</a> <a href="/tags/Input-Output/" style="font-size: 15px;">Input Output</a> <a href="/tags/Memory-Management/" style="font-size: 15px;">Memory Management</a> <a href="/tags/Characters-and-Strings/" style="font-size: 15px;">Characters and Strings</a> <a href="/tags/STR/" style="font-size: 15px;">STR</a> <a href="/tags/Integers/" style="font-size: 15px;">Integers</a> <a href="/tags/INT/" style="font-size: 15px;">INT</a> <a href="/tags/Object-Oriented-Programming/" style="font-size: 15px;">Object Oriented Programming</a> <a href="/tags/OOP/" style="font-size: 15px;">OOP</a> <a href="/tags/ROS/" style="font-size: 15px;">ROS</a> <a href="/tags/xacro/" style="font-size: 15px;">xacro</a> <a href="/tags/controller-manager/" style="font-size: 15px;">controller_manager</a> <a href="/tags/gazebo/" style="font-size: 15px;">gazebo</a> <a href="/tags/controller-manager/" style="font-size: 15px;">controller-manager</a> <a href="/tags/ur5/" style="font-size: 15px;">ur5</a> <a href="/tags/roslaunch/" style="font-size: 15px;">roslaunch</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/posts/2113816124/">FIO51-CPP. 关闭不再需要的文件</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/2518610003/">OPP-CPP58. 拷贝操作绝不能改变源对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/294055068/">OPP-CPP57. 优先使用特定的成员函数和重载的运算符而不是C标准库函数</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3554254475/">OOP56-CPP. 尊重替换handler的要求</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3554254475/">OOP55-CPP. 不要使用成员指针运算符来访问不存在的成员</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/144696281/">OOP54-CPP. 优雅地处理自我拷贝赋值</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/3904355907/">OOP53-CPP. 按照规范顺序编写构造函数的成员初始化</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/4027020077/">OOP52-CPP. 不要删除一个无虚析构的多态对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/1084595410/">OOP51-CPP-不要切分派生对象</a></li><li class="post-list-item"><a class="post-list-link" href="/posts/2354633166/">OOP50-CPP 不要在构造函数和析构函数中调用虚函函函数</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Sun of Beach.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0"></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/latest/jquery.fancybox.min.css"><script type="text/javascript" color="0,0,0" opacity="0.5" zIndex="-2" count="200" src="//lib.baomitu.com/canvas-nest.js/latest/canvas-nest.js"></script><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
